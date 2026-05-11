@@ -361,8 +361,17 @@ button { cursor: pointer; font-family: inherit; }
 .hero__content {
     position: relative;
     z-index: 1;
-    max-width: 680px;
     padding-top: 80px;
+    padding-bottom: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xl);
+    width: 100%;
+}
+.hero__text {
+    max-width: 580px;
+    flex-shrink: 0;
 }
 .hero__eyebrow {
     font-size: .875rem;
@@ -889,12 +898,8 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
 
 /* ── WIDGET DESTACATS ── */
 .widget {
-    position: absolute;
-    right: var(--container-pad);
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
     width: 280px;
+    flex-shrink: 0;
     background: rgba(255, 255, 255, .10);
     backdrop-filter: blur(16px) saturate(1.4);
     -webkit-backdrop-filter: blur(16px) saturate(1.4);
@@ -905,8 +910,8 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
     animation: widget-in .4s cubic-bezier(.2,0,0,1) both;
 }
 @keyframes widget-in {
-    from { opacity: 0; transform: translateY(calc(-50% + 16px)); }
-    to   { opacity: 1; transform: translateY(-50%); }
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 .widget[hidden] { display: none; }
 
@@ -1005,14 +1010,9 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
 .widget__date .material-symbols-outlined { font-size: 12px; }
 
 @media (max-width: 900px) {
-    .widget {
-        position: static;
-        transform: none;
-        width: auto;
-        margin: 0 var(--container-pad);
-        margin-top: var(--space-xl);
-        animation: none;
-    }
+    .hero__content { flex-direction: column; align-items: flex-start; }
+    .hero__text { max-width: 100%; }
+    .widget { width: 100%; animation: none; }
 }
 
 /* ── FOOTER ── */
