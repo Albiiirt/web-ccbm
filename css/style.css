@@ -362,6 +362,7 @@ button { cursor: pointer; font-family: inherit; }
     padding-bottom: 80px;
     display: flex;
     align-items: center;
+    width: 100%;
 }
 .hero__inner {
     width: 100%;
