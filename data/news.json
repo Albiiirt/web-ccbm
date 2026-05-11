@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "title": "Gran actuació a la Diada de Sant Joan",
+    "date": "2026-06-24",
+    "category": "Actuació",
+    "summary": "La colla va fer una excel·lent actuació a la Diada de Sant Joan, completant diversos castells de sis pisos amb el pilar de 6 com a estrella de la jornada.",
+    "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80&auto=format",
+    "url": "#"
+  },
+  {
+    "id": "2",
+    "title": "Inici de la nova temporada 2026",
+    "date": "2026-05-05",
+    "category": "Notícia",
+    "summary": "Arranquem la temporada amb moltes ganes i noves incorporacions. Enguany tenim l'objectiu de completar el 3 de 7 per primera vegada a la nostra història.",
+    "image": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80&auto=format",
+    "url": "#"
+  },
+  {
+    "id": "3",
+    "title": "Nou assaig obert: vine a conèixer-nos",
+    "date": "2026-04-20",
+    "category": "Anunci",
+    "summary": "El proper divendres 24 d'abril obrim les portes del nostre local a tothom qui vulgui descobrir el món casteller. Entrada lliure i gratuïta!",
+    "image": null,
+    "url": "#"
+  },
+  {
+    "id": "4",
+    "title": "Actuació a la Festa Major del barri",
+    "date": "2026-03-15",
+    "category": "Actuació",
+    "summary": "La CCBM va ser la protagonista de la Festa Major amb una exhibició de castells que va emocionar tots els presents. Gràcies a tothom qui hi va assistir!",
+    "image": "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&q=80&auto=format",
+    "url": "#"
+  },
+  {
+    "id": "5",
+    "title": "La colla al Concurs de Tarragona",
+    "date": "2026-02-28",
+    "category": "Actuació",
+    "summary": "Participem al Concurs de Castells de Tarragona per primera vegada. Una experiència inoblidable per a tots els membres de la colla.",
+    "image": "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=600&q=80&auto=format",
+    "url": "#"
+  }
+]

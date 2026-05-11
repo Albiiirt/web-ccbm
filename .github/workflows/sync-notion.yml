@@ -1,0 +1,50 @@
+name: Sincronitzar Notion → GitHub Pages
+
+on:
+  schedule:
+    # S'executa cada 6 hores
+    - cron: '0 */6 * * *'
+  # Permet llançar-ho manualment des de GitHub
+  workflow_dispatch:
+  # També s'executa en cada push a main
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instal·lar dependències
+        run: npm ci
+
+      - name: Obtenir dades de Notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_NEWS_DB_ID: ${{ secrets.NOTION_NEWS_DB_ID }}
+          NOTION_GALLERY_DB_ID: ${{ secrets.NOTION_GALLERY_DB_ID }}
+        run: node scripts/fetch-notion.js
+
+      - name: Commit i push si hi ha canvis
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/news.json data/gallery.json
+          if git diff --staged --quiet; then
+            echo "No hi ha canvis nous."
+          else
+            git commit -m "chore: sync Notion data [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+            git push
+          fi

@@ -1,0 +1,131 @@
+#!/usr/bin/env node
+/**
+ * Sincronitza les bases de dades de Notion amb els JSON estàtics de la web.
+ * S'executa via GitHub Actions (vegeu .github/workflows/sync-notion.yml).
+ *
+ * Variables d'entorn necessàries:
+ *   NOTION_TOKEN          — Integration Token de Notion
+ *   NOTION_NEWS_DB_ID     — ID de la base de dades "Notícies"
+ *   NOTION_GALLERY_DB_ID  — ID de la base de dades "Galeria"
+ */
+
+import { Client } from '@notionhq/client';
+import { writeFileSync, mkdirSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, '..');
+
+const notion = new Client({ auth: process.env.NOTION_TOKEN });
+
+/* ── HELPERS ── */
+
+function getRichText(prop) {
+    return prop?.rich_text?.map(t => t.plain_text).join('') ?? '';
+}
+
+function getTitle(prop) {
+    return prop?.title?.map(t => t.plain_text).join('') ?? '';
+}
+
+function getSelect(prop) {
+    return prop?.select?.name ?? '';
+}
+
+function getDate(prop) {
+    return prop?.date?.start ?? null;
+}
+
+function getUrl(prop) {
+    return prop?.url ?? null;
+}
+
+function getCheckbox(prop) {
+    return prop?.checkbox ?? false;
+}
+
+function getFile(prop) {
+    const files = prop?.files ?? [];
+    if (files.length === 0) return null;
+    const file = files[0];
+    return file.type === 'external' ? file.external.url : file.file.url;
+}
+
+/* ── FETCH NEWS ── */
+async function fetchNews() {
+    const dbId = process.env.NOTION_NEWS_DB_ID;
+    if (!dbId) throw new Error('NOTION_NEWS_DB_ID no definida');
+
+    const response = await notion.databases.query({
+        database_id: dbId,
+        filter: {
+            property: 'Publicada',
+            checkbox: { equals: true },
+        },
+        sorts: [
+            { property: 'Data', direction: 'descending' },
+        ],
+    });
+
+    return response.results.map(page => ({
+        id:       page.id,
+        title:    getTitle(page.properties['Títol']),
+        date:     getDate(page.properties['Data']),
+        category: getSelect(page.properties['Categoria']),
+        summary:  getRichText(page.properties['Resum']),
+        image:    getFile(page.properties['Imatge']) || getUrl(page.properties['URL Imatge']),
+        url:      getUrl(page.properties['Enllaç']),
+    })).filter(item => item.title);
+}
+
+/* ── FETCH GALLERY ── */
+async function fetchGallery() {
+    const dbId = process.env.NOTION_GALLERY_DB_ID;
+    if (!dbId) throw new Error('NOTION_GALLERY_DB_ID no definida');
+
+    const response = await notion.databases.query({
+        database_id: dbId,
+        sorts: [
+            { property: 'Data', direction: 'descending' },
+        ],
+    });
+
+    return response.results.map(page => ({
+        id:          page.id,
+        title:       getTitle(page.properties['Títol']),
+        description: getRichText(page.properties['Descripció']),
+        image:       getFile(page.properties['Imatge']) || getUrl(page.properties['URL Imatge']),
+        date:        getDate(page.properties['Data']),
+    })).filter(item => item.image);
+}
+
+/* ── MAIN ── */
+async function main() {
+    console.log('🔄 Sincronitzant dades de Notion...');
+
+    mkdirSync(join(ROOT, 'data'), { recursive: true });
+
+    const [news, gallery] = await Promise.all([fetchNews(), fetchGallery()]);
+
+    writeFileSync(
+        join(ROOT, 'data', 'news.json'),
+        JSON.stringify(news, null, 2),
+        'utf-8'
+    );
+    console.log(`✅ news.json — ${news.length} notícies`);
+
+    writeFileSync(
+        join(ROOT, 'data', 'gallery.json'),
+        JSON.stringify(gallery, null, 2),
+        'utf-8'
+    );
+    console.log(`✅ gallery.json — ${gallery.length} imatges`);
+
+    console.log('🎉 Sincronització completada!');
+}
+
+main().catch(err => {
+    console.error('❌ Error:', err.message);
+    process.exit(1);
+});

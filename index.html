@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCBM — Colla Castellera</title>
+    <meta name="description" content="Colla Castellera de la CCBM. Tradició, esforç i passió. Construïm castells junts des del cor del barri.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Roboto+Slab:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- TOP APP BAR -->
+    <header class="top-bar" id="top-bar">
+        <div class="top-bar__inner container">
+            <a href="#" class="top-bar__brand">
+                <div class="top-bar__logo-mark"></div>
+                <span class="top-bar__title">CCBM</span>
+            </a>
+            <nav class="top-bar__nav" id="main-nav" aria-label="Navegació principal">
+                <a href="#noticias" class="nav-link">Notícies</a>
+                <a href="#nosaltres" class="nav-link">Nosaltres</a>
+                <a href="#galeria" class="nav-link">Galeria</a>
+                <a href="#contacte" class="nav-link">Contacte</a>
+            </nav>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Obrir menú" aria-expanded="false" aria-controls="mobile-drawer">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE DRAWER -->
+    <div class="drawer-backdrop" id="drawer-backdrop"></div>
+    <nav class="mobile-drawer" id="mobile-drawer" aria-label="Menú mòbil">
+        <div class="mobile-drawer__header">
+            <div class="top-bar__logo-mark"></div>
+            <span class="top-bar__title">CCBM</span>
+            <button class="drawer-close" id="drawer-close" aria-label="Tancar menú">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <a href="#noticias" class="mobile-drawer__link">
+            <span class="material-symbols-outlined">newspaper</span>Notícies
+        </a>
+        <a href="#nosaltres" class="mobile-drawer__link">
+            <span class="material-symbols-outlined">groups</span>Nosaltres
+        </a>
+        <a href="#galeria" class="mobile-drawer__link">
+            <span class="material-symbols-outlined">photo_library</span>Galeria
+        </a>
+        <a href="#contacte" class="mobile-drawer__link">
+            <span class="material-symbols-outlined">mail</span>Contacte
+        </a>
+    </nav>
+
+    <main>
+
+        <!-- 1. HERO -->
+        <section id="hero" class="hero">
+            <div class="hero__bg"></div>
+            <div class="hero__overlay"></div>
+            <div class="hero__content container">
+                <p class="hero__eyebrow">Benvinguts a la</p>
+                <h1 class="hero__title">Colla Castellera<br><em>CCBM</em></h1>
+                <p class="hero__subtitle">Tradició, esforç i passió. Construïm castells junts<br>des del cor del barri.</p>
+                <div class="hero__actions">
+                    <a href="#nosaltres" class="btn btn--filled">Coneix-nos</a>
+                    <a href="#contacte" class="btn btn--outlined-light">Uneix-te</a>
+                </div>
+            </div>
+            <a href="#noticias" class="hero__scroll-cta" aria-label="Continua llegint">
+                <span class="material-symbols-outlined">keyboard_arrow_down</span>
+            </a>
+        </section>
+
+        <!-- 2. NEWS SLIDER -->
+        <section id="noticias" class="section">
+            <div class="container">
+                <div class="section__header">
+                    <div>
+                        <span class="section__eyebrow">Actualitat</span>
+                        <h2 class="section__title">Notícies</h2>
+                    </div>
+                    <div class="slider-controls">
+                        <button class="icon-btn" id="news-prev" aria-label="Notícia anterior">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </button>
+                        <button class="icon-btn" id="news-next" aria-label="Notícia següent">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-viewport" id="news-slider-viewport">
+                <div class="slider" id="news-slider">
+                    <!-- Injectat per notion-render.js -->
+                    <div class="slider__empty">
+                        <span class="material-symbols-outlined rotating">autorenew</span>
+                        Carregant notícies…
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ABOUT -->
+        <section id="nosaltres" class="section section--alt">
+            <div class="container">
+                <div class="about__grid">
+                    <div class="about__text">
+                        <span class="section__eyebrow">Qui som</span>
+                        <h2 class="section__title">Una colla amb<br>història i futur</h2>
+                        <p class="about__body">Som la Colla Castellera de la CCBM, una agrupació nascuda de la passió per la tradició castellera. Des de la nostra fundació, treballem cada dia per construir castells cada vegada més alts, amb els valors de l'esforç col·lectiu, la seguretat i la festa popular.</p>
+                        <div class="about__stats">
+                            <div class="stat">
+                                <span class="stat__number" data-target="150">0</span>
+                                <span class="stat__label">Castellers</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat__number" data-target="12">0</span>
+                                <span class="stat__label">Temporades</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat__number" data-target="320">0</span>
+                                <span class="stat__label">Castells</span>
+                            </div>
+                        </div>
+                        <a href="#contacte" class="btn btn--filled">Uneix-te a nosaltres</a>
+                    </div>
+                    <div class="about__visual">
+                        <div class="about__image-frame">
+                            <div class="about__image-placeholder">
+                                <span class="material-symbols-outlined">groups</span>
+                                <span>Foto de la colla</span>
+                            </div>
+                        </div>
+                        <div class="about__accent-card">
+                            <span class="material-symbols-outlined">emoji_events</span>
+                            <p>Millors castellers<br>de la temporada 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-card__icon-wrap">
+                            <span class="material-symbols-outlined">favorite</span>
+                        </div>
+                        <h3 class="value-card__title">Passió</h3>
+                        <p class="value-card__text">Cada assaig i actuació és fruit de la dedicació i l'amor per la tradició.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-card__icon-wrap">
+                            <span class="material-symbols-outlined">health_and_safety</span>
+                        </div>
+                        <h3 class="value-card__title">Seguretat</h3>
+                        <p class="value-card__text">La seguretat és la nostra prioritat. Treballem junts per protegir tothom.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-card__icon-wrap">
+                            <span class="material-symbols-outlined">handshake</span>
+                        </div>
+                        <h3 class="value-card__title">Comunitat</h3>
+                        <p class="value-card__text">Som una gran família oberta a tothom qui vulgui viure l'experiència castellera.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-card__icon-wrap">
+                            <span class="material-symbols-outlined">trending_up</span>
+                        </div>
+                        <h3 class="value-card__title">Superació</h3>
+                        <p class="value-card__text">Cada castell descarregat és una fita. Sempre busquem superar els nostres límits.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. GALLERY SLIDER -->
+        <section id="galeria" class="section">
+            <div class="container">
+                <div class="section__header">
+                    <div>
+                        <span class="section__eyebrow">Memòria visual</span>
+                        <h2 class="section__title">Galeria</h2>
+                    </div>
+                    <div class="slider-controls">
+                        <button class="icon-btn" id="gallery-prev" aria-label="Imatge anterior">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </button>
+                        <button class="icon-btn" id="gallery-next" aria-label="Imatge següent">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-viewport slider-viewport--gallery" id="gallery-slider-viewport">
+                <div class="slider slider--gallery" id="gallery-slider">
+                    <!-- Injectat per notion-render.js -->
+                    <div class="slider__empty">
+                        <span class="material-symbols-outlined rotating">autorenew</span>
+                        Carregant galeria…
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIGHTBOX -->
+        <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visor d'imatge" hidden>
+            <div class="lightbox__backdrop" id="lightbox-backdrop"></div>
+            <button class="lightbox__close" id="lightbox-close" aria-label="Tancar">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <button class="lightbox__nav lightbox__nav--prev" id="lightbox-prev" aria-label="Anterior">
+                <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+            <div class="lightbox__stage">
+                <img class="lightbox__img" id="lightbox-img" src="" alt="">
+                <p class="lightbox__caption" id="lightbox-caption"></p>
+            </div>
+            <button class="lightbox__nav lightbox__nav--next" id="lightbox-next" aria-label="Següent">
+                <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+        </div>
+
+        <!-- 5. CONTACT -->
+        <section id="contacte" class="section section--alt">
+            <div class="container">
+                <div class="contact__grid">
+                    <div class="contact__info">
+                        <span class="section__eyebrow">Contacte</span>
+                        <h2 class="section__title">Vols formar<br>part de la colla?</h2>
+                        <p class="contact__body">Tant si ets casteller/a veterà com si vols descobrir el món casteller per primer cop, t'estem esperant. Vine als nostres assajos o escriu-nos!</p>
+                        <ul class="contact__details">
+                            <li class="contact__detail">
+                                <span class="material-symbols-outlined">location_on</span>
+                                <span>Adreça de la seu social</span>
+                            </li>
+                            <li class="contact__detail">
+                                <span class="material-symbols-outlined">schedule</span>
+                                <span>Dimecres 20:30 h · Divendres 20:00 h</span>
+                            </li>
+                            <li class="contact__detail">
+                                <span class="material-symbols-outlined">mail</span>
+                                <a href="mailto:info@ccbm.cat">info@ccbm.cat</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <form class="contact__form" id="contact-form"
+                          action="https://api.web3forms.com/submit"
+                          method="POST">
+                        <!-- Substitueix YOUR_ACCESS_KEY pel teu de web3forms.com -->
+                        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
+                        <input type="hidden" name="subject" value="Nou missatge des de la web CCBM">
+                        <input type="checkbox" name="botcheck" style="display:none">
+
+                        <div class="field">
+                            <input type="text" id="f-name" name="name" class="field__input" placeholder=" " required>
+                            <label for="f-name" class="field__label">Nom i cognoms</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field">
+                            <input type="email" id="f-email" name="email" class="field__input" placeholder=" " required>
+                            <label for="f-email" class="field__label">Correu electrònic</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field">
+                            <input type="tel" id="f-phone" name="phone" class="field__input" placeholder=" ">
+                            <label for="f-phone" class="field__label">Telèfon (opcional)</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field field--select">
+                            <select id="f-subject" name="motiu" class="field__input" required>
+                                <option value="" disabled selected></option>
+                                <option value="unirse">Vull unir-me a la colla</option>
+                                <option value="actuacio">Sol·licitar una actuació</option>
+                                <option value="info">Informació general</option>
+                                <option value="altres">Altres</option>
+                            </select>
+                            <label for="f-subject" class="field__label field__label--select">Motiu del contacte</label>
+                            <span class="material-symbols-outlined field__select-arrow">expand_more</span>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field field--textarea">
+                            <textarea id="f-message" name="message" class="field__input" placeholder=" " rows="4" required></textarea>
+                            <label for="f-message" class="field__label">Missatge</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <button type="submit" class="btn btn--filled btn--full" id="form-submit">
+                            <span class="material-symbols-outlined">send</span>
+                            Enviar missatge
+                        </button>
+                        <div class="form-feedback" id="form-feedback" aria-live="polite"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div class="footer__brand">
+                    <div class="top-bar__logo-mark footer__logo-mark"></div>
+                    <span class="footer__name">CCBM</span>
+                    <p class="footer__tagline">Tradició, esforç i passió.<br>Fem castells junts.</p>
+                    <div class="footer__social">
+                        <a href="#" class="footer__social-link" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <a href="#" class="footer__social-link" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="footer__social-link" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer__nav">
+                    <h3 class="footer__heading">Navegació</h3>
+                    <a href="#noticias" class="footer__link">Notícies</a>
+                    <a href="#nosaltres" class="footer__link">Nosaltres</a>
+                    <a href="#galeria" class="footer__link">Galeria</a>
+                    <a href="#contacte" class="footer__link">Contacte</a>
+                </div>
+                <div class="footer__nav">
+                    <h3 class="footer__heading">La colla</h3>
+                    <a href="#nosaltres" class="footer__link">Història</a>
+                    <a href="#nosaltres" class="footer__link">Valors</a>
+                    <a href="#contacte" class="footer__link">Uneix-te</a>
+                    <a href="#contacte" class="footer__link">Actuacions</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2026 CCBM — Colla Castellera. Tots els drets reservats.</p>
+                <p>Web feta amb <span aria-label="amor">♥</span> per la colla.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js" type="module"></script>
+
+</body>
+</html>

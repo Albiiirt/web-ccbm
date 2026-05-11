@@ -1,0 +1,13 @@
+{
+  "name": "web-ccbm",
+  "version": "1.0.0",
+  "description": "Web de la Colla Castellera CCBM",
+  "type": "module",
+  "scripts": {
+    "fetch-notion": "node scripts/fetch-notion.js",
+    "dev": "npx serve . --cors"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15"
+  }
+}
