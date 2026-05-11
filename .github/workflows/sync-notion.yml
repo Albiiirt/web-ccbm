@@ -2,8 +2,8 @@ name: Sincronitzar Notion → GitHub Pages
 
 on:
   schedule:
-    # S'executa cada 6 hores
-    - cron: '0 */6 * * *'
+    # S'executa cada 30 minuts
+    - cron: '*/30 * * * *'
   # Permet llançar-ho manualment des de GitHub
   workflow_dispatch:
   # També s'executa en cada push a main
