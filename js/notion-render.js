@@ -24,6 +24,45 @@ function escHtml(str) {
         .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+/* ── WIDGET DESTACATS ── */
+export async function initWidget() {
+    const widget   = document.getElementById('hero-widget');
+    const list     = document.getElementById('widget-list');
+    const closeBtn = document.getElementById('widget-close');
+    if (!widget || !list) return;
+
+    const data = await loadJSON('data/widget.json');
+    if (!data || data.length === 0) return;
+
+    list.innerHTML = data.map(item => {
+        const dateStr = item.date
+            ? new Date(item.date).toLocaleDateString('ca-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+            : null;
+        return `
+        <li class="widget__item">
+            <div class="widget__icon-wrap">
+                <span class="material-symbols-outlined">${escHtml(item.icon)}</span>
+            </div>
+            <div class="widget__text">
+                <p class="widget__title">${escHtml(item.title)}</p>
+                ${item.description ? `<p class="widget__desc">${escHtml(item.description)}</p>` : ''}
+                ${dateStr ? `<p class="widget__date">
+                    <span class="material-symbols-outlined">calendar_today</span>${dateStr}
+                </p>` : ''}
+            </div>
+        </li>`;
+    }).join('');
+
+    widget.hidden = false;
+
+    closeBtn.addEventListener('click', () => {
+        widget.hidden = true;
+        sessionStorage.setItem('widget-closed', '1');
+    });
+
+    if (sessionStorage.getItem('widget-closed') === '1') widget.hidden = true;
+}
+
 /* ── NEWS ── */
 export async function initNewsSlider() {
     const slider = document.getElementById('news-slider');

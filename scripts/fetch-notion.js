@@ -4,9 +4,10 @@
  * S'executa via GitHub Actions (vegeu .github/workflows/sync-notion.yml).
  *
  * Variables d'entorn necessàries:
- *   NOTION_TOKEN          — Integration Token de Notion
- *   NOTION_NEWS_DB_ID     — ID de la base de dades "Notícies"
- *   NOTION_GALLERY_DB_ID  — ID de la base de dades "Galeria"
+ *   NOTION_TOKEN           — Integration Token de Notion
+ *   NOTION_NEWS_DB_ID      — ID de la base de dades "Notícies"
+ *   NOTION_GALLERY_DB_ID   — ID de la base de dades "Galeria"
+ *   NOTION_WIDGET_DB_ID    — ID de la base de dades "Destacats"
  */
 
 import { Client } from '@notionhq/client';
@@ -100,27 +101,48 @@ async function fetchGallery() {
     })).filter(item => item.image);
 }
 
+/* ── FETCH WIDGET ── */
+async function fetchWidget() {
+    const dbId = process.env.NOTION_WIDGET_DB_ID;
+    if (!dbId) throw new Error('NOTION_WIDGET_DB_ID no definida');
+
+    const response = await notion.databases.query({
+        database_id: dbId,
+        filter: {
+            property: 'Actiu',
+            checkbox: { equals: true },
+        },
+        sorts: [
+            { property: 'Data', direction: 'ascending' },
+        ],
+        page_size: 3,
+    });
+
+    return response.results.map(page => ({
+        id:          page.id,
+        title:       getTitle(page.properties['Títol']),
+        description: getRichText(page.properties['Descripció']),
+        date:        getDate(page.properties['Data']),
+        icon:        getSelect(page.properties['Icona']) || 'event',
+    })).filter(item => item.title);
+}
+
 /* ── MAIN ── */
 async function main() {
     console.log('🔄 Sincronitzant dades de Notion...');
 
     mkdirSync(join(ROOT, 'data'), { recursive: true });
 
-    const [news, gallery] = await Promise.all([fetchNews(), fetchGallery()]);
+    const [news, gallery, widget] = await Promise.all([fetchNews(), fetchGallery(), fetchWidget()]);
 
-    writeFileSync(
-        join(ROOT, 'data', 'news.json'),
-        JSON.stringify(news, null, 2),
-        'utf-8'
-    );
+    writeFileSync(join(ROOT, 'data', 'news.json'), JSON.stringify(news, null, 2), 'utf-8');
     console.log(`✅ news.json — ${news.length} notícies`);
 
-    writeFileSync(
-        join(ROOT, 'data', 'gallery.json'),
-        JSON.stringify(gallery, null, 2),
-        'utf-8'
-    );
+    writeFileSync(join(ROOT, 'data', 'gallery.json'), JSON.stringify(gallery, null, 2), 'utf-8');
     console.log(`✅ gallery.json — ${gallery.length} imatges`);
+
+    writeFileSync(join(ROOT, 'data', 'widget.json'), JSON.stringify(widget, null, 2), 'utf-8');
+    console.log(`✅ widget.json — ${widget.length} destacats actius`);
 
     console.log('🎉 Sincronització completada!');
 }

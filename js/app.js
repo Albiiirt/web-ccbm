@@ -1,4 +1,4 @@
-import { initNewsSlider, initGallerySlider } from './notion-render.js';
+import { initWidget, initNewsSlider, initGallerySlider } from './notion-render.js';
 
 /* ── TOP BAR SCROLL ── */
 const topBar = document.getElementById('top-bar');
@@ -124,5 +124,6 @@ function showFeedback(type, msg) {
 }
 
 /* ── INIT ── */
+initWidget();
 initNewsSlider();
 initGallerySlider();
