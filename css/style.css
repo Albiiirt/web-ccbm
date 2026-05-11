@@ -5,13 +5,13 @@
 
 /* ── TOKENS ── */
 :root {
-    /* Colors */
-    --md-primary:            #B71C1C;
-    --md-primary-dark:       #7F0000;
-    --md-primary-container:  #FFDAD4;
+    /* Colors — paleta real CCBM */
+    --md-primary:            #CC3617;
+    --md-primary-dark:       #9E2610;
+    --md-primary-container:  #FFE5DE;
     --md-on-primary:         #FFFFFF;
-    --md-secondary:          #1A237E;
-    --md-accent:             #E65100;
+    --md-secondary:          #1A1A1A;
+    --md-accent:             #F4E72F;
     --md-surface:            #FFFBFE;
     --md-surface-variant:    #F5F0EF;
     --md-on-surface:         #1C1B1F;
@@ -109,19 +109,16 @@ button { cursor: pointer; font-family: inherit; }
     gap: 10px;
     flex-shrink: 0;
 }
-.top-bar__logo-mark {
-    width: 32px;
-    height: 32px;
-    background: var(--md-on-primary);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    position: relative;
+.top-bar__logo-img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
-.top-bar__logo-mark::after {
-    content: '';
-    position: absolute;
-    inset: 4px;
-    background: var(--md-primary);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+.footer__logo-img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
 }
 .top-bar__title {
     font-family: var(--font-display);
@@ -1036,7 +1033,6 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
     flex-direction: column;
     gap: 12px;
 }
-.footer__logo-mark { --size: 36px; }
 .footer__name {
     font-family: var(--font-display);
     font-size: 1.5rem;
