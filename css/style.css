@@ -680,13 +680,14 @@ button { cursor: pointer; font-family: inherit; }
     overflow: hidden;
     cursor: pointer;
     position: relative;
+    border: none;
+    background: transparent;
     box-shadow: var(--shadow-1);
-    transition: box-shadow var(--transition), transform var(--transition);
+    transition: box-shadow var(--transition);
 }
 .gallery-card:nth-child(3n+2) { flex-basis: 420px; aspect-ratio: 4/3; }
 .gallery-card:hover {
     box-shadow: var(--shadow-3);
-    transform: scale(1.02);
 }
 .gallery-card img {
     width: 100%;
