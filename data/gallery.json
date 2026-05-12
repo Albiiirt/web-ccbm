@@ -131,28 +131,4 @@
     "image": "img/fotos-galeria/DSC_0431.JPG",
     "date": null
   },
-  {
-    "id": "35dce292-5a0e-8118-8fb4-eaa534d508b6",
-    "title": "Diada de Primavera 2026",
-    "image": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80&auto=format",
-    "date": "2026-04-15"
-  },
-  {
-    "id": "35dce292-5a0e-816b-b7a8-fd47c2a30ecb",
-    "title": "Assaig setmanal",
-    "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80&auto=format",
-    "date": "2026-04-10"
-  },
-  {
-    "id": "35dce292-5a0e-8198-944d-de3d309600d4",
-    "title": "Festa Major del barri",
-    "image": "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&q=80&auto=format",
-    "date": "2026-03-15"
-  },
-  {
-    "id": "35dce292-5a0e-81c1-92b9-e6d814877ce2",
-    "title": "La canalla castellers",
-    "image": "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&q=80&auto=format",
-    "date": "2026-03-10"
-  }
 ]
