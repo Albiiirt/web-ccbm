@@ -340,6 +340,54 @@ async function initGallerySlider() {
     createSlider('gallery-slider', 'gallery-prev', 'gallery-next', 300);
 }
 
+/* ── DIADA GRAN ── */
+
+async function initDiadaGran() {
+    const data = await loadJSON('data/diades.json');
+    if (!data) return;
+
+    const gran = data.find(function(d) { return d.diada_gran; });
+    if (!gran) return;
+
+    const section  = document.getElementById('diada-gran');
+    const titleEl  = document.getElementById('dg-title');
+    const metaEl   = document.getElementById('dg-meta');
+    if (!section) return;
+
+    titleEl.textContent = gran.titol;
+
+    var metaHtml = '';
+    if (gran.lloc) metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(gran.lloc) + '</div>';
+    if (gran.hora) metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(gran.hora) + '</div>';
+    metaEl.innerHTML = metaHtml;
+
+    section.hidden = false;
+
+    if (!gran.date) return;
+    var target = new Date(gran.date + 'T' + (gran.hora ? gran.hora.replace(' h','') + ':00' : '00:00:00'));
+
+    function tick() {
+        var diff = target - Date.now();
+        if (diff <= 0) {
+            document.getElementById('dg-days').textContent  = '00';
+            document.getElementById('dg-hours').textContent = '00';
+            document.getElementById('dg-mins').textContent  = '00';
+            document.getElementById('dg-secs').textContent  = '00';
+            return;
+        }
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor((diff % 86400000) / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('dg-days').textContent  = String(d).padStart(2,'0');
+        document.getElementById('dg-hours').textContent = String(h).padStart(2,'0');
+        document.getElementById('dg-mins').textContent  = String(m).padStart(2,'0');
+        document.getElementById('dg-secs').textContent  = String(s).padStart(2,'0');
+    }
+    tick();
+    setInterval(tick, 1000);
+}
+
 /* ── PROPERES DIADES ── */
 
 async function initDiades() {
@@ -428,6 +476,7 @@ async function initAbout() {
 }
 
 /* ── INIT ── */
+initDiadaGran();
 initDiades();
 initAbout();
 initWidget();

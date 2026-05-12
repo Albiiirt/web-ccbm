@@ -97,7 +97,33 @@
             </a>
         </section>
 
-        <!-- 2. PROPERES DIADES -->
+        <!-- 2. DIADA GRAN (apareix només si n'hi ha una marcada) -->
+        <section id="diada-gran" class="diada-gran" hidden>
+            <div class="diada-gran__inner container">
+                <div class="diada-gran__left">
+                    <div class="diada-gran__badge">
+                        <span class="material-symbols-outlined filled">star</span>
+                        Diada gran
+                    </div>
+                    <h2 class="diada-gran__title" id="dg-title"></h2>
+                    <div class="diada-gran__meta" id="dg-meta"></div>
+                </div>
+                <div class="diada-gran__right">
+                    <p class="diada-gran__countdown-label">Compte enrere</p>
+                    <div class="diada-gran__countdown">
+                        <div class="dg-unit"><span class="dg-num" id="dg-days">00</span><span class="dg-label">dies</span></div>
+                        <span class="dg-sep">:</span>
+                        <div class="dg-unit"><span class="dg-num" id="dg-hours">00</span><span class="dg-label">hores</span></div>
+                        <span class="dg-sep">:</span>
+                        <div class="dg-unit"><span class="dg-num" id="dg-mins">00</span><span class="dg-label">min</span></div>
+                        <span class="dg-sep">:</span>
+                        <div class="dg-unit"><span class="dg-num" id="dg-secs">00</span><span class="dg-label">seg</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PROPERES DIADES -->
         <section id="diades" class="diades">
             <div class="container">
                 <div class="diades__header">

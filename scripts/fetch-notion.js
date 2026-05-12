@@ -160,6 +160,7 @@ async function fetchDiades() {
         lloc:       getRichText(page.properties['Lloc']),
         hora:       getRichText(page.properties['Hora']),
         descripcio: getRichText(page.properties['Descripció']),
+        diada_gran: getCheckbox(page.properties['Diada Gran']),
     })).filter(item => item.titol);
 }
 

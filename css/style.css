@@ -425,6 +425,107 @@ button { cursor: pointer; font-family: inherit; }
     50%       { transform: translateX(-50%) translateY(8px); }
 }
 
+/* ── DIADA GRAN ── */
+.diada-gran {
+    background: #1A1A1A;
+    padding-block: var(--space-2xl);
+    border-top: 4px solid var(--md-primary);
+}
+.diada-gran__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xl);
+}
+.diada-gran__left { flex: 1; }
+.diada-gran__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--md-primary);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-md);
+}
+.diada-gran__badge .material-symbols-outlined { font-size: 14px; }
+.diada-gran__title {
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: var(--space-md);
+}
+.diada-gran__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+.diada-gran__meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .9375rem;
+    color: rgba(255,255,255,.7);
+}
+.diada-gran__meta-item .material-symbols-outlined { font-size: 18px; color: var(--md-primary); }
+.diada-gran__right { flex-shrink: 0; }
+.diada-gran__countdown-label {
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--md-primary);
+    margin-bottom: var(--space-sm);
+    text-align: center;
+}
+.diada-gran__countdown {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+.dg-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    min-width: 80px;
+}
+.dg-num {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+.dg-label {
+    font-size: .6875rem;
+    font-weight: 500;
+    color: rgba(255,255,255,.5);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-top: 4px;
+}
+.dg-sep {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--md-primary);
+    line-height: 1;
+    padding-bottom: 20px;
+}
+@media (max-width: 768px) {
+    .diada-gran__inner { flex-direction: column; align-items: flex-start; }
+    .dg-unit { min-width: 60px; padding: var(--space-sm) var(--space-md); }
+    .dg-num { font-size: 1.75rem; }
+}
+
 /* ── PROPERES DIADES ── */
 .diades {
     background: var(--md-primary);
