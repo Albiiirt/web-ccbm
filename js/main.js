@@ -357,8 +357,10 @@ async function initDiadaGran() {
     titleEl.textContent = gran.titol;
 
     var metaHtml = '';
-    if (gran.lloc) metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(gran.lloc) + '</div>';
-    if (gran.hora) metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(gran.hora) + '</div>';
+    if (gran.lloc)              metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(gran.lloc) + '</div>';
+    if (gran.hora)              metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(gran.hora) + '</div>';
+    if (gran.colla_amfitriona)  metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">home</span>Amfitriona: ' + escHtml(gran.colla_amfitriona) + '</div>';
+    if (gran.colles_convidades) metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">groups</span>Colles: ' + escHtml(gran.colles_convidades) + '</div>';
     metaEl.innerHTML = metaHtml;
 
     section.hidden = false;
@@ -418,8 +420,10 @@ async function initDiades() {
                 : '') +
             '<h3 class="diada-card__title">' + escHtml(item.titol) + '</h3>' +
             '<div class="diada-card__meta">' +
-                (item.lloc ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(item.lloc) + '</p>' : '') +
-                (item.hora ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(item.hora) + '</p>' : '') +
+                (item.lloc              ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(item.lloc) + '</p>' : '') +
+                (item.hora              ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(item.hora) + '</p>' : '') +
+                (item.colla_amfitriona  ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">home</span>Amfitriona: ' + escHtml(item.colla_amfitriona) + '</p>' : '') +
+                (item.colles_convidades ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">groups</span>' + escHtml(item.colles_convidades) + '</p>' : '') +
             '</div>' +
             (item.descripcio ? '<p class="diada-card__desc">' + escHtml(item.descripcio) + '</p>' : '') +
         '</div>';
