@@ -50,5 +50,6 @@ jobs:
             echo "No hi ha canvis nous."
           else
             git commit -m "chore: sync Notion data [$(date -u '+%Y-%m-%d %H:%M UTC')]"
+            git pull --rebase origin main
             git push
           fi
