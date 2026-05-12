@@ -541,6 +541,10 @@ button { cursor: pointer; font-family: inherit; }
     padding-block: var(--space-2xl);
 }
 .diades__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-md);
     margin-bottom: var(--space-xl);
 }
 .diades__eyebrow {
@@ -562,6 +566,13 @@ button { cursor: pointer; font-family: inherit; }
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: var(--space-md);
+}
+.diades__slider {
+    padding-inline: 0;
+    max-width: 100%;
+}
+.diades__slider .diada-card {
+    flex: 0 0 280px;
 }
 .diades__empty {
     color: rgba(255,255,255,.6);

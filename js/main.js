@@ -437,7 +437,7 @@ async function initDiades() {
         return;
     }
 
-    grid.innerHTML = data.map(function(item) {
+    var cardsHtml = data.map(function(item) {
         var date = item.date ? new Date(item.date + 'T12:00:00') : null;
         var day   = date ? date.getDate() : '';
         var month = date ? date.toLocaleDateString('ca-ES', { month: 'long' }).toUpperCase() : '';
@@ -464,6 +464,26 @@ async function initDiades() {
             (buildGCalUrl(item) ? '<a href="' + buildGCalUrl(item) + '" target="_blank" rel="noopener" class="diada-card__gcal"><span class="material-symbols-outlined">calendar_add_on</span>Afegir al calendari</a>' : '') +
         '</div>';
     }).join('');
+
+    if (data.length > 4) {
+        var controls = document.getElementById('diades-slider-controls');
+        if (controls) controls.hidden = false;
+
+        var vp = document.createElement('div');
+        vp.className = 'slider-viewport';
+
+        var sl = document.createElement('div');
+        sl.className = 'slider diades__slider';
+        sl.id = 'diades-slider';
+        sl.innerHTML = cardsHtml;
+
+        vp.appendChild(sl);
+        grid.replaceWith(vp);
+
+        createSlider('diades-slider', 'diades-prev', 'diades-next', 280);
+    } else {
+        grid.innerHTML = cardsHtml;
+    }
 }
 
 /* ── ABOUT ── */
