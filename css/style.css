@@ -600,6 +600,12 @@ button { cursor: pointer; font-family: inherit; }
     aspect-ratio: 4/5;
     box-shadow: var(--shadow-3);
 }
+.about__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
 .about__image-placeholder {
     width: 100%;
     height: 100%;
