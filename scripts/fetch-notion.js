@@ -202,14 +202,63 @@ async function fetchAbout() {
     return { principal, stats, valors };
 }
 
+/* ── FETCH EQUIP ── */
+async function fetchEquip() {
+    const dbId = process.env.NOTION_EQUIP_DB_ID;
+    if (!dbId) throw new Error('NOTION_EQUIP_DB_ID no definida');
+
+    const response = await notion.databases.query({
+        database_id: dbId,
+        filter: { property: 'Actiu', checkbox: { equals: true } },
+        sorts: [{ property: 'Ordre', direction: 'ascending' }],
+    });
+
+    const members = response.results.map(page => ({
+        nom:      getTitle(page.properties['Nom']),
+        foto:     getUrl(page.properties['Foto']),
+        carrec:   getRichText(page.properties['Càrrec']),
+        comissio: getSelect(page.properties['Comissió']),
+    })).filter(m => m.nom && m.comissio);
+
+    // Construïm els nodes de comissió a partir dels membres
+    const committeeIds = {};
+    members.forEach(m => {
+        if (!committeeIds[m.comissio]) {
+            committeeIds[m.comissio] = 'c-' + m.comissio
+                .toLowerCase()
+                .normalize('NFD').replace(/[̀-ͯ]/g, '')
+                .replace(/[^a-z0-9]+/g, '-');
+        }
+    });
+
+    const nodes = [
+        { id: 'ccbm', label: 'CCBM', type: 'root' },
+        ...Object.entries(committeeIds).map(([label, id]) => ({ id, label, type: 'committee' })),
+        ...members.map((m, i) => ({
+            id:    'm-' + i,
+            label: m.nom,
+            type:  'member',
+            role:  m.carrec,
+            foto:  m.foto,
+        })),
+    ];
+
+    const links = [
+        ...Object.values(committeeIds).map(id => ({ source: 'ccbm', target: id })),
+        ...members.map((m, i) => ({ source: committeeIds[m.comissio], target: 'm-' + i })),
+    ];
+
+    return { nodes, links };
+}
+
 /* ── MAIN ── */
 async function main() {
     console.log('🔄 Sincronitzant dades de Notion...');
 
     mkdirSync(join(ROOT, 'data'), { recursive: true });
 
-    const [news, gallery, widget, about, diades] = await Promise.all([
-        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades()
+    const [news, gallery, widget, about, diades, equip] = await Promise.all([
+        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades(), fetchEquip()
     ]);
 
     writeFileSync(join(ROOT, 'data', 'news.json'), JSON.stringify(news, null, 2), 'utf-8');
@@ -226,6 +275,9 @@ async function main() {
 
     writeFileSync(join(ROOT, 'data', 'diades.json'), JSON.stringify(diades, null, 2), 'utf-8');
     console.log(`✅ diades.json — ${diades.length} diades`);
+
+    writeFileSync(join(ROOT, 'data', 'equip.json'), JSON.stringify(equip, null, 2), 'utf-8');
+    console.log(`✅ equip.json — ${equip.nodes.filter(n => n.type === 'member').length} membres`);
 
     console.log('🎉 Sincronització completada!');
 }
