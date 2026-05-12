@@ -1,10 +1,114 @@
 {
   "nodes": [
-    {
-      "id": "ccbm",
-      "label": "CCBM",
-      "type": "root"
-    }
+    { "id": "root", "label": "CCBM", "type": "root" },
+
+    { "id": "tecnica",       "label": "Tècnica",          "type": "committee" },
+    { "id": "junta",         "label": "Junta",             "type": "committee" },
+    { "id": "sanitaris",     "label": "Sanitaris",         "type": "committee" },
+    { "id": "comunicacio",   "label": "Comunicació",       "type": "committee" },
+    { "id": "benvinguda",    "label": "Benvinguda",        "type": "committee" },
+    { "id": "genere",        "label": "Gènere i Igualtat", "type": "committee" },
+    { "id": "musics",        "label": "Músics",            "type": "committee" },
+    { "id": "merxandatge",   "label": "Merxandatge",       "type": "committee" },
+    { "id": "esdeveniments", "label": "Esdeveniments",     "type": "committee" },
+
+    { "id": "cap-de-colla",  "label": "Cap de Colla",      "type": "committee" },
+    { "id": "troncs",        "label": "Troncs",            "type": "committee" },
+    { "id": "pinyes",        "label": "Pinyes",            "type": "committee" },
+    { "id": "pilars",        "label": "Pilars",            "type": "committee" },
+    { "id": "canalla",       "label": "Canalla",           "type": "committee" },
+
+    { "id": "alex-benito",       "label": "Àlex Benito",       "type": "member", "role": "Cap de Colla · Cap de Pilars",        "foto": null },
+    { "id": "mireia-lozano",     "label": "Mireia Lozano",     "type": "member", "role": "Cap de Colla · Troncs",               "foto": null },
+    { "id": "aran-sala",         "label": "Aran Sala",         "type": "member", "role": "Cap de Troncs",                       "foto": null },
+    { "id": "lluc-carbonell",    "label": "Lluc Carbonell",    "type": "member", "role": "Troncs · Sanitaris",                  "foto": null },
+    { "id": "lluc-artigal",      "label": "Lluc Artigal",      "type": "member", "role": "Cap de Pinyes",                       "foto": null },
+    { "id": "vinyet-baixes",     "label": "Vinyet Baixes",     "type": "member", "role": "Pinyes · Gènere i Igualtat",          "foto": null },
+    { "id": "clara-sobreques",   "label": "Clara Sobrequés",   "type": "member", "role": "Pinyes · Cap de Comunicació",         "foto": null },
+    { "id": "nuria-garcia",      "label": "Núria Garcia",      "type": "member", "role": "Pinyes · Tresoreria",                 "foto": null },
+    { "id": "andreu-casadevall", "label": "Andreu Casadevall", "type": "member", "role": "Pinyes · Cap de Benvinguda",          "foto": null },
+    { "id": "ona-miro",          "label": "Ona Miró",          "type": "member", "role": "Pilars · Secreteria",                 "foto": null },
+    { "id": "eloy-gonzalez",     "label": "Eloy Gonzalez",     "type": "member", "role": "Pilars",                              "foto": null },
+    { "id": "anna-escola",       "label": "Anna Escolà",       "type": "member", "role": "Cap de Canalla",                      "foto": null },
+    { "id": "nuria-marchante",   "label": "Núria Marchante",   "type": "member", "role": "Canalla",                             "foto": null },
+    { "id": "marta-ninou",       "label": "Marta Ninou",       "type": "member", "role": "Presidenta",                          "foto": null },
+    { "id": "agnes-blasco",      "label": "Agnès Blasco",      "type": "member", "role": "Tresoreria",                          "foto": null },
+    { "id": "silvia-moya",       "label": "Sílvia Moya",       "type": "member", "role": "Cap de Sanitaris",                    "foto": null },
+    { "id": "marti-casals",      "label": "Martí Casals",      "type": "member", "role": "Sanitaris · Benvinguda · Merxandatge","foto": null },
+    { "id": "julia-casals",      "label": "Júlia Casals",      "type": "member", "role": "Sanitaris",                           "foto": null },
+    { "id": "albert-canades",    "label": "Albert Canadés",    "type": "member", "role": "Comunicació",                         "foto": null },
+    { "id": "marc-sobrino",      "label": "Marc Sobrino",      "type": "member", "role": "Comunicació",                         "foto": null },
+    { "id": "laura",             "label": "Laura",             "type": "member", "role": "Comunicació",                         "foto": null },
+    { "id": "arnau-coronado",    "label": "Arnau Coronado",    "type": "member", "role": "Músics",                              "foto": null },
+    { "id": "enric-nogueiro",    "label": "Enric Nogueiro",    "type": "member", "role": "Cap de Merxandatge",                  "foto": null },
+    { "id": "ona-perxachs",      "label": "Ona Perxachs",      "type": "member", "role": "Merxandatge",                         "foto": null },
+    { "id": "ramon-coll",        "label": "Ramon Coll",        "type": "member", "role": "Cap d'Esdeveniments",                 "foto": null },
+    { "id": "adria-naranjo",     "label": "Adrià Naranjo",     "type": "member", "role": "Esdeveniments",                       "foto": null }
   ],
-  "links": []
+  "links": [
+    { "source": "root", "target": "tecnica" },
+    { "source": "root", "target": "junta" },
+    { "source": "root", "target": "sanitaris" },
+    { "source": "root", "target": "comunicacio" },
+    { "source": "root", "target": "benvinguda" },
+    { "source": "root", "target": "genere" },
+    { "source": "root", "target": "musics" },
+    { "source": "root", "target": "merxandatge" },
+    { "source": "root", "target": "esdeveniments" },
+
+    { "source": "tecnica", "target": "cap-de-colla" },
+    { "source": "tecnica", "target": "troncs" },
+    { "source": "tecnica", "target": "pinyes" },
+    { "source": "tecnica", "target": "pilars" },
+    { "source": "tecnica", "target": "canalla" },
+
+    { "source": "cap-de-colla", "target": "alex-benito" },
+    { "source": "cap-de-colla", "target": "mireia-lozano" },
+
+    { "source": "troncs", "target": "aran-sala" },
+    { "source": "troncs", "target": "mireia-lozano" },
+    { "source": "troncs", "target": "lluc-carbonell" },
+
+    { "source": "pinyes", "target": "lluc-artigal" },
+    { "source": "pinyes", "target": "vinyet-baixes" },
+    { "source": "pinyes", "target": "clara-sobreques" },
+    { "source": "pinyes", "target": "nuria-garcia" },
+    { "source": "pinyes", "target": "andreu-casadevall" },
+
+    { "source": "pilars", "target": "alex-benito" },
+    { "source": "pilars", "target": "ona-miro" },
+    { "source": "pilars", "target": "eloy-gonzalez" },
+
+    { "source": "canalla", "target": "anna-escola" },
+    { "source": "canalla", "target": "nuria-marchante" },
+
+    { "source": "junta", "target": "marta-ninou" },
+    { "source": "junta", "target": "ona-miro" },
+    { "source": "junta", "target": "agnes-blasco" },
+    { "source": "junta", "target": "nuria-garcia" },
+
+    { "source": "sanitaris", "target": "silvia-moya" },
+    { "source": "sanitaris", "target": "marti-casals" },
+    { "source": "sanitaris", "target": "lluc-carbonell" },
+    { "source": "sanitaris", "target": "julia-casals" },
+
+    { "source": "comunicacio", "target": "clara-sobreques" },
+    { "source": "comunicacio", "target": "albert-canades" },
+    { "source": "comunicacio", "target": "marc-sobrino" },
+    { "source": "comunicacio", "target": "laura" },
+
+    { "source": "benvinguda", "target": "andreu-casadevall" },
+    { "source": "benvinguda", "target": "marti-casals" },
+
+    { "source": "genere", "target": "vinyet-baixes" },
+
+    { "source": "musics", "target": "arnau-coronado" },
+
+    { "source": "merxandatge", "target": "enric-nogueiro" },
+    { "source": "merxandatge", "target": "marti-casals" },
+    { "source": "merxandatge", "target": "ona-perxachs" },
+
+    { "source": "esdeveniments", "target": "ramon-coll" },
+    { "source": "esdeveniments", "target": "adria-naranjo" }
+  ]
 }

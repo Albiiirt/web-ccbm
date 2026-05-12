@@ -595,15 +595,18 @@ async function initEquip() {
     var sim = d3.forceSimulation(nodes)
         .force('link', d3.forceLink(links).id(function(d) { return d.id; })
             .distance(function(d) {
-                var s = typeof d.source === 'object' ? d.source.type : 'root';
-                return s === 'root' ? 160 : 85;
-            }).strength(0.9))
+                var s = typeof d.source === 'object' ? d.source : { type: 'root' };
+                var t = typeof d.target === 'object' ? d.target : { type: 'member' };
+                if (s.type === 'root') return 170;
+                if (s.type === 'committee' && t.type === 'committee') return 120;
+                return 90;
+            }).strength(0.85))
         .force('charge', d3.forceManyBody().strength(function(d) {
-            return d.type === 'root' ? -700 : d.type === 'committee' ? -350 : -180;
+            return d.type === 'root' ? -900 : d.type === 'committee' ? -420 : -200;
         }))
         .force('center', d3.forceCenter(W / 2, H / 2))
         .force('collide', d3.forceCollide().radius(function(d) {
-            return d.type === 'root' ? cfg.root.r + 18 : d.type === 'committee' ? 60 : 44;
+            return d.type === 'root' ? cfg.root.r + 20 : d.type === 'committee' ? 65 : 46;
         }));
 
     /* ── Links ── */
