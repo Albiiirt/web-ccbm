@@ -515,6 +515,145 @@ async function initAbout() {
     }
 }
 
+/* ── EQUIP GRAPH ── */
+
+async function initEquip() {
+    if (typeof d3 === 'undefined') return;
+    var container = document.getElementById('equip-graph');
+    if (!container) return;
+
+    var data = await loadJSON('data/equip.json');
+    if (!data || !data.nodes) return;
+
+    var W = container.clientWidth;
+    var H = container.clientHeight;
+
+    /* ── SVG setup ── */
+    var svg = d3.select(container).append('svg')
+        .attr('width', W).attr('height', H);
+
+    /* Glow filter for root node */
+    var defs = svg.append('defs');
+    var glow = defs.append('filter').attr('id', 'glow').attr('x', '-50%').attr('y', '-50%').attr('width', '200%').attr('height', '200%');
+    glow.append('feGaussianBlur').attr('stdDeviation', '6').attr('result', 'blur');
+    var feMerge = glow.append('feMerge');
+    feMerge.append('feMergeNode').attr('in', 'blur');
+    feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+
+    /* Gradient for links */
+    var linkGrad = defs.append('linearGradient').attr('id', 'link-grad').attr('gradientUnits', 'userSpaceOnUse');
+    linkGrad.append('stop').attr('offset', '0%').attr('stop-color', '#01758C').attr('stop-opacity', 0.6);
+    linkGrad.append('stop').attr('offset', '100%').attr('stop-color', '#01758C').attr('stop-opacity', 0.15);
+
+    /* Node visual config by type */
+    var cfg = {
+        root:      { r: 44, fill: '#01758C', stroke: '#01758C', strokeW: 0, textFill: '#fff', fontSize: 15, fontWeight: 700 },
+        committee: { r: 30, fill: 'rgba(1,117,140,0.18)', stroke: '#01758C', strokeW: 1.5, textFill: '#CCE9EF', fontSize: 10, fontWeight: 600 },
+        member:    { r: 18, fill: 'rgba(255,255,255,0.06)', stroke: 'rgba(1,117,140,0.5)', strokeW: 1, textFill: 'rgba(255,255,255,0.75)', fontSize: 9.5, fontWeight: 400 }
+    };
+
+    var nodes = data.nodes.map(function(d) { return Object.assign({}, d); });
+    var links = data.links.map(function(d) { return Object.assign({}, d); });
+
+    /* Tooltip */
+    var tip = d3.select(container).append('div').attr('class', 'graph-tooltip');
+
+    /* ── Force simulation ── */
+    var sim = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(function(d) { return d.id; })
+            .distance(function(d) {
+                var s = typeof d.source === 'object' ? d.source.type : 'root';
+                return s === 'root' ? 160 : 85;
+            }).strength(0.9))
+        .force('charge', d3.forceManyBody().strength(function(d) {
+            return d.type === 'root' ? -700 : d.type === 'committee' ? -350 : -180;
+        }))
+        .force('center', d3.forceCenter(W / 2, H / 2))
+        .force('collide', d3.forceCollide().radius(function(d) { return cfg[d.type].r + 14; }));
+
+    /* ── Links ── */
+    var linkEls = svg.append('g').selectAll('line').data(links).join('line')
+        .attr('stroke', 'url(#link-grad)')
+        .attr('stroke-width', function(d) {
+            var s = typeof d.source === 'object' ? d.source.type : 'root';
+            return s === 'root' ? 1.5 : 1;
+        })
+        .attr('stroke-linecap', 'round');
+
+    /* ── Nodes ── */
+    var drag = d3.drag()
+        .on('start', function(event, d) {
+            if (!event.active) sim.alphaTarget(0.3).restart();
+            d.fx = d.x; d.fy = d.y;
+        })
+        .on('drag', function(event, d) { d.fx = event.x; d.fy = event.y; })
+        .on('end', function(event, d) {
+            if (!event.active) sim.alphaTarget(0);
+            d.fx = null; d.fy = null;
+        });
+
+    var nodeEls = svg.append('g').selectAll('g').data(nodes).join('g')
+        .attr('class', 'graph-node')
+        .call(drag)
+        .on('mousemove', function(event, d) {
+            if (d.type !== 'member') return;
+            var rect = container.getBoundingClientRect();
+            tip.style('opacity', 1)
+               .style('left', (event.clientX - rect.left + 12) + 'px')
+               .style('top',  (event.clientY - rect.top  - 28) + 'px')
+               .html('<strong>' + escHtml(d.label) + '</strong>' + (d.role ? '<br>' + escHtml(d.role) : ''));
+        })
+        .on('mouseleave', function() { tip.style('opacity', 0); });
+
+    /* Circles */
+    nodeEls.append('circle')
+        .attr('r', function(d) { return cfg[d.type].r; })
+        .attr('fill', function(d) { return cfg[d.type].fill; })
+        .attr('stroke', function(d) { return cfg[d.type].stroke; })
+        .attr('stroke-width', function(d) { return cfg[d.type].strokeW; })
+        .style('filter', function(d) { return d.type === 'root' ? 'url(#glow)' : 'none'; });
+
+    /* Labels (split long labels onto 2 lines) */
+    nodeEls.each(function(d) {
+        var c = cfg[d.type];
+        var words = d.label.split(' ');
+        var lines = words.length > 2
+            ? [words.slice(0, Math.ceil(words.length / 2)).join(' '), words.slice(Math.ceil(words.length / 2)).join(' ')]
+            : [d.label];
+        var el = d3.select(this).append('text')
+            .attr('text-anchor', 'middle')
+            .attr('fill', c.textFill)
+            .attr('font-size', c.fontSize + 'px')
+            .attr('font-weight', c.fontWeight)
+            .attr('font-family', "'Poppins', sans-serif")
+            .attr('pointer-events', 'none');
+        var lineH = c.fontSize * 1.25;
+        var startDy = -(lines.length - 1) * lineH / 2;
+        lines.forEach(function(line, i) {
+            el.append('tspan')
+                .attr('x', 0)
+                .attr('dy', (i === 0 ? startDy : lineH) + 'px')
+                .text(line);
+        });
+    });
+
+    /* ── Tick ── */
+    sim.on('tick', function() {
+        /* Clamp nodes inside the SVG */
+        nodes.forEach(function(d) {
+            var r = cfg[d.type].r + 4;
+            d.x = Math.max(r, Math.min(W - r, d.x));
+            d.y = Math.max(r, Math.min(H - r, d.y));
+        });
+        linkEls
+            .attr('x1', function(d) { return d.source.x; })
+            .attr('y1', function(d) { return d.source.y; })
+            .attr('x2', function(d) { return d.target.x; })
+            .attr('y2', function(d) { return d.target.y; });
+        nodeEls.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
+    });
+}
+
 /* ── INIT ── */
 initDiadaGran();
 initDiades();
@@ -522,3 +661,4 @@ initAbout();
 initWidget();
 initNewsSlider();
 initGallerySlider();
+initEquip();

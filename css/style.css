@@ -905,6 +905,55 @@ button { cursor: pointer; font-family: inherit; }
     line-height: 1.55;
 }
 
+/* ── EQUIP GRAPH ── */
+.equip {
+    background: #071318;
+    padding: var(--space-2xl) 0;
+}
+.equip .section__eyebrow { color: var(--md-primary); }
+.equip .section__title   { color: #fff; }
+.equip .section__subtitle { color: rgba(255,255,255,.5); }
+.equip__graph {
+    width: 100%;
+    height: clamp(420px, 60vh, 680px);
+    margin-top: var(--space-xl);
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(1,117,140,.2);
+    position: relative;
+}
+.equip__graph svg { display: block; }
+.equip__hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: var(--space-md);
+    font-size: .75rem;
+    color: rgba(255,255,255,.3);
+}
+.equip__hint .material-symbols-outlined { font-size: 15px; }
+
+/* Graph node styles (applied via D3) */
+.graph-node { cursor: grab; }
+.graph-node:active { cursor: grabbing; }
+.graph-tooltip {
+    position: absolute;
+    background: rgba(0,0,0,.85);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: .75rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    pointer-events: none;
+    white-space: nowrap;
+    border: 1px solid rgba(1,117,140,.4);
+    opacity: 0;
+    transition: opacity .15s;
+    z-index: 10;
+}
+
 /* ── GALLERY SLIDER ── */
 .slider-viewport--gallery { padding-bottom: var(--space-lg); }
 .slider--gallery { gap: 12px; }
