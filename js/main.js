@@ -357,6 +357,10 @@ async function initDiadaGran() {
     titleEl.textContent = gran.titol;
 
     var metaHtml = '';
+    if (gran.date) {
+        var dateStr = new Date(gran.date + 'T12:00:00').toLocaleDateString('ca-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+        metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">calendar_today</span>' + dateStr + '</div>';
+    }
     if (gran.lloc)              metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(gran.lloc) + '</div>';
     if (gran.hora)              metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(gran.hora) + '</div>';
     if (gran.colla_amfitriona)  metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">home</span>Amfitriona: ' + escHtml(gran.colla_amfitriona) + '</div>';
@@ -392,6 +396,34 @@ async function initDiadaGran() {
 
 /* ── PROPERES DIADES ── */
 
+function buildGCalUrl(item) {
+    if (!item.date) return null;
+    var horaRaw = item.hora ? item.hora.replace(' h', '').trim() : null;
+    var start, end;
+    if (horaRaw && /^\d{1,2}:\d{2}$/.test(horaRaw)) {
+        var parts = horaRaw.split(':');
+        var hh = String(parseInt(parts[0])).padStart(2, '0');
+        var mm = String(parts[1]).padStart(2, '0');
+        var d = item.date.replace(/-/g, '');
+        start = d + 'T' + hh + mm + '00';
+        var endH = String(parseInt(parts[0]) + 2).padStart(2, '0');
+        end = d + 'T' + endH + mm + '00';
+    } else {
+        var next = new Date(item.date + 'T12:00:00');
+        next.setDate(next.getDate() + 1);
+        start = item.date.replace(/-/g, '');
+        end = next.toISOString().slice(0, 10).replace(/-/g, '');
+    }
+    var params = new URLSearchParams({ action: 'TEMPLATE', text: item.titol, dates: start + '/' + end });
+    if (item.lloc) params.set('location', item.lloc);
+    var details = [];
+    if (item.descripcio) details.push(item.descripcio);
+    if (item.colla_amfitriona) details.push('Amfitriona: ' + item.colla_amfitriona);
+    if (item.colles_convidades) details.push('Colles convidades: ' + item.colles_convidades);
+    if (details.length) params.set('details', details.join('\n'));
+    return 'https://calendar.google.com/calendar/render?' + params.toString();
+}
+
 async function initDiades() {
     const grid = document.getElementById('diades-grid');
     if (!grid) return;
@@ -426,6 +458,7 @@ async function initDiades() {
                 (item.colles_convidades ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">groups</span>' + escHtml(item.colles_convidades) + '</p>' : '') +
             '</div>' +
             (item.descripcio ? '<p class="diada-card__desc">' + escHtml(item.descripcio) + '</p>' : '') +
+            (buildGCalUrl(item) ? '<a href="' + buildGCalUrl(item) + '" target="_blank" rel="noopener" class="diada-card__gcal"><span class="material-symbols-outlined">calendar_add_on</span>Afegir al calendari</a>' : '') +
         '</div>';
     }).join('');
 }
