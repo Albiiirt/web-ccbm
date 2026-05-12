@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avís Legal i Privacitat — CCBM</title>
+    <meta name="description" content="Avís legal, política de privacitat i política de cookies de la Colla Castellera Baix Montseny.">
+    <link rel="icon" type="image/svg+xml" href="logo-ccbm/logo-ccbm.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .legal-hero {
+            background: var(--md-primary);
+            color: #fff;
+            padding-block: 100px var(--space-2xl);
+        }
+        .legal-hero__eyebrow {
+            font-size: .875rem;
+            font-weight: 500;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            opacity: .8;
+            margin-bottom: 12px;
+        }
+        .legal-hero__title {
+            font-size: clamp(2rem, 5vw, 3.25rem);
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        .legal-nav {
+            background: var(--md-surface-variant);
+            border-bottom: 1px solid var(--md-outline-variant);
+            position: sticky;
+            top: 64px;
+            z-index: 50;
+        }
+        .legal-nav__inner {
+            display: flex;
+            gap: var(--space-lg);
+            padding-block: var(--space-sm);
+            overflow-x: auto;
+        }
+        .legal-nav__link {
+            white-space: nowrap;
+            font-size: .875rem;
+            font-weight: 500;
+            color: var(--md-on-surface-variant);
+            text-decoration: none;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            transition: color .2s, border-color .2s;
+        }
+        .legal-nav__link:hover {
+            color: var(--md-primary);
+            border-bottom-color: var(--md-primary);
+        }
+        .legal-body {
+            padding-block: var(--space-3xl);
+        }
+        .legal-section {
+            max-width: 740px;
+            margin-bottom: var(--space-3xl);
+            scroll-margin-top: 120px;
+        }
+        .legal-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--md-on-surface);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-sm);
+            border-bottom: 2px solid var(--md-primary);
+        }
+        .legal-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--md-on-surface);
+            margin: var(--space-lg) 0 var(--space-sm);
+        }
+        .legal-section p,
+        .legal-section li {
+            font-size: .9375rem;
+            color: var(--md-on-surface-variant);
+            line-height: 1.7;
+            margin-bottom: var(--space-sm);
+        }
+        .legal-section ul {
+            padding-left: var(--space-lg);
+            margin-bottom: var(--space-sm);
+        }
+        .legal-section ul li { margin-bottom: 4px; }
+        .legal-placeholder {
+            display: inline-block;
+            background: #fff3cd;
+            color: #856404;
+            border-radius: 4px;
+            padding: 0 4px;
+            font-size: .8rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP APP BAR -->
+    <header class="top-bar scrolled" id="top-bar">
+        <div class="top-bar__inner container">
+            <a href="index.html" class="top-bar__brand">
+                <img src="logo-ccbm/logo-ccbm.svg" alt="Logo CCBM" class="top-bar__logo-img">
+                <span class="top-bar__title">CCBM</span>
+            </a>
+            <nav class="top-bar__nav" id="main-nav" aria-label="Navegació principal">
+                <a href="index.html#noticias" class="nav-link">Notícies</a>
+                <a href="index.html#diades"   class="nav-link">Diades</a>
+                <a href="index.html#nosaltres" class="nav-link">Nosaltres</a>
+                <a href="index.html#equip"    class="nav-link">Equip</a>
+                <a href="index.html#galeria"  class="nav-link">Galeria</a>
+                <a href="index.html#contacte" class="nav-link">Contacte</a>
+            </nav>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Obrir menú" aria-expanded="false" aria-controls="mobile-drawer">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE DRAWER -->
+    <div class="drawer-backdrop" id="drawer-backdrop"></div>
+    <nav class="mobile-drawer" id="mobile-drawer" aria-label="Menú mòbil">
+        <div class="mobile-drawer__header">
+            <img src="logo-ccbm/logo-ccbm.svg" alt="Logo CCBM" class="top-bar__logo-img">
+            <span class="top-bar__title" style="color:var(--md-primary)">CCBM</span>
+            <button class="drawer-close" id="drawer-close" aria-label="Tancar menú">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <a href="index.html#noticias"  class="mobile-drawer__link"><span class="material-symbols-outlined">newspaper</span>Notícies</a>
+        <a href="index.html#diades"    class="mobile-drawer__link"><span class="material-symbols-outlined">calendar_month</span>Diades</a>
+        <a href="index.html#nosaltres" class="mobile-drawer__link"><span class="material-symbols-outlined">groups</span>Nosaltres</a>
+        <a href="index.html#equip"     class="mobile-drawer__link"><span class="material-symbols-outlined">account_tree</span>Equip</a>
+        <a href="index.html#galeria"   class="mobile-drawer__link"><span class="material-symbols-outlined">photo_library</span>Galeria</a>
+        <a href="index.html#contacte"  class="mobile-drawer__link"><span class="material-symbols-outlined">mail</span>Contacte</a>
+    </nav>
+
+    <main>
+
+        <section class="legal-hero">
+            <div class="container">
+                <p class="legal-hero__eyebrow">Colla Castellera Baix Montseny</p>
+                <h1 class="legal-hero__title">Avís Legal i Privacitat</h1>
+            </div>
+        </section>
+
+        <nav class="legal-nav" aria-label="Seccions">
+            <div class="container legal-nav__inner">
+                <a href="#avis-legal"  class="legal-nav__link">Avís Legal</a>
+                <a href="#privacitat"  class="legal-nav__link">Política de Privacitat</a>
+                <a href="#cookies"     class="legal-nav__link">Política de Cookies</a>
+            </div>
+        </nav>
+
+        <div class="legal-body">
+            <div class="container">
+
+                <!-- AVÍS LEGAL -->
+                <section class="legal-section" id="avis-legal">
+                    <h2>Avís Legal</h2>
+
+                    <h3>Identificació del titular</h3>
+                    <p>
+                        En compliment de la Llei 34/2002, d'11 de juliol, de Serveis de la Societat de la Informació i Comerç Electrònic (LSSICE), s'informa que el present lloc web és titularitat de:
+                    </p>
+                    <ul>
+                        <li><strong>Nom:</strong> Colla Castellera Baix Montseny <span class="legal-placeholder">⚠ confirmar nom legal</span></li>
+                        <li><strong>NIF/CIF:</strong> <span class="legal-placeholder">⚠ pendent</span></li>
+                        <li><strong>Adreça:</strong> Sax Sala, Sant Celoni <span class="legal-placeholder">⚠ confirmar adreça postal</span></li>
+                        <li><strong>Correu electrònic:</strong> <span class="legal-placeholder">⚠ pendent</span></li>
+                    </ul>
+
+                    <h3>Condicions d'ús</h3>
+                    <p>L'accés i l'ús d'aquest lloc web implica l'acceptació plena de les presents condicions. La Colla Castellera Baix Montseny es reserva el dret de modificar-les en qualsevol moment sense avís previ.</p>
+                    <p>Els continguts d'aquest lloc web (textos, imatges, logotips) són propietat de la Colla Castellera Baix Montseny o de tercers que n'han autoritzat l'ús. Queda prohibida la seva reproducció total o parcial sense autorització expressa.</p>
+
+                    <h3>Responsabilitat</h3>
+                    <p>La colla no es fa responsable dels danys que puguin derivar-se de l'ús del lloc web ni dels continguts externs als quals s'hi pugui enllaçar.</p>
+                </section>
+
+                <!-- POLÍTICA DE PRIVACITAT -->
+                <section class="legal-section" id="privacitat">
+                    <h2>Política de Privacitat</h2>
+
+                    <h3>Responsable del tractament</h3>
+                    <p>El responsable del tractament de les dades personals recollides a través d'aquest lloc web és la Colla Castellera Baix Montseny <span class="legal-placeholder">⚠ afegir NIF i adreça</span>.</p>
+
+                    <h3>Dades que recollim</h3>
+                    <p>A través del formulari de contacte recollim les dades que l'usuari facilita voluntàriament:</p>
+                    <ul>
+                        <li>Nom i cognoms</li>
+                        <li>Adreça de correu electrònic</li>
+                        <li>Missatge enviat</li>
+                    </ul>
+
+                    <h3>Finalitat i base legal</h3>
+                    <p>Les dades es tracten per respondre les consultes o sol·licituds d'informació enviades a través del formulari de contacte. La base legal és el consentiment de l'interessat (art. 6.1.a RGPD).</p>
+
+                    <h3>Conservació de les dades</h3>
+                    <p>Les dades es conserven durant el temps necessari per atendre la consulta i, un cop finalitzada, durant els terminis legalment establerts.</p>
+
+                    <h3>Drets de les persones interessades</h3>
+                    <p>Podeu exercir els vostres drets d'accés, rectificació, supressió, portabilitat, limitació i oposició enviant un correu a <span class="legal-placeholder">⚠ email de contacte</span> amb el document d'identitat adjunt.</p>
+                    <p>Si considereu que el tractament no s'ajusta a la normativa, podeu presentar una reclamació davant l'Agència Espanyola de Protecció de Dades (<a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a>).</p>
+
+                    <h3>Comunicació a tercers</h3>
+                    <p>Les dades no es cediran a tercers, excepte per obligació legal. El servei de gestió del formulari de contacte és ofert per <strong>Web3Forms</strong>, que actua com a encarregat del tractament sota les seves pròpies polítiques de privacitat.</p>
+                </section>
+
+                <!-- POLÍTICA DE COOKIES -->
+                <section class="legal-section" id="cookies">
+                    <h2>Política de Cookies</h2>
+
+                    <h3>Què són les cookies?</h3>
+                    <p>Les cookies són fitxers de text petits que els llocs web desen al vostre dispositiu quan els visiteu. Permeten que el lloc web recordi les vostres preferències i millori la vostra experiència.</p>
+
+                    <h3>Cookies que utilitzem</h3>
+                    <p>Aquest lloc web és estàtic i <strong>no utilitza cookies pròpies</strong> ni sistemes d'analítica. Les úniques cookies que podrien generar-se provenen de recursos externs carregats a la pàgina:</p>
+                    <ul>
+                        <li><strong>Google Fonts</strong> — tipografies. Google pot desar cookies de sessió per al servei. Consulteu la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">política de privacitat de Google</a>.</li>
+                        <li><strong>Web3Forms</strong> — formulari de contacte. Podria generar cookies tècniques durant l'enviament del formulari.</li>
+                    </ul>
+
+                    <h3>Com gestionar les cookies</h3>
+                    <p>Podeu configurar el vostre navegador per bloquejar o eliminar les cookies. Tingueu en compte que això pot afectar el funcionament d'alguns elements de la pàgina.</p>
+                    <ul>
+                        <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
+                        <li><a href="https://support.mozilla.org/ca/kb/cookies-informacio-que-els-llocs-web-guarden-al-vos" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+                        <li><a href="https://support.apple.com/ca-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener">Safari</a></li>
+                    </ul>
+
+                    <p style="margin-top: var(--space-xl); font-size:.8125rem; color: var(--md-on-surface-variant);">
+                        Última actualització: maig de 2026
+                    </p>
+                </section>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div class="footer__brand">
+                    <img src="logo-ccbm/logo-ccbm.svg" alt="Logo CCBM" class="footer__logo-img">
+                    <span class="footer__name">CCBM</span>
+                    <p class="footer__tagline">Tradició, esforç i passió.<br>Fem castells junts.</p>
+                    <div class="footer__social">
+                        <a href="#" class="footer__social-link" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <a href="#" class="footer__social-link" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="footer__social-link" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer__nav">
+                    <h3 class="footer__heading">Navegació</h3>
+                    <a href="index.html#noticias" class="footer__link">Notícies</a>
+                    <a href="index.html#nosaltres" class="footer__link">Nosaltres</a>
+                    <a href="index.html#galeria" class="footer__link">Galeria</a>
+                    <a href="index.html#contacte" class="footer__link">Contacte</a>
+                </div>
+                <div class="footer__nav">
+                    <h3 class="footer__heading">La colla</h3>
+                    <a href="index.html#nosaltres" class="footer__link">Història</a>
+                    <a href="index.html#nosaltres" class="footer__link">Valors</a>
+                    <a href="index.html#contacte" class="footer__link">Uneix-te</a>
+                    <a href="agenda.html" class="footer__link">Agenda</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2026 CCBM — Colla Castellera. Tots els drets reservats.</p>
+                <a href="legal.html" class="footer__link" style="color:rgba(255,255,255,.45); font-size:.8125rem;">Avís legal i privacitat</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js" defer></script>
+
+</body>
+</html>
