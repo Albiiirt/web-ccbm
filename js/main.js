@@ -465,7 +465,7 @@ async function initDiades() {
         '</div>';
     }).join('');
 
-    if (data.length > 4) {
+    if (data.length > 3) {
         var controls = document.getElementById('diades-slider-controls');
         if (controls) controls.hidden = false;
 
