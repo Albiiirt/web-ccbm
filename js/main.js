@@ -681,9 +681,15 @@ async function initEquip() {
         }
 
         if (d.type === 'root') {
-            /* "CCBM" centrat dins el cercle */
-            mkText('#fff', c.fontSize, c.fontWeight)
+            /* "CCBM" centrat dins el cercle — sense halo, el fons teal és suficient */
+            sel.append('text')
+                .attr('text-anchor', 'middle')
                 .attr('dominant-baseline', 'middle')
+                .attr('fill', '#fff')
+                .attr('font-size', c.fontSize + 'px')
+                .attr('font-weight', c.fontWeight)
+                .attr('font-family', "'Poppins', sans-serif")
+                .attr('pointer-events', 'none')
                 .text(d.label);
 
         } else if (d.type === 'committee') {
