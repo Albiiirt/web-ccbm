@@ -1,24 +1,90 @@
 [
   {
     "id": "35ece292-5a0e-8038-94e2-eabedaaf52a3",
-    "titol": "Diada Porqueres",
+    "titol": "Diada dels Esperxats de l’Estany",
     "date": "2026-05-16",
     "lloc": "Porqueres",
-    "hora": "10:00 h",
+    "hora": "17:00 h",
     "descripcio": "",
+    "diada_gran": false,
+    "colla_amfitriona": "Esperxats de l’Estany",
+    "colles_convidades": "Guillats de la Selva\nMerlots de Figueres\nColla Castellera del Baix Montseny"
+  },
+  {
+    "id": "35ece292-5a0e-800c-9b3b-e39e60181a8a",
+    "titol": "Actuació comercial Montserrat",
+    "date": "2026-05-17",
+    "lloc": "Montserrat",
+    "hora": "12:00 h",
+    "descripcio": "Actuació per l’ONCE a Montserrat",
     "diada_gran": false,
     "colla_amfitriona": "",
     "colles_convidades": ""
   },
   {
+    "id": "35ece292-5a0e-8063-ab52-dffb373dbd8b",
+    "titol": "Actuació de la Festa de la Cirera",
+    "date": "2026-06-07",
+    "lloc": "Plaça d’Antoni Gaudí",
+    "hora": "12:00 h",
+    "descripcio": "",
+    "diada_gran": false,
+    "colla_amfitriona": "Matossers de Molins de Rei",
+    "colles_convidades": "Castellers de Montcada i Reixac\nColla Castellera del Baix Montseny"
+  },
+  {
     "id": "35ece292-5a0e-8068-a109-d257f3ca08b1",
     "titol": "TCVO",
     "date": "2026-06-14",
-    "lloc": "Sant Celoni",
-    "hora": "10:00 h",
-    "descripcio": "Trobada de colles castelleres del Vallès Oriental",
+    "lloc": "Sant Celoni - Plaça de la Vila",
+    "hora": "11:30 h",
+    "descripcio": "Trobada de Colles Castelleres del Vallès Oriental",
     "diada_gran": true,
-    "colla_amfitriona": "",
-    "colles_convidades": ""
+    "colla_amfitriona": "Colla Castellera del Baix Montseny",
+    "colles_convidades": "Castellers de Mollet\nManyacs de Parets\nEscaldats de Caldes de Montbui\nXics de Granollers"
+  },
+  {
+    "id": "35ece292-5a0e-8080-94f9-c2e246ea936a",
+    "titol": "Festa Major de Sant Jaume",
+    "date": "2026-07-26",
+    "lloc": "Sant Pol de Mar - Plaça de la Vila",
+    "hora": "19:30 h",
+    "descripcio": "",
+    "diada_gran": false,
+    "colla_amfitriona": "Maduixots de l’Alt Maresme",
+    "colles_convidades": "Margeneres de Guissona\nColla Castellera del Baix Montseny"
+  },
+  {
+    "id": "35ece292-5a0e-801b-828e-d5a04889910d",
+    "titol": "Diada de Festa Major de Sant Celoni",
+    "date": "2026-09-05",
+    "lloc": "Sant Celoni - Plaça de la Vila",
+    "hora": "Tot el dia",
+    "descripcio": "",
+    "diada_gran": false,
+    "colla_amfitriona": "Colla Castellera del Baix Montseny",
+    "colles_convidades": "Matossers de Molins de Rei\nColla Castellera de Figueres"
+  },
+  {
+    "id": "35ece292-5a0e-8003-824c-dc617dc0ddfc",
+    "titol": "XXXè Aniversari de la Colla Castellera de Figueres",
+    "date": "2026-09-20",
+    "lloc": "Figueres",
+    "hora": "Tot el dia",
+    "descripcio": "",
+    "diada_gran": false,
+    "colla_amfitriona": "Colla Castellera de Figueres",
+    "colles_convidades": "Guillats de la Selva"
+  },
+  {
+    "id": "35ece292-5a0e-805b-951c-c1396d095b71",
+    "titol": "Diada de Xics de Granollers",
+    "date": "2026-09-26",
+    "lloc": "Cardedeu",
+    "hora": "Tot el dia",
+    "descripcio": "",
+    "diada_gran": false,
+    "colla_amfitriona": "Xics de Granollers",
+    "colles_convidades": "Tirallongues de Manresa\nColla Castellera del Baix Montseny"
   }
 ]
