@@ -6,7 +6,7 @@
 
 async function loadJSON(path) {
     try {
-        const res = await fetch(path);
+        const res = await fetch(path + '?v=' + Date.now());
         if (!res.ok) throw new Error(res.statusText);
         return res.json();
     } catch (err) {
