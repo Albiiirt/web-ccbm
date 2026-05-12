@@ -11,7 +11,7 @@
  */
 
 import { Client } from '@notionhq/client';
-import { writeFileSync, mkdirSync } from 'fs';
+import { writeFileSync, mkdirSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -82,23 +82,38 @@ async function fetchNews() {
 
 /* ── FETCH GALLERY ── */
 async function fetchGallery() {
+    // Fotos locals de img/fotos-galeria/
+    const localDir = join(ROOT, 'img', 'fotos-galeria');
+    let localImages = [];
+    try {
+        localImages = readdirSync(localDir)
+            .filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f))
+            .sort()
+            .map(f => ({
+                id:    'local-' + f,
+                title: '',
+                image: 'img/fotos-galeria/' + f,
+                date:  null,
+            }));
+    } catch {}
+
+    // Fotos gestionades via Notion (URLs externes)
     const dbId = process.env.NOTION_GALLERY_DB_ID;
-    if (!dbId) throw new Error('NOTION_GALLERY_DB_ID no definida');
+    if (!dbId) return localImages;
 
     const response = await notion.databases.query({
         database_id: dbId,
-        sorts: [
-            { property: 'Data', direction: 'descending' },
-        ],
+        sorts: [{ property: 'Data', direction: 'descending' }],
     });
 
-    return response.results.map(page => ({
-        id:          page.id,
-        title:       getTitle(page.properties['Títol']),
-        description: getRichText(page.properties['Descripció']),
-        image:       getFile(page.properties['Imatge']) || getUrl(page.properties['URL Imatge']),
-        date:        getDate(page.properties['Data']),
+    const notionImages = response.results.map(page => ({
+        id:    page.id,
+        title: getTitle(page.properties['Títol']),
+        image: getFile(page.properties['Imatge']) || getUrl(page.properties['URL Imatge']),
+        date:  getDate(page.properties['Data']),
     })).filter(item => item.image);
+
+    return [...localImages, ...notionImages];
 }
 
 /* ── FETCH WIDGET ── */

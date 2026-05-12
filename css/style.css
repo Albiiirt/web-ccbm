@@ -706,22 +706,7 @@ button { cursor: pointer; font-family: inherit; }
     transition: transform .4s;
 }
 .gallery-card:hover img { transform: scale(1.08); }
-.gallery-card__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 50%);
-    opacity: 0;
-    transition: opacity var(--transition);
-    display: flex;
-    align-items: flex-end;
-    padding: var(--space-md);
-}
-.gallery-card:hover .gallery-card__overlay { opacity: 1; }
-.gallery-card__caption {
-    color: #fff;
-    font-size: .875rem;
-    font-weight: 500;
-}
+.gallery-card__overlay { display: none; }
 
 /* ── LIGHTBOX ── */
 .lightbox {
