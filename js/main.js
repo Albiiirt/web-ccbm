@@ -340,6 +340,44 @@ async function initGallerySlider() {
     createSlider('gallery-slider', 'gallery-prev', 'gallery-next', 300);
 }
 
+/* ── PROPERES DIADES ── */
+
+async function initDiades() {
+    const grid = document.getElementById('diades-grid');
+    if (!grid) return;
+
+    const data = await loadJSON('data/diades.json');
+    if (!data || data.length === 0) {
+        grid.innerHTML = '<p class="diades__empty">Properament us informarem de les properes diades.</p>';
+        return;
+    }
+
+    grid.innerHTML = data.map(function(item) {
+        var date = item.date ? new Date(item.date + 'T12:00:00') : null;
+        var day   = date ? date.getDate() : '';
+        var month = date ? date.toLocaleDateString('ca-ES', { month: 'long' }).toUpperCase() : '';
+        var year  = date ? date.getFullYear() : '';
+
+        return '<div class="diada-card">' +
+            (date
+                ? '<div class="diada-card__date-block">' +
+                    '<span class="diada-card__day">' + day + '</span>' +
+                    '<div class="diada-card__month-year">' +
+                        '<span class="diada-card__month">' + month + '</span>' +
+                        '<span class="diada-card__year">' + year + '</span>' +
+                    '</div>' +
+                  '</div>'
+                : '') +
+            '<h3 class="diada-card__title">' + escHtml(item.titol) + '</h3>' +
+            '<div class="diada-card__meta">' +
+                (item.lloc ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(item.lloc) + '</p>' : '') +
+                (item.hora ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(item.hora) + '</p>' : '') +
+            '</div>' +
+            (item.descripcio ? '<p class="diada-card__desc">' + escHtml(item.descripcio) + '</p>' : '') +
+        '</div>';
+    }).join('');
+}
+
 /* ── ABOUT ── */
 
 async function initAbout() {
@@ -390,6 +428,7 @@ async function initAbout() {
 }
 
 /* ── INIT ── */
+initDiades();
 initAbout();
 initWidget();
 initNewsSlider();

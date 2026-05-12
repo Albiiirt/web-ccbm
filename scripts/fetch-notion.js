@@ -142,6 +142,27 @@ async function fetchWidget() {
     })).filter(item => item.title);
 }
 
+/* ── FETCH DIADES ── */
+async function fetchDiades() {
+    const dbId = process.env.NOTION_DIADES_DB_ID;
+    if (!dbId) throw new Error('NOTION_DIADES_DB_ID no definida');
+
+    const response = await notion.databases.query({
+        database_id: dbId,
+        filter: { property: 'Publicada', checkbox: { equals: true } },
+        sorts: [{ property: 'Data', direction: 'ascending' }],
+    });
+
+    return response.results.map(page => ({
+        id:         page.id,
+        titol:      getTitle(page.properties['Títol']),
+        date:       getDate(page.properties['Data']),
+        lloc:       getRichText(page.properties['Lloc']),
+        hora:       getRichText(page.properties['Hora']),
+        descripcio: getRichText(page.properties['Descripció']),
+    })).filter(item => item.titol);
+}
+
 /* ── FETCH ABOUT ── */
 async function fetchAbout() {
     const dbId = process.env.NOTION_ABOUT_DB_ID;
@@ -184,8 +205,8 @@ async function main() {
 
     mkdirSync(join(ROOT, 'data'), { recursive: true });
 
-    const [news, gallery, widget, about] = await Promise.all([
-        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout()
+    const [news, gallery, widget, about, diades] = await Promise.all([
+        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades()
     ]);
 
     writeFileSync(join(ROOT, 'data', 'news.json'), JSON.stringify(news, null, 2), 'utf-8');
@@ -199,6 +220,9 @@ async function main() {
 
     writeFileSync(join(ROOT, 'data', 'about.json'), JSON.stringify(about, null, 2), 'utf-8');
     console.log(`✅ about.json — ${about.stats.length} estadístiques, ${about.valors.length} valors`);
+
+    writeFileSync(join(ROOT, 'data', 'diades.json'), JSON.stringify(diades, null, 2), 'utf-8');
+    console.log(`✅ diades.json — ${diades.length} diades`);
 
     console.log('🎉 Sincronització completada!');
 }
