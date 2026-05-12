@@ -938,20 +938,57 @@ button { cursor: pointer; font-family: inherit; }
 /* Graph node styles (applied via D3) */
 .graph-node { cursor: grab; }
 .graph-node:active { cursor: grabbing; }
-.graph-tooltip {
+.graph-node--member { cursor: pointer; }
+
+/* Fitxa membre */
+.equip-fitxa {
     position: absolute;
-    background: rgba(0,0,0,.85);
+    display: none;
+    width: 150px;
+    background: #0d2530;
+    border: 1px solid rgba(1,117,140,.45);
+    border-radius: 14px;
+    padding: 18px 16px 14px;
+    text-align: center;
+    z-index: 30;
+    box-shadow: 0 12px 40px rgba(0,0,0,.6);
+    animation: fitxa-in .18s ease;
+}
+.equip-fitxa.is-visible { display: block; }
+@keyframes fitxa-in {
+    from { opacity: 0; transform: scale(.88) translateY(4px); }
+    to   { opacity: 1; transform: scale(1)  translateY(0);    }
+}
+.equip-fitxa__close {
+    position: absolute;
+    top: 8px; right: 10px;
+    background: none; border: none;
+    color: rgba(255,255,255,.35);
+    font-size: 18px; line-height: 1;
+    cursor: pointer; padding: 0;
+}
+.equip-fitxa__close:hover { color: #fff; }
+.equip-fitxa__foto {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border: 2px solid var(--md-primary);
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 10px;
+    background: rgba(1,117,140,.15);
+}
+.equip-fitxa__nom {
     color: #fff;
+    font-size: .875rem;
+    font-weight: 600;
+    margin: 0 0 4px;
     font-family: 'Poppins', sans-serif;
-    font-size: .75rem;
-    padding: 6px 10px;
-    border-radius: 6px;
-    pointer-events: none;
-    white-space: nowrap;
-    border: 1px solid rgba(1,117,140,.4);
-    opacity: 0;
-    transition: opacity .15s;
-    z-index: 10;
+}
+.equip-fitxa__rol {
+    color: var(--md-primary);
+    font-size: .725rem;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
 }
 
 /* ── GALLERY SLIDER ── */

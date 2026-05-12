@@ -555,8 +555,41 @@ async function initEquip() {
     var nodes = data.nodes.map(function(d) { return Object.assign({}, d); });
     var links = data.links.map(function(d) { return Object.assign({}, d); });
 
-    /* Tooltip */
-    var tip = d3.select(container).append('div').attr('class', 'graph-tooltip');
+    /* ── Fitxa membre ── */
+    var fitxa = document.createElement('div');
+    fitxa.className = 'equip-fitxa';
+    fitxa.innerHTML =
+        '<button class="equip-fitxa__close" aria-label="Tanca">&times;</button>' +
+        '<img class="equip-fitxa__foto" src="" alt="">' +
+        '<h3 class="equip-fitxa__nom"></h3>' +
+        '<p class="equip-fitxa__rol"></p>';
+    container.appendChild(fitxa);
+
+    var fitxaFoto = fitxa.querySelector('.equip-fitxa__foto');
+    var fitxaNom  = fitxa.querySelector('.equip-fitxa__nom');
+    var fitxaRol  = fitxa.querySelector('.equip-fitxa__rol');
+
+    function showFitxa(d) {
+        var cardW = 150, cardH = 155;
+        var cx = d.x + cfg[d.type].r + 16;
+        var cy = d.y - cardH / 2;
+        if (cx + cardW > W - 8) cx = d.x - cfg[d.type].r - cardW - 16;
+        cy = Math.max(8, Math.min(H - cardH - 8, cy));
+        fitxa.style.left = cx + 'px';
+        fitxa.style.top  = cy + 'px';
+        fitxaFoto.src = d.foto || '';
+        fitxaFoto.style.display = d.foto ? 'block' : 'none';
+        fitxaNom.textContent  = d.label;
+        fitxaRol.textContent  = d.role || '';
+        fitxa.classList.remove('is-visible');
+        void fitxa.offsetWidth; /* restart animation */
+        fitxa.classList.add('is-visible');
+    }
+
+    fitxa.querySelector('.equip-fitxa__close').addEventListener('click', function(e) {
+        e.stopPropagation();
+        fitxa.classList.remove('is-visible');
+    });
 
     /* ── Force simulation ── */
     var sim = d3.forceSimulation(nodes)
@@ -592,18 +625,31 @@ async function initEquip() {
             d.fx = null; d.fy = null;
         });
 
+    /* Close fitxa when clicking empty SVG area */
+    svg.on('click', function() { fitxa.classList.remove('is-visible'); });
+
     var nodeEls = svg.append('g').selectAll('g').data(nodes).join('g')
-        .attr('class', 'graph-node')
+        .attr('class', function(d) { return 'graph-node' + (d.type === 'member' ? ' graph-node--member' : ''); })
         .call(drag)
-        .on('mousemove', function(event, d) {
+        .on('mouseenter', function(event, d) {
             if (d.type !== 'member') return;
-            var rect = container.getBoundingClientRect();
-            tip.style('opacity', 1)
-               .style('left', (event.clientX - rect.left + 12) + 'px')
-               .style('top',  (event.clientY - rect.top  - 28) + 'px')
-               .html('<strong>' + escHtml(d.label) + '</strong>' + (d.role ? '<br>' + escHtml(d.role) : ''));
+            d3.select(this).select('circle')
+                .attr('stroke', '#01758C')
+                .attr('stroke-width', 2)
+                .attr('fill', 'rgba(1,117,140,0.22)');
         })
-        .on('mouseleave', function() { tip.style('opacity', 0); });
+        .on('mouseleave', function(event, d) {
+            if (d.type !== 'member') return;
+            d3.select(this).select('circle')
+                .attr('stroke', cfg.member.stroke)
+                .attr('stroke-width', cfg.member.strokeW)
+                .attr('fill', cfg.member.fill);
+        })
+        .on('click', function(event, d) {
+            if (d.type !== 'member') return;
+            event.stopPropagation();
+            showFitxa(d);
+        });
 
     /* Circles */
     nodeEls.append('circle')
