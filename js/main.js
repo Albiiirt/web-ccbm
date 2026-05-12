@@ -431,8 +431,20 @@ async function initDiades() {
     const grid = document.getElementById('diades-grid');
     if (!grid) return;
 
-    const data = await loadJSON('data/diades.json');
-    if (!data || data.length === 0) {
+    const raw = await loadJSON('data/diades.json');
+    if (!raw || raw.length === 0) {
+        grid.innerHTML = '<p class="diades__empty">Properament us informarem de les properes diades.</p>';
+        return;
+    }
+
+    var avui = new Date();
+    avui.setHours(0, 0, 0, 0);
+    var data = raw.filter(function(item) {
+        if (!item.date) return true;
+        return new Date(item.date + 'T00:00:00') >= avui;
+    });
+
+    if (data.length === 0) {
         grid.innerHTML = '<p class="diades__empty">Properament us informarem de les properes diades.</p>';
         return;
     }
