@@ -4,14 +4,39 @@
     "text": "Som la Colla Castellera del Baix Montseny, una agrupació nascuda de la passió per la tradició castellera. Des de la nostra fundació, treballem cada dia per construir castells cada vegada més alts, amb els valors de l'esforç col·lectiu, la seguretat i la festa popular."
   },
   "stats": [
-    { "titol": "Castellers", "numero": 150 },
-    { "titol": "Temporades", "numero": 12 },
-    { "titol": "Castells", "numero": 320 }
+    {
+      "titol": "Camises",
+      "numero": 150
+    },
+    {
+      "titol": "Temporades",
+      "numero": 12
+    },
+    {
+      "titol": "Castells descarregats",
+      "numero": 50
+    }
   ],
   "valors": [
-    { "titol": "Passió", "icona": "favorite", "text": "Cada assaig i actuació és fruit de la dedicació i l'amor per la tradició." },
-    { "titol": "Seguretat", "icona": "health_and_safety", "text": "La seguretat és la nostra prioritat. Treballem junts per protegir tothom." },
-    { "titol": "Comunitat", "icona": "handshake", "text": "Som una gran família oberta a tothom qui vulgui viure l'experiència castellera." },
-    { "titol": "Superació", "icona": "trending_up", "text": "Cada castell descarregat és una fita. Sempre busquem superar els nostres límits." }
+    {
+      "titol": "Passió",
+      "text": "Cada assaig i actuació és fruit de la dedicació i l'amor per la tradició.",
+      "icona": "favorite"
+    },
+    {
+      "titol": "Seguretat",
+      "text": "La seguretat és la nostra prioritat. Treballem junts per protegir tothom.",
+      "icona": "health_and_safety"
+    },
+    {
+      "titol": "Comunitat",
+      "text": "Som una gran família oberta a tothom qui vulgui viure l'experiència castellera.",
+      "icona": "handshake"
+    },
+    {
+      "titol": "Superació",
+      "text": "Cada castell descarregat és una fita. Sempre busquem superar els nostres límits.",
+      "icona": "trending_up"
+    }
   ]
 }
