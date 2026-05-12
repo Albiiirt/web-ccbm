@@ -257,8 +257,8 @@ async function main() {
 
     mkdirSync(join(ROOT, 'data'), { recursive: true });
 
-    const [news, gallery, widget, about, diades, equip] = await Promise.all([
-        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades(), fetchEquip()
+    const [news, gallery, widget, about, diades] = await Promise.all([
+        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades()
     ]);
 
     writeFileSync(join(ROOT, 'data', 'news.json'), JSON.stringify(news, null, 2), 'utf-8');
@@ -275,9 +275,6 @@ async function main() {
 
     writeFileSync(join(ROOT, 'data', 'diades.json'), JSON.stringify(diades, null, 2), 'utf-8');
     console.log(`✅ diades.json — ${diades.length} diades`);
-
-    writeFileSync(join(ROOT, 'data', 'equip.json'), JSON.stringify(equip, null, 2), 'utf-8');
-    console.log(`✅ equip.json — ${equip.nodes.filter(n => n.type === 'member').length} membres`);
 
     console.log('🎉 Sincronització completada!');
 }
