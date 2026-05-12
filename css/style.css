@@ -568,7 +568,7 @@ button { cursor: pointer; font-family: inherit; }
     gap: var(--space-md);
 }
 #diades-slider .diada-card {
-    flex: 0 0 280px;
+    flex: 0 0 320px;
 }
 .diades__empty {
     color: rgba(255,255,255,.6);
@@ -641,17 +641,17 @@ button { cursor: pointer; font-family: inherit; }
 }
 .diada-card__desc {
     font-size: .8125rem;
-    color: var(--md-on-surface);
+    color: var(--md-on-surface-variant);
     line-height: 1.5;
     padding-top: 10px;
     border-top: 1px solid var(--md-outline-variant);
-    font-style: italic;
 }
 .diada-card__gcal {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    margin-top: 12px;
+    margin-top: auto;
+    padding-top: 12px;
     font-size: .75rem;
     font-weight: 600;
     color: var(--md-primary);
