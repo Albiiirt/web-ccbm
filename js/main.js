@@ -367,6 +367,9 @@ async function initDiadaGran() {
     if (gran.colles_convidades) metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">groups</span>Colles: ' + escHtml(gran.colles_convidades) + '</div>';
     metaEl.innerHTML = metaHtml;
 
+    var descEl = document.getElementById('dg-desc');
+    if (descEl) descEl.textContent = gran.descripcio || '';
+
     section.hidden = false;
 
     if (!gran.date) return;
