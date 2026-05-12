@@ -912,7 +912,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 .equip__grid {
     display: grid;
-    grid-template-columns: 1fr 1.6fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--space-2xl);
     align-items: center;
 }
@@ -933,7 +933,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 .equip__hint .material-symbols-outlined { font-size: 15px; }
 .equip__graph {
-    height: clamp(380px, 55vh, 620px);
+    aspect-ratio: 1 / 1;
     border-radius: 16px;
     overflow: hidden;
     background: rgba(255,255,255,.03);
@@ -1432,7 +1432,7 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
         grid-template-columns: 1fr;
         gap: var(--space-xl);
     }
-    .equip__graph { height: clamp(320px, 50vh, 480px); }
+    .equip__graph { aspect-ratio: 4 / 3; }
 
     .about__grid {
         grid-template-columns: 1fr;
