@@ -547,9 +547,9 @@ async function initEquip() {
 
     /* Node visual config by type */
     var cfg = {
-        root:      { r: 44, fill: '#01758C', stroke: '#01758C', strokeW: 0, textFill: '#fff', fontSize: 15, fontWeight: 700 },
-        committee: { r: 30, fill: 'rgba(1,117,140,0.18)', stroke: '#01758C', strokeW: 1.5, textFill: '#CCE9EF', fontSize: 10, fontWeight: 600 },
-        member:    { r: 18, fill: 'rgba(255,255,255,0.06)', stroke: 'rgba(1,117,140,0.5)', strokeW: 1, textFill: 'rgba(255,255,255,0.75)', fontSize: 9.5, fontWeight: 400 }
+        root:      { r: 44, fill: '#01758C',              stroke: 'none',              strokeW: 0,   textFill: '#fff',                  fontSize: 15, fontWeight: 700 },
+        committee: { r: 20, fill: 'rgba(1,117,140,0.2)',  stroke: '#01758C',           strokeW: 2,   textFill: '#CCE9EF',               fontSize: 11, fontWeight: 600, labelY: 32 },
+        member:    { r: 16, fill: 'rgba(1,117,140,0.12)', stroke: 'rgba(1,117,140,.7)', strokeW: 1.5, textFill: 'rgba(255,255,255,0.72)', fontSize: 10, fontWeight: 500, labelY: 26 }
     };
 
     var nodes = data.nodes.map(function(d) { return Object.assign({}, d); });
@@ -602,7 +602,9 @@ async function initEquip() {
             return d.type === 'root' ? -700 : d.type === 'committee' ? -350 : -180;
         }))
         .force('center', d3.forceCenter(W / 2, H / 2))
-        .force('collide', d3.forceCollide().radius(function(d) { return cfg[d.type].r + 14; }));
+        .force('collide', d3.forceCollide().radius(function(d) {
+            return d.type === 'root' ? cfg.root.r + 18 : d.type === 'committee' ? 60 : 44;
+        }));
 
     /* ── Links ── */
     var linkEls = svg.append('g').selectAll('line').data(links).join('line')
@@ -659,37 +661,70 @@ async function initEquip() {
         .attr('stroke-width', function(d) { return cfg[d.type].strokeW; })
         .style('filter', function(d) { return d.type === 'root' ? 'url(#glow)' : 'none'; });
 
-    /* Labels (split long labels onto 2 lines) */
+    /* Labels — root: text inside; committee + member: text below */
     nodeEls.each(function(d) {
-        var c = cfg[d.type];
-        var words = d.label.split(' ');
-        var lines = words.length > 2
-            ? [words.slice(0, Math.ceil(words.length / 2)).join(' '), words.slice(Math.ceil(words.length / 2)).join(' ')]
-            : [d.label];
-        var el = d3.select(this).append('text')
-            .attr('text-anchor', 'middle')
-            .attr('fill', c.textFill)
-            .attr('font-size', c.fontSize + 'px')
-            .attr('font-weight', c.fontWeight)
-            .attr('font-family', "'Poppins', sans-serif")
-            .attr('pointer-events', 'none');
-        var lineH = c.fontSize * 1.25;
-        var startDy = -(lines.length - 1) * lineH / 2;
-        lines.forEach(function(line, i) {
-            el.append('tspan')
+        var c   = cfg[d.type];
+        var sel = d3.select(this);
+
+        /* Shared text style helper */
+        function mkText(fill, size, weight) {
+            return sel.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('fill', fill)
+                .attr('font-size', size + 'px')
+                .attr('font-weight', weight)
+                .attr('font-family', "'Poppins', sans-serif")
+                .attr('stroke', '#071318')
+                .attr('stroke-width', 3)
+                .attr('paint-order', 'stroke fill')
+                .attr('pointer-events', 'none');
+        }
+
+        if (d.type === 'root') {
+            /* "CCBM" centrat dins el cercle */
+            mkText('#fff', c.fontSize, c.fontWeight)
+                .attr('dominant-baseline', 'middle')
+                .text(d.label);
+
+        } else if (d.type === 'committee') {
+            /* Etiqueta a sota del cercle, fins a 2 línies */
+            var words = d.label.split(' ');
+            var mid   = Math.ceil(words.length / 2);
+            var lines = words.length > 2
+                ? [words.slice(0, mid).join(' '), words.slice(mid).join(' ')]
+                : [d.label];
+            var el   = mkText(c.textFill, c.fontSize, c.fontWeight);
+            var lineH = c.fontSize * 1.3;
+            el.append('tspan').attr('x', 0).attr('dy', c.labelY + 'px').text(lines[0]);
+            if (lines[1]) el.append('tspan').attr('x', 0).attr('dy', lineH + 'px').text(lines[1]);
+
+        } else {
+            /* Membre: inicial subtil dins el cercle + nom a sota */
+            sel.append('text')
+                .attr('text-anchor', 'middle')
+                .attr('dominant-baseline', 'middle')
+                .attr('fill', 'rgba(255,255,255,0.22)')
+                .attr('font-size', '13px')
+                .attr('font-weight', '700')
+                .attr('font-family', "'Poppins', sans-serif")
+                .attr('pointer-events', 'none')
+                .text(d.label.charAt(0).toUpperCase());
+
+            mkText(c.textFill, c.fontSize, c.fontWeight)
+                .append('tspan')
                 .attr('x', 0)
-                .attr('dy', (i === 0 ? startDy : lineH) + 'px')
-                .text(line);
-        });
+                .attr('dy', c.labelY + 'px')
+                .text(d.label);
+        }
     });
 
     /* ── Tick ── */
     sim.on('tick', function() {
-        /* Clamp nodes inside the SVG */
+        /* Clamp nodes inside the SVG leaving space for external labels */
         nodes.forEach(function(d) {
-            var r = cfg[d.type].r + 4;
-            d.x = Math.max(r, Math.min(W - r, d.x));
-            d.y = Math.max(r, Math.min(H - r, d.y));
+            var pad = d.type === 'root' ? 50 : d.type === 'committee' ? 60 : 50;
+            d.x = Math.max(pad, Math.min(W - pad, d.x));
+            d.y = Math.max(pad, Math.min(H - pad, d.y));
         });
         linkEls
             .attr('x1', function(d) { return d.source.x; })
