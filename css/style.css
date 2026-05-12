@@ -1001,8 +1001,35 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 /* ── GALLERY SLIDER ── */
-.slider-viewport--gallery { padding-bottom: var(--space-lg); }
-.slider--gallery { gap: 12px; }
+.slider-viewport--gallery {
+    padding-bottom: var(--space-lg);
+    cursor: default;
+    /* màscara de desvany als extrems */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    mask-image:         linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+}
+.slider--gallery {
+    gap: 12px;
+    width: max-content;
+    animation: gallery-marquee var(--gallery-duration, 60s) linear infinite;
+    transition: none;
+}
+.slider-viewport--gallery:hover .slider--gallery {
+    animation-play-state: paused;
+}
+@keyframes gallery-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+.gallery__hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .75rem;
+    color: var(--md-on-surface-variant);
+    margin-top: 0;
+}
+.gallery__hint .material-symbols-outlined { font-size: 15px; }
 .gallery-card {
     flex: 0 0 300px;
     aspect-ratio: 3/4;
