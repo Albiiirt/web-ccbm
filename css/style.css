@@ -91,11 +91,13 @@ button { cursor: pointer; font-family: inherit; }
     top: 0; left: 0; right: 0;
     z-index: 100;
     background: transparent;
-    transition: background var(--transition), box-shadow var(--transition);
+    transition: background .3s ease, backdrop-filter .3s ease, box-shadow .3s ease;
 }
 .top-bar.scrolled {
-    background: var(--md-primary-dark);
-    box-shadow: var(--shadow-2);
+    background: rgba(10, 22, 26, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 1px 0 rgba(1,117,140,.2), 0 4px 20px rgba(0,0,0,.35);
 }
 .top-bar__inner {
     display: flex;
