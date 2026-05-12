@@ -961,7 +961,12 @@ button { cursor: pointer; font-family: inherit; }
 /* Graph node styles (applied via D3) */
 .graph-node { cursor: grab; }
 .graph-node:active { cursor: grabbing; }
-.graph-node--member { cursor: pointer; }
+.graph-node--member    { cursor: pointer; }
+.graph-node--committee { cursor: pointer; }
+.graph-node { transition: opacity .25s ease; }
+.graph-node--dimmed { opacity: 0.08; pointer-events: none; }
+.equip__graph svg line { transition: opacity .25s ease; }
+.graph-link--dimmed { opacity: 0.04; }
 
 /* Fitxa membre */
 .equip-fitxa {

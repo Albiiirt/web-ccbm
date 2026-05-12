@@ -655,11 +655,50 @@ async function initEquip() {
             d.fx = null; d.fy = null;
         });
 
-    /* Close fitxa when clicking empty SVG area */
-    svg.on('click', function() { fitxa.classList.remove('is-visible'); });
+    /* ── Focus logic ── */
+    var focusedId = null;
+
+    function getConnectedIds(committeeId) {
+        var ids = new Set([committeeId]);
+        links.forEach(function(l) {
+            var src = typeof l.source === 'object' ? l.source.id : l.source;
+            var tgt = typeof l.target === 'object' ? l.target.id : l.target;
+            if (src === committeeId) ids.add(tgt);
+            if (tgt === committeeId) ids.add(src);
+        });
+        return ids;
+    }
+
+    function applyFocus(committeeId) {
+        focusedId = committeeId;
+        var ids = getConnectedIds(committeeId);
+        nodeEls.classed('graph-node--dimmed', function(n) { return !ids.has(n.id); });
+        linkEls.classed('graph-link--dimmed', function(l) {
+            var src = typeof l.source === 'object' ? l.source.id : l.source;
+            var tgt = typeof l.target === 'object' ? l.target.id : l.target;
+            return src !== committeeId && tgt !== committeeId;
+        });
+    }
+
+    function clearFocus() {
+        focusedId = null;
+        nodeEls.classed('graph-node--dimmed', false);
+        linkEls.classed('graph-link--dimmed', false);
+    }
+
+    /* Close fitxa + clear focus when clicking empty SVG area */
+    svg.on('click', function() {
+        fitxa.classList.remove('is-visible');
+        clearFocus();
+    });
 
     var nodeEls = svg.append('g').selectAll('g').data(nodes).join('g')
-        .attr('class', function(d) { return 'graph-node' + (d.type === 'member' ? ' graph-node--member' : ''); })
+        .attr('class', function(d) {
+            var cls = 'graph-node';
+            if (d.type === 'member') cls += ' graph-node--member';
+            if (d.type === 'committee') cls += ' graph-node--committee';
+            return cls;
+        })
         .call(drag)
         .on('mouseenter', function(event, d) {
             if (d.type !== 'member') return;
@@ -676,9 +715,17 @@ async function initEquip() {
                 .attr('fill', cfg.member.fill);
         })
         .on('click', function(event, d) {
-            if (d.type !== 'member') return;
             event.stopPropagation();
-            showFitxa(d);
+            if (d.type === 'member') {
+                showFitxa(d);
+            } else if (d.type === 'committee') {
+                fitxa.classList.remove('is-visible');
+                if (focusedId === d.id) {
+                    clearFocus();
+                } else {
+                    applyFocus(d.id);
+                }
+            }
         });
 
     /* Circles */
