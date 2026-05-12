@@ -322,30 +322,22 @@ async function initGallerySlider() {
 
     const images = data.map(function(item) { return { src: item.image, caption: item.title || '' }; });
 
-    function makeCard(item, i, clone) {
-        return '<button class="gallery-card"' +
-            (clone ? ' aria-hidden="true" tabindex="-1"' : ' data-index="' + i + '"') +
-            ' aria-label="' + escHtml(item.title || 'Obrir imatge') + '">' +
+    slider.innerHTML = data.map(function(item, i) {
+        return '<button class="gallery-card" data-index="' + i + '" aria-label="' + escHtml(item.title || 'Obrir imatge') + '">' +
             (item.image
                 ? '<img src="' + escHtml(item.image) + '" alt="' + escHtml(item.title || '') + '" loading="lazy">'
                 : '<div class="about__image-placeholder" style="height:100%"><span class="material-symbols-outlined">image</span></div>'
             ) +
             '<div class="gallery-card__overlay"><span class="gallery-card__caption">' + escHtml(item.title || '') + '</span></div>' +
         '</button>';
-    }
-
-    /* Original + còpia per scroll infinit */
-    slider.innerHTML =
-        data.map(function(item, i) { return makeCard(item, i, false); }).join('') +
-        data.map(function(item, i) { return makeCard(item, i, true);  }).join('');
-
-    /* Velocitat proporcional al nombre d'imatges */
-    slider.style.setProperty('--gallery-duration', (data.length * 3.5) + 's');
+    }).join('');
 
     const lb = initLightbox(images);
-    slider.querySelectorAll('.gallery-card[data-index]').forEach(function(card) {
+    slider.querySelectorAll('.gallery-card').forEach(function(card) {
         card.addEventListener('click', function() { lb.show(parseInt(card.dataset.index, 10)); });
     });
+
+    createSlider('gallery-slider', 'gallery-prev', 'gallery-next', 300);
 }
 
 /* ── DIADA GRAN ── */
