@@ -1,35 +1,10 @@
 {
   "nodes": [
-    { "id": "ccbm",       "label": "CCBM",             "type": "root" },
-    { "id": "caps",       "label": "Caps de Colla",    "type": "committee" },
-    { "id": "junta",      "label": "Junta Directiva",  "type": "committee" },
-    { "id": "tresoreria", "label": "Tresoreria",        "type": "committee" },
-    { "id": "secretaria", "label": "Secretaria",        "type": "committee" },
-    { "id": "festes",     "label": "Com. de Festes",   "type": "committee" },
-    { "id": "m1", "label": "Marc G.",  "type": "member", "role": "Cap de Colla", "foto": "https://i.pravatar.cc/150?img=11" },
-    { "id": "m2", "label": "Anna P.",  "type": "member", "role": "Cap de Colla", "foto": "https://i.pravatar.cc/150?img=47" },
-    { "id": "m3", "label": "Jordi S.", "type": "member", "role": "President",    "foto": "https://i.pravatar.cc/150?img=52" },
-    { "id": "m4", "label": "Neus R.",  "type": "member", "role": "Vocal",        "foto": "https://i.pravatar.cc/150?img=53" },
-    { "id": "m5", "label": "Laura M.", "type": "member", "role": "Tresorera",    "foto": "https://i.pravatar.cc/150?img=44" },
-    { "id": "m6", "label": "Pau F.",   "type": "member", "role": "Secretari",    "foto": "https://i.pravatar.cc/150?img=15" },
-    { "id": "m7", "label": "Marta L.", "type": "member", "role": "Vocal",        "foto": "https://i.pravatar.cc/150?img=9"  },
-    { "id": "m8", "label": "David C.", "type": "member", "role": "Vocal",        "foto": "https://i.pravatar.cc/150?img=32" },
-    { "id": "m9", "label": "Sara T.",  "type": "member", "role": "Vocal",        "foto": "https://i.pravatar.cc/150?img=29" }
+    {
+      "id": "ccbm",
+      "label": "CCBM",
+      "type": "root"
+    }
   ],
-  "links": [
-    { "source": "ccbm", "target": "caps" },
-    { "source": "ccbm", "target": "junta" },
-    { "source": "ccbm", "target": "tresoreria" },
-    { "source": "ccbm", "target": "secretaria" },
-    { "source": "ccbm", "target": "festes" },
-    { "source": "caps",       "target": "m1" },
-    { "source": "caps",       "target": "m2" },
-    { "source": "junta",      "target": "m3" },
-    { "source": "junta",      "target": "m4" },
-    { "source": "tresoreria", "target": "m5" },
-    { "source": "secretaria", "target": "m6" },
-    { "source": "festes",     "target": "m7" },
-    { "source": "festes",     "target": "m8" },
-    { "source": "festes",     "target": "m9" }
-  ]
+  "links": []
 }
