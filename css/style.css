@@ -910,13 +910,30 @@ button { cursor: pointer; font-family: inherit; }
     background: #071318;
     padding: var(--space-2xl) 0;
 }
+.equip__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: var(--space-2xl);
+    align-items: center;
+}
 .equip .section__eyebrow { color: var(--md-primary); }
-.equip .section__title   { color: #fff; }
-.equip .section__subtitle { color: rgba(255,255,255,.5); }
+.equip .section__title   { color: #fff; margin-bottom: var(--space-md); }
+.equip__body {
+    color: rgba(255,255,255,.5);
+    font-size: .9375rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-lg);
+}
+.equip__hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .75rem;
+    color: rgba(255,255,255,.25);
+}
+.equip__hint .material-symbols-outlined { font-size: 15px; }
 .equip__graph {
-    width: 100%;
-    height: clamp(420px, 60vh, 680px);
-    margin-top: var(--space-xl);
+    height: clamp(380px, 55vh, 620px);
     border-radius: 16px;
     overflow: hidden;
     background: rgba(255,255,255,.03);
@@ -924,16 +941,6 @@ button { cursor: pointer; font-family: inherit; }
     position: relative;
 }
 .equip__graph svg { display: block; }
-.equip__hint {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-top: var(--space-md);
-    font-size: .75rem;
-    color: rgba(255,255,255,.3);
-}
-.equip__hint .material-symbols-outlined { font-size: 15px; }
 
 /* Graph node styles (applied via D3) */
 .graph-node { cursor: grab; }
@@ -1420,6 +1427,12 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
     .nav-toggle { display: flex; }
 
     .hero__subtitle br { display: none; }
+
+    .equip__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+    .equip__graph { height: clamp(320px, 50vh, 480px); }
 
     .about__grid {
         grid-template-columns: 1fr;
