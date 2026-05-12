@@ -127,13 +127,51 @@ async function fetchWidget() {
     })).filter(item => item.title);
 }
 
+/* ── FETCH ABOUT ── */
+async function fetchAbout() {
+    const dbId = process.env.NOTION_ABOUT_DB_ID;
+    if (!dbId) throw new Error('NOTION_ABOUT_DB_ID no definida');
+
+    const response = await notion.databases.query({
+        database_id: dbId,
+        filter: { property: 'Actiu', checkbox: { equals: true } },
+        sorts: [{ property: 'Ordre', direction: 'ascending' }],
+    });
+
+    const principal = response.results
+        .filter(p => getSelect(p.properties['Tipus']) === 'Principal')
+        .map(p => ({
+            titol: getTitle(p.properties['Títol']),
+            text:  getRichText(p.properties['Text']),
+        }))[0] || null;
+
+    const stats = response.results
+        .filter(p => getSelect(p.properties['Tipus']) === 'Estadística')
+        .map(p => ({
+            titol:  getTitle(p.properties['Títol']),
+            numero: p.properties['Número']?.number ?? 0,
+        }));
+
+    const valors = response.results
+        .filter(p => getSelect(p.properties['Tipus']) === 'Valor')
+        .map(p => ({
+            titol: getTitle(p.properties['Títol']),
+            text:  getRichText(p.properties['Text']),
+            icona: getRichText(p.properties['Icona']) || 'star',
+        }));
+
+    return { principal, stats, valors };
+}
+
 /* ── MAIN ── */
 async function main() {
     console.log('🔄 Sincronitzant dades de Notion...');
 
     mkdirSync(join(ROOT, 'data'), { recursive: true });
 
-    const [news, gallery, widget] = await Promise.all([fetchNews(), fetchGallery(), fetchWidget()]);
+    const [news, gallery, widget, about] = await Promise.all([
+        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout()
+    ]);
 
     writeFileSync(join(ROOT, 'data', 'news.json'), JSON.stringify(news, null, 2), 'utf-8');
     console.log(`✅ news.json — ${news.length} notícies`);
@@ -143,6 +181,9 @@ async function main() {
 
     writeFileSync(join(ROOT, 'data', 'widget.json'), JSON.stringify(widget, null, 2), 'utf-8');
     console.log(`✅ widget.json — ${widget.length} destacats actius`);
+
+    writeFileSync(join(ROOT, 'data', 'about.json'), JSON.stringify(about, null, 2), 'utf-8');
+    console.log(`✅ about.json — ${about.stats.length} estadístiques, ${about.valors.length} valors`);
 
     console.log('🎉 Sincronització completada!');
 }

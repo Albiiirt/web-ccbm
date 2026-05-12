@@ -36,13 +36,14 @@ jobs:
           NOTION_NEWS_DB_ID: ${{ secrets.NOTION_NEWS_DB_ID }}
           NOTION_GALLERY_DB_ID: ${{ secrets.NOTION_GALLERY_DB_ID }}
           NOTION_WIDGET_DB_ID: ${{ secrets.NOTION_WIDGET_DB_ID }}
+          NOTION_ABOUT_DB_ID: ${{ secrets.NOTION_ABOUT_DB_ID }}
         run: node scripts/fetch-notion.js
 
       - name: Commit i push si hi ha canvis
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/news.json data/gallery.json data/widget.json
+          git add data/news.json data/gallery.json data/widget.json data/about.json
           if git diff --staged --quiet; then
             echo "No hi ha canvis nous."
           else

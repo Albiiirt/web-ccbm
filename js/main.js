@@ -340,7 +340,57 @@ async function initGallerySlider() {
     createSlider('gallery-slider', 'gallery-prev', 'gallery-next', 300);
 }
 
+/* ── ABOUT ── */
+
+async function initAbout() {
+    const data = await loadJSON('data/about.json');
+    if (!data) return;
+
+    const titleEl  = document.getElementById('about-title');
+    const bodyEl   = document.getElementById('about-body');
+    const statsEl  = document.getElementById('about-stats');
+    const valorsEl = document.getElementById('about-values');
+
+    if (data.principal && titleEl) titleEl.textContent = data.principal.titol;
+    if (data.principal && bodyEl)  bodyEl.textContent  = data.principal.text;
+
+    if (statsEl && data.stats && data.stats.length) {
+        statsEl.innerHTML = data.stats.map(function(s) {
+            return '<div class="stat">' +
+                '<span class="stat__number" data-target="' + s.numero + '">0</span>' +
+                '<span class="stat__label">' + escHtml(s.titol) + '</span>' +
+            '</div>';
+        }).join('');
+
+        const statsBlock = document.querySelector('.about__stats');
+        if (statsBlock) {
+            new IntersectionObserver(function(entries) {
+                if (entries[0].isIntersecting) {
+                    statsBlock.querySelectorAll('.stat__number').forEach(animateCounter);
+                }
+            }, { threshold: 0.5 }).observe(statsBlock);
+        }
+    }
+
+    if (valorsEl && data.valors && data.valors.length) {
+        valorsEl.innerHTML = data.valors.map(function(v) {
+            return '<div class="value-card fade-in-up">' +
+                '<div class="value-card__icon-wrap">' +
+                    '<span class="material-symbols-outlined">' + escHtml(v.icona) + '</span>' +
+                '</div>' +
+                '<h3 class="value-card__title">' + escHtml(v.titol) + '</h3>' +
+                '<p class="value-card__text">' + escHtml(v.text) + '</p>' +
+            '</div>';
+        }).join('');
+
+        valorsEl.querySelectorAll('.value-card').forEach(function(el) {
+            fadeObs.observe(el);
+        });
+    }
+}
+
 /* ── INIT ── */
+initAbout();
 initWidget();
 initNewsSlider();
 initGallerySlider();
