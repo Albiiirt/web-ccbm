@@ -385,10 +385,11 @@ button { cursor: pointer; font-family: inherit; }
 }
 .hero__title {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 900;
-    line-height: 1.05;
+    line-height: 1.1;
     margin-bottom: var(--space-md);
+    white-space: nowrap;
 }
 .hero__title em {
     font-style: normal;
@@ -1145,7 +1146,7 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
 @media (max-width: 480px) {
     :root { --space-3xl: 64px; }
 
-    .hero__title { font-size: 2.25rem; }
+    .hero__title { font-size: 2.25rem; white-space: normal; }
     .hero__actions { flex-direction: column; }
     .hero__actions .btn { justify-content: center; }
 
