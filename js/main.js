@@ -466,19 +466,12 @@ async function initDiades() {
     }).join('');
 
     if (data.length > 3) {
-        var controls = document.getElementById('diades-slider-controls');
-        if (controls) controls.hidden = false;
+        document.getElementById('diades-slider-controls').hidden = false;
+        grid.hidden = true;
 
-        var vp = document.createElement('div');
-        vp.className = 'slider-viewport';
-
-        var sl = document.createElement('div');
-        sl.className = 'slider diades__slider';
-        sl.id = 'diades-slider';
-        sl.innerHTML = cardsHtml;
-
-        vp.appendChild(sl);
-        grid.replaceWith(vp);
+        var sliderEl = document.getElementById('diades-slider');
+        sliderEl.innerHTML = cardsHtml;
+        document.getElementById('diades-slider-viewport').hidden = false;
 
         createSlider('diades-slider', 'diades-prev', 'diades-next', 280);
     } else {
