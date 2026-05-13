@@ -470,7 +470,7 @@ async function initDiades() {
                 (item.lloc              ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(item.lloc) + '</p>' : '') +
                 (item.hora              ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(item.hora) + '</p>' : '') +
                 (item.colla_amfitriona  ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">home</span>Amfitriona: ' + escHtml(item.colla_amfitriona) + '</p>' : '') +
-                (item.colles_convidades ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">groups</span>' + escHtml(item.colles_convidades) + '</p>' : '') +
+                (item.colles_convidades ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">groups</span><span>' + item.colles_convidades.split('\n').filter(function(s){ return s.trim(); }).map(escHtml).join('<br>') + '</span></p>' : '') +
             '</div>' +
             (item.descripcio ? '<p class="diada-card__desc">' + escHtml(item.descripcio) + '</p>' : '') +
             (buildGCalUrl(item) ? '<a href="' + buildGCalUrl(item) + '" target="_blank" rel="noopener" class="diada-card__gcal"><span class="material-symbols-outlined">calendar_add_on</span>Afegir al calendari</a>' : '') +
