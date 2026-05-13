@@ -123,6 +123,36 @@ function showFeedback(type, msg) {
     setTimeout(() => { feedback.className = 'form-feedback'; }, 6000);
 }
 
+/* ── BOOK FORM (Contractacions) ── */
+const bookForm      = document.getElementById('book-form');
+const bookFeedback  = document.getElementById('book-feedback');
+const bookSubmitBtn = document.getElementById('book-submit');
+
+if (bookForm) {
+    bookForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        bookSubmitBtn.disabled = true;
+        bookSubmitBtn.innerHTML = '<span class="material-symbols-outlined rotating">autorenew</span> Enviant…';
+        try {
+            const res = await fetch(bookForm.action, { method: 'POST', body: new FormData(bookForm), headers: { Accept: 'application/json' } });
+            if (res.ok) { bookForm.reset(); showBookFeedback('success', '✓ Sol·licitud enviada! Us contactarem aviat.'); }
+            else showBookFeedback('error', 'Hi ha hagut un error. Torna-ho a intentar.');
+        } catch {
+            showBookFeedback('error', 'Sense connexió. Comprova internet i torna-ho a intentar.');
+        } finally {
+            bookSubmitBtn.disabled = false;
+            bookSubmitBtn.innerHTML = '<span class="material-symbols-outlined">request_quote</span> Demanar pressupost';
+        }
+    });
+}
+
+function showBookFeedback(type, msg) {
+    bookFeedback.className = `form-feedback ${type}`;
+    bookFeedback.textContent = msg;
+    bookFeedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    setTimeout(() => { bookFeedback.className = 'form-feedback'; }, 6000);
+}
+
 /* ── INIT ── */
 initWidget();
 initNewsSlider();

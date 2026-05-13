@@ -27,9 +27,10 @@
                 <a href="#diades"    class="nav-link">Diades</a>
                 <a href="#noticias"  class="nav-link">Notícies</a>
                 <a href="#nosaltres" class="nav-link">Nosaltres</a>
-                <a href="#equip"     class="nav-link">Equip</a>
-                <a href="#galeria"   class="nav-link">Galeria</a>
-                <a href="#contacte"  class="nav-link">Contacte</a>
+                <a href="#equip"          class="nav-link">Equip</a>
+                <a href="#galeria"        class="nav-link">Galeria</a>
+                <a href="#contractacions" class="nav-link">Contractacions</a>
+                <a href="#contacte"       class="nav-link">Contacte</a>
             </nav>
             <button class="nav-toggle" id="nav-toggle" aria-label="Obrir menú" aria-expanded="false" aria-controls="mobile-drawer">
                 <span class="material-symbols-outlined">menu</span>
@@ -62,7 +63,10 @@
         <a href="#galeria"   class="mobile-drawer__link">
             <span class="material-symbols-outlined">photo_library</span>Galeria
         </a>
-        <a href="#contacte"  class="mobile-drawer__link">
+        <a href="#contractacions" class="mobile-drawer__link">
+            <span class="material-symbols-outlined">request_quote</span>Contractacions
+        </a>
+        <a href="#contacte" class="mobile-drawer__link">
             <span class="material-symbols-outlined">mail</span>Contacte
         </a>
     </nav>
@@ -274,7 +278,99 @@
             </button>
         </div>
 
-        <!-- 5. CONTACT -->
+        <!-- 5. CONTRACTACIONS -->
+        <section id="contractacions" class="section">
+            <div class="container">
+                <div class="contact__grid">
+                    <div class="contact__info">
+                        <span class="section__eyebrow">Contractacions</span>
+                        <h2 class="section__title">Ens vols<br>contractar?</h2>
+                        <p class="contact__body">Si representeu una entitat, empresa o organisme i voleu comptar amb la nostra actuació per al vostre acte, esteu al lloc correcte. Ompliu el formulari i us enviarem un pressupost personalitzat sense compromís.</p>
+                        <ul class="contact__details">
+                            <li class="contact__detail">
+                                <span class="material-symbols-outlined">castle</span>
+                                <span>Castells, torres i pilars</span>
+                            </li>
+                            <li class="contact__detail">
+                                <span class="material-symbols-outlined">music_note</span>
+                                <span>Gralla i percussió</span>
+                            </li>
+                            <li class="contact__detail">
+                                <span class="material-symbols-outlined">event</span>
+                                <span>Festes Majors, actes corporatius i celebracions privades</span>
+                            </li>
+                            <li class="contact__detail">
+                                <span class="material-symbols-outlined">mail</span>
+                                <a href="mailto:info@ccbm.cat">info@ccbm.cat</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <form class="contact__form" id="book-form"
+                          action="https://api.web3forms.com/submit"
+                          method="POST">
+                        <input type="hidden" name="access_key" value="ce1bf764-1dc6-4a58-b4f5-ca27059acd0c">
+                        <input type="hidden" name="subject" value="Nova sol·licitud de contractació - CCBM">
+                        <input type="checkbox" name="botcheck" style="display:none">
+
+                        <div class="field">
+                            <input type="text" id="b-entity" name="entitat" class="field__input" placeholder=" " required>
+                            <label for="b-entity" class="field__label">Entitat o promotor</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field">
+                            <input type="text" id="b-contact" name="persona_contacte" class="field__input" placeholder=" " required>
+                            <label for="b-contact" class="field__label">Persona de contacte</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field">
+                            <input type="email" id="b-email" name="email" class="field__input" placeholder=" " required>
+                            <label for="b-email" class="field__label">Correu electrònic</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field">
+                            <input type="tel" id="b-phone" name="telefon" class="field__input" placeholder=" " required>
+                            <label for="b-phone" class="field__label">Telèfon</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field field--date">
+                            <input type="date" id="b-date" name="data_acte" class="field__input">
+                            <label for="b-date" class="field__label">Data prevista de l'acte</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field">
+                            <input type="text" id="b-place" name="lloc_acte" class="field__input" placeholder=" ">
+                            <label for="b-place" class="field__label">Lloc de l'acte (opcional)</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field field--select">
+                            <select id="b-type" name="tipus_acte" class="field__input" required>
+                                <option value="" disabled selected></option>
+                                <option value="festa-major">Festa Major</option>
+                                <option value="corporatiu">Acte corporatiu</option>
+                                <option value="privat">Celebració privada</option>
+                                <option value="inauguracio">Inauguració</option>
+                                <option value="altres">Altres</option>
+                            </select>
+                            <label for="b-type" class="field__label field__label--select">Tipus d'acte</label>
+                            <span class="material-symbols-outlined field__select-arrow">expand_more</span>
+                            <div class="field__outline"></div>
+                        </div>
+                        <div class="field field--textarea">
+                            <textarea id="b-message" name="missatge" class="field__input" placeholder=" " rows="4"></textarea>
+                            <label for="b-message" class="field__label">Descripció de l'acte (opcional)</label>
+                            <div class="field__outline"></div>
+                        </div>
+                        <button type="submit" class="btn btn--filled btn--full" id="book-submit">
+                            <span class="material-symbols-outlined">request_quote</span>
+                            Demanar pressupost
+                        </button>
+                        <div class="form-feedback" id="book-feedback" aria-live="polite"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. CONTACT -->
         <section id="contacte" class="section section--alt">
             <div class="container">
                 <div class="contact__grid">
@@ -300,8 +396,7 @@
                     <form class="contact__form" id="contact-form"
                           action="https://api.web3forms.com/submit"
                           method="POST">
-                        <!-- Substitueix YOUR_ACCESS_KEY pel teu de web3forms.com -->
-                        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
+                        <input type="hidden" name="access_key" value="ce1bf764-1dc6-4a58-b4f5-ca27059acd0c">
                         <input type="hidden" name="subject" value="Nou missatge des de la web CCBM">
                         <input type="checkbox" name="botcheck" style="display:none">
 
@@ -375,7 +470,7 @@
                     <a href="#nosaltres" class="footer__link">Història</a>
                     <a href="#nosaltres" class="footer__link">Valors</a>
                     <a href="#contacte" class="footer__link">Uneix-te</a>
-                    <a href="#contacte" class="footer__link">Actuacions</a>
+                    <a href="#contractacions" class="footer__link">Contractacions</a>
                 </div>
             </div>
             <div class="footer__bottom">
