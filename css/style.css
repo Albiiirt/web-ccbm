@@ -473,12 +473,12 @@ button { cursor: pointer; font-family: inherit; }
 }
 .diada-gran__meta-item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 6px;
     font-size: .9375rem;
     color: rgba(255,255,255,.7);
 }
-.diada-gran__meta-item .material-symbols-outlined { font-size: 18px; color: var(--md-primary); }
+.diada-gran__meta-item .material-symbols-outlined { font-size: 18px; color: var(--md-primary); flex-shrink: 0; margin-top: 2px; line-height: 1; }
 .diada-gran__desc {
     margin-top: var(--space-md);
     font-size: .9375rem;
