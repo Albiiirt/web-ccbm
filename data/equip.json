@@ -251,6 +251,13 @@
       "type": "member",
       "role": "Esdeveniments",
       "foto": null
+    },
+    {
+      "id": "m-26",
+      "label": "Aina",
+      "type": "member",
+      "role": "Comunicació",
+      "foto": null
     }
   ],
   "links": [
@@ -449,6 +456,10 @@
     {
       "source": "c-esdeveniments",
       "target": "m-25"
+    },
+    {
+      "source": "c-comunicacio",
+      "target": "m-26"
     }
   ]
 }
