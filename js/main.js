@@ -367,7 +367,7 @@ async function initDiadaGran() {
     if (gran.lloc)              metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(gran.lloc) + '</div>';
     if (gran.hora)              metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(gran.hora) + '</div>';
     if (gran.colla_amfitriona)  metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">home</span>Amfitriona: ' + escHtml(gran.colla_amfitriona) + '</div>';
-    if (gran.colles_convidades) metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">groups</span>Colles: ' + escHtml(gran.colles_convidades) + '</div>';
+    if (gran.colles_convidades) metaHtml += '<div class="diada-gran__meta-item"><span class="material-symbols-outlined">groups</span><span>Colles:<br>' + gran.colles_convidades.split('\n').filter(function(s){ return s.trim(); }).map(escHtml).join('<br>') + '</span></div>';
     metaEl.innerHTML = metaHtml;
 
     var descEl = document.getElementById('dg-desc');
