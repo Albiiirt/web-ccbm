@@ -547,13 +547,64 @@ async function initAbout() {
 
 /* ── EQUIP GRAPH ── */
 
+function buildEquipAccordion(data, accordionEl) {
+    // Group members by committee using links
+    var committees = {};
+    var memberById = {};
+    data.nodes.forEach(function(n) {
+        if (n.type === 'committee') committees[n.id] = { label: n.label, members: [] };
+        if (n.type === 'member') memberById[n.id] = n;
+    });
+    data.links.forEach(function(l) {
+        var src = typeof l.source === 'object' ? l.source.id : l.source;
+        var tgt = typeof l.target === 'object' ? l.target.id : l.target;
+        if (committees[src] && memberById[tgt]) {
+            committees[src].members.push(memberById[tgt]);
+        }
+    });
+
+    var html = '';
+    Object.values(committees).forEach(function(c) {
+        if (!c.members.length) return;
+        html += '<div class="equip-acc">' +
+            '<button class="equip-acc__header" aria-expanded="false">' +
+            escHtml(c.label) +
+            '<span class="equip-acc__count">' + c.members.length + '</span>' +
+            '<span class="material-symbols-outlined equip-acc__chevron" aria-hidden="true">expand_more</span>' +
+            '</button>' +
+            '<ul class="equip-acc__list">' +
+            c.members.map(function(m) {
+                return '<li class="equip-acc__member">' +
+                    '<span class="equip-acc__nom">' + escHtml(m.label) + '</span>' +
+                    (m.role ? '<span class="equip-acc__rol">' + escHtml(m.role) + '</span>' : '') +
+                    '</li>';
+            }).join('') +
+            '</ul></div>';
+    });
+
+    accordionEl.innerHTML = html;
+    accordionEl.querySelectorAll('.equip-acc__header').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var acc = btn.closest('.equip-acc');
+            var open = acc.classList.toggle('is-open');
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+    });
+}
+
 async function initEquip() {
-    if (typeof d3 === 'undefined') return;
-    var container = document.getElementById('equip-graph');
+    var container  = document.getElementById('equip-graph');
+    var accordionEl = document.getElementById('equip-accordion');
     if (!container) return;
 
     var data = await loadJSON('data/equip.json');
     if (!data || !data.nodes) return;
+
+    // Always build the mobile accordion
+    if (accordionEl) buildEquipAccordion(data, accordionEl);
+
+    // Only build D3 graph on desktop
+    if (typeof d3 === 'undefined' || window.innerWidth <= 768) return;
 
     var W = container.clientWidth;
     var H = container.clientHeight;
