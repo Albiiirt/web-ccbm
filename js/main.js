@@ -31,10 +31,13 @@ function formatDate(dateStr) {
 /* ── TOP BAR SCROLL ── */
 
 const topBar = document.getElementById('top-bar');
-window.addEventListener('scroll', () => {
-    topBar.classList.toggle('scrolled', window.scrollY > 60);
-}, { passive: true });
-topBar.classList.toggle('scrolled', window.scrollY > 60);
+function updateTopBar() {
+    const hero = document.getElementById('hero');
+    const threshold = hero ? hero.offsetHeight * 0.6 : 200;
+    topBar.classList.toggle('scrolled', window.scrollY > threshold);
+}
+window.addEventListener('scroll', updateTopBar, { passive: true });
+updateTopBar();
 
 /* ── MOBILE DRAWER ── */
 
@@ -820,32 +823,38 @@ async function initEquip() {
 
 /* ── ACTIVE NAV ── */
 function initActiveNav() {
-    var navLinks    = document.querySelectorAll('.nav-link[href^="#"], .mobile-drawer__link[href^="#"]');
-    var sections    = ['diades', 'noticias', 'nosaltres', 'equip', 'galeria', 'contacte'];
-    var activeId    = null;
+    var navLinks = document.querySelectorAll('.nav-link[href^="#"], .mobile-drawer__link[href^="#"]');
+    var sectionIds = ['diades', 'noticias', 'nosaltres', 'equip', 'galeria', 'contacte'];
+    var activeId = null;
+    var ticking = false;
 
     function setActive(id) {
         if (id === activeId) return;
         activeId = id;
         navLinks.forEach(function(a) {
-            var matches = a.getAttribute('href') === '#' + id;
-            a.classList.toggle('active', matches);
+            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
         });
-        if (id && history.replaceState) {
-            history.replaceState(null, '', '#' + id);
-        }
+        if (id && history.replaceState) history.replaceState(null, '', '#' + id);
     }
 
-    var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting) setActive(entry.target.id);
+    function update() {
+        var trigger = window.innerHeight * 0.35; // 35% from top of viewport
+        var best = null;
+        sectionIds.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            var top = el.getBoundingClientRect().top;
+            if (top <= trigger) best = id;
         });
-    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+        if (best) setActive(best);
+        ticking = false;
+    }
 
-    sections.forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) observer.observe(el);
-    });
+    window.addEventListener('scroll', function() {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+
+    update();
 }
 
 /* ── INIT ── */

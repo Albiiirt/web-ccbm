@@ -14,6 +14,26 @@
 
     <link rel="stylesheet" href="css/style.css">
     <style>
+        .btn--back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .875rem;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1.5px solid rgba(255,255,255,.35);
+            transition: background .2s, border-color .2s;
+        }
+        .btn--back:hover {
+            background: rgba(255,255,255,.15);
+            border-color: rgba(255,255,255,.6);
+        }
+        .btn--back .material-symbols-outlined {
+            font-size: 18px;
+        }
         .agenda-hero {
             background: var(--md-primary);
             color: #fff;
@@ -80,41 +100,13 @@
                 <img src="logo-ccbm/logo-ccbm.svg" alt="Logo CCBM" class="top-bar__logo-img">
                 <span class="top-bar__title">CCBM</span>
             </a>
-            <nav class="top-bar__nav" id="main-nav" aria-label="Navegació principal">
-                <a href="index.html#noticias" class="nav-link">Notícies</a>
-                <a href="index.html#nosaltres" class="nav-link">Nosaltres</a>
-                <a href="index.html#galeria" class="nav-link">Galeria</a>
-                <a href="index.html#contacte" class="nav-link">Contacte</a>
-            </nav>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Obrir menú" aria-expanded="false" aria-controls="mobile-drawer">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
+            <a href="index.html" class="btn btn--ghost btn--back">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Tornar
+            </a>
         </div>
     </header>
 
-    <!-- MOBILE DRAWER -->
-    <div class="drawer-backdrop" id="drawer-backdrop"></div>
-    <nav class="mobile-drawer" id="mobile-drawer" aria-label="Menú mòbil">
-        <div class="mobile-drawer__header">
-            <img src="logo-ccbm/logo-ccbm.svg" alt="Logo CCBM" class="top-bar__logo-img">
-            <span class="top-bar__title" style="color:var(--md-primary)">CCBM</span>
-            <button class="drawer-close" id="drawer-close" aria-label="Tancar menú">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-        </div>
-        <a href="index.html#noticias" class="mobile-drawer__link">
-            <span class="material-symbols-outlined">newspaper</span>Notícies
-        </a>
-        <a href="index.html#nosaltres" class="mobile-drawer__link">
-            <span class="material-symbols-outlined">groups</span>Nosaltres
-        </a>
-        <a href="index.html#galeria" class="mobile-drawer__link">
-            <span class="material-symbols-outlined">photo_library</span>Galeria
-        </a>
-        <a href="index.html#contacte" class="mobile-drawer__link">
-            <span class="material-symbols-outlined">mail</span>Contacte
-        </a>
-    </nav>
 
     <main>
 
@@ -179,6 +171,10 @@
         </div>
     </footer>
 
+    <script>
+        // Interior page: header always shows dark background
+        document.getElementById('top-bar').classList.add('scrolled');
+    </script>
     <script src="js/main.js" defer></script>
 
 </body>
