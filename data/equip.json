@@ -4,7 +4,451 @@
       "id": "ccbm",
       "label": "CCBM",
       "type": "root"
+    },
+    {
+      "id": "c-cap-de-colla",
+      "label": "Cap de Colla",
+      "type": "committee"
+    },
+    {
+      "id": "c-pilars",
+      "label": "Pilars",
+      "type": "committee"
+    },
+    {
+      "id": "c-troncs",
+      "label": "Troncs",
+      "type": "committee"
+    },
+    {
+      "id": "c-sanitaris",
+      "label": "Sanitaris",
+      "type": "committee"
+    },
+    {
+      "id": "c-pinyes",
+      "label": "Pinyes",
+      "type": "committee"
+    },
+    {
+      "id": "c-genere-i-igualtat",
+      "label": "Gènere i Igualtat",
+      "type": "committee"
+    },
+    {
+      "id": "c-comunicacio",
+      "label": "Comunicació",
+      "type": "committee"
+    },
+    {
+      "id": "c-junta",
+      "label": "Junta",
+      "type": "committee"
+    },
+    {
+      "id": "c-benvinguda",
+      "label": "Benvinguda",
+      "type": "committee"
+    },
+    {
+      "id": "c-canalla",
+      "label": "Canalla",
+      "type": "committee"
+    },
+    {
+      "id": "c-merxandatge",
+      "label": "Merxandatge",
+      "type": "committee"
+    },
+    {
+      "id": "c-musics",
+      "label": "Músics",
+      "type": "committee"
+    },
+    {
+      "id": "c-esdeveniments",
+      "label": "Esdeveniments",
+      "type": "committee"
+    },
+    {
+      "id": "m-0",
+      "label": "Àlex Benito",
+      "type": "member",
+      "role": "Cap de Colla · Cap de Pilars",
+      "foto": null
+    },
+    {
+      "id": "m-1",
+      "label": "Mireia Lozano",
+      "type": "member",
+      "role": "Cap de Colla · Troncs",
+      "foto": null
+    },
+    {
+      "id": "m-2",
+      "label": "Aran Sala",
+      "type": "member",
+      "role": "Cap de Troncs",
+      "foto": null
+    },
+    {
+      "id": "m-3",
+      "label": "Lluc Carbonell",
+      "type": "member",
+      "role": "Troncs · Sanitaris",
+      "foto": null
+    },
+    {
+      "id": "m-4",
+      "label": "Lluc Artigal",
+      "type": "member",
+      "role": "Cap de Pinyes",
+      "foto": null
+    },
+    {
+      "id": "m-5",
+      "label": "Vinyet Baixes",
+      "type": "member",
+      "role": "Pinyes · Gènere i Igualtat",
+      "foto": null
+    },
+    {
+      "id": "m-6",
+      "label": "Clara Sobrequés",
+      "type": "member",
+      "role": "Cap de Comunicació · Pinyes",
+      "foto": null
+    },
+    {
+      "id": "m-7",
+      "label": "Núria Garcia",
+      "type": "member",
+      "role": "Pinyes · Tresoreria",
+      "foto": null
+    },
+    {
+      "id": "m-8",
+      "label": "Andreu Casadevall",
+      "type": "member",
+      "role": "Cap de Benvinguda · Pinyes",
+      "foto": null
+    },
+    {
+      "id": "m-9",
+      "label": "Ona Miró",
+      "type": "member",
+      "role": "Pilars · Secretaria",
+      "foto": null
+    },
+    {
+      "id": "m-10",
+      "label": "Eloy Gonzalez",
+      "type": "member",
+      "role": "Pilars",
+      "foto": null
+    },
+    {
+      "id": "m-11",
+      "label": "Anna Escolà",
+      "type": "member",
+      "role": "Cap de Canalla",
+      "foto": null
+    },
+    {
+      "id": "m-12",
+      "label": "Núria Marchante",
+      "type": "member",
+      "role": "Canalla",
+      "foto": null
+    },
+    {
+      "id": "m-13",
+      "label": "Marta Ninou",
+      "type": "member",
+      "role": "Presidenta",
+      "foto": null
+    },
+    {
+      "id": "m-14",
+      "label": "Agnès Blasco",
+      "type": "member",
+      "role": "Tresoreria",
+      "foto": null
+    },
+    {
+      "id": "m-15",
+      "label": "Sílvia Moya",
+      "type": "member",
+      "role": "Cap de Sanitaris",
+      "foto": null
+    },
+    {
+      "id": "m-16",
+      "label": "Martí Casals",
+      "type": "member",
+      "role": "Sanitaris · Benvinguda · Merxandatge",
+      "foto": null
+    },
+    {
+      "id": "m-17",
+      "label": "Júlia Casals",
+      "type": "member",
+      "role": "Sanitaris",
+      "foto": null
+    },
+    {
+      "id": "m-18",
+      "label": "Albert Canadés",
+      "type": "member",
+      "role": "Comunicació",
+      "foto": null
+    },
+    {
+      "id": "m-19",
+      "label": "Marc Sobrino",
+      "type": "member",
+      "role": "Comunicació",
+      "foto": null
+    },
+    {
+      "id": "m-20",
+      "label": "Laura Postico",
+      "type": "member",
+      "role": "Comunicació",
+      "foto": null
+    },
+    {
+      "id": "m-21",
+      "label": "Arnau Coronado",
+      "type": "member",
+      "role": "Músics",
+      "foto": null
+    },
+    {
+      "id": "m-22",
+      "label": "Enric Nogueiro",
+      "type": "member",
+      "role": "Cap de Merxandatge",
+      "foto": null
+    },
+    {
+      "id": "m-23",
+      "label": "Ona Perxachs",
+      "type": "member",
+      "role": "Merxandatge",
+      "foto": null
+    },
+    {
+      "id": "m-24",
+      "label": "Ramon Coll",
+      "type": "member",
+      "role": "Cap d'Esdeveniments",
+      "foto": null
+    },
+    {
+      "id": "m-25",
+      "label": "Adrià Naranjo",
+      "type": "member",
+      "role": "Esdeveniments",
+      "foto": null
     }
   ],
-  "links": []
+  "links": [
+    {
+      "source": "ccbm",
+      "target": "c-cap-de-colla"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-pilars"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-troncs"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-sanitaris"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-pinyes"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-genere-i-igualtat"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-comunicacio"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-junta"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-benvinguda"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-canalla"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-merxandatge"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-musics"
+    },
+    {
+      "source": "ccbm",
+      "target": "c-esdeveniments"
+    },
+    {
+      "source": "c-cap-de-colla",
+      "target": "m-0"
+    },
+    {
+      "source": "c-pilars",
+      "target": "m-0"
+    },
+    {
+      "source": "c-cap-de-colla",
+      "target": "m-1"
+    },
+    {
+      "source": "c-troncs",
+      "target": "m-1"
+    },
+    {
+      "source": "c-troncs",
+      "target": "m-2"
+    },
+    {
+      "source": "c-troncs",
+      "target": "m-3"
+    },
+    {
+      "source": "c-sanitaris",
+      "target": "m-3"
+    },
+    {
+      "source": "c-pinyes",
+      "target": "m-4"
+    },
+    {
+      "source": "c-pinyes",
+      "target": "m-5"
+    },
+    {
+      "source": "c-genere-i-igualtat",
+      "target": "m-5"
+    },
+    {
+      "source": "c-pinyes",
+      "target": "m-6"
+    },
+    {
+      "source": "c-comunicacio",
+      "target": "m-6"
+    },
+    {
+      "source": "c-pinyes",
+      "target": "m-7"
+    },
+    {
+      "source": "c-junta",
+      "target": "m-7"
+    },
+    {
+      "source": "c-pinyes",
+      "target": "m-8"
+    },
+    {
+      "source": "c-benvinguda",
+      "target": "m-8"
+    },
+    {
+      "source": "c-pilars",
+      "target": "m-9"
+    },
+    {
+      "source": "c-junta",
+      "target": "m-9"
+    },
+    {
+      "source": "c-pilars",
+      "target": "m-10"
+    },
+    {
+      "source": "c-canalla",
+      "target": "m-11"
+    },
+    {
+      "source": "c-canalla",
+      "target": "m-12"
+    },
+    {
+      "source": "c-junta",
+      "target": "m-13"
+    },
+    {
+      "source": "c-junta",
+      "target": "m-14"
+    },
+    {
+      "source": "c-sanitaris",
+      "target": "m-15"
+    },
+    {
+      "source": "c-sanitaris",
+      "target": "m-16"
+    },
+    {
+      "source": "c-benvinguda",
+      "target": "m-16"
+    },
+    {
+      "source": "c-merxandatge",
+      "target": "m-16"
+    },
+    {
+      "source": "c-sanitaris",
+      "target": "m-17"
+    },
+    {
+      "source": "c-comunicacio",
+      "target": "m-18"
+    },
+    {
+      "source": "c-comunicacio",
+      "target": "m-19"
+    },
+    {
+      "source": "c-comunicacio",
+      "target": "m-20"
+    },
+    {
+      "source": "c-musics",
+      "target": "m-21"
+    },
+    {
+      "source": "c-merxandatge",
+      "target": "m-22"
+    },
+    {
+      "source": "c-merxandatge",
+      "target": "m-23"
+    },
+    {
+      "source": "c-esdeveniments",
+      "target": "m-24"
+    },
+    {
+      "source": "c-esdeveniments",
+      "target": "m-25"
+    }
+  ]
 }
