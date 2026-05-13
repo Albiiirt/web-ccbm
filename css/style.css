@@ -570,6 +570,11 @@ button { cursor: pointer; font-family: inherit; }
 #diades-slider .diada-card {
     flex: 0 0 320px;
 }
+#diades-slider::after {
+    content: '';
+    flex-shrink: 0;
+    width: var(--container-pad);
+}
 .diades__empty {
     color: rgba(255,255,255,.6);
     font-size: .9375rem;

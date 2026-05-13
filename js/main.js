@@ -485,7 +485,9 @@ async function initDiades() {
         sliderEl.innerHTML = cardsHtml;
         document.getElementById('diades-slider-viewport').hidden = false;
 
-        createSlider('diades-slider', 'diades-prev', 'diades-next', 280);
+        requestAnimationFrame(function() {
+            createSlider('diades-slider', 'diades-prev', 'diades-next', 320);
+        });
     } else {
         grid.innerHTML = cardsHtml;
     }
