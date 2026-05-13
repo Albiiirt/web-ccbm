@@ -46,6 +46,10 @@ function getCheckbox(prop) {
     return prop?.checkbox ?? false;
 }
 
+function getMultiSelect(prop) {
+    return prop?.multi_select?.map(s => s.name) ?? [];
+}
+
 function getFile(prop) {
     const files = prop?.files ?? [];
     if (files.length === 0) return null;
@@ -214,28 +218,30 @@ async function fetchEquip() {
     });
 
     const members = response.results.map(page => ({
-        nom:      getTitle(page.properties['Nom']),
-        foto:     getUrl(page.properties['Foto']),
-        carrec:   getRichText(page.properties['Càrrec']),
-        comissio: getSelect(page.properties['Comissió']),
-    })).filter(m => m.nom && m.comissio);
+        nom:       getTitle(page.properties['Nom']),
+        foto:      getUrl(page.properties['Foto']),
+        carrec:    getRichText(page.properties['Càrrec']),
+        comissions: getMultiSelect(page.properties['Comissió']),
+    })).filter(m => m.nom && m.comissions.length > 0);
 
-    // Construïm els nodes de comissió a partir dels membres
-    const committeeIds = {};
+    // Comissions úniques → IDs estables
+    const committeeMap = {};
     members.forEach(m => {
-        if (!committeeIds[m.comissio]) {
-            committeeIds[m.comissio] = 'c-' + m.comissio
-                .toLowerCase()
-                .normalize('NFD').replace(/[̀-ͯ]/g, '')
-                .replace(/[^a-z0-9]+/g, '-');
-        }
+        m.comissions.forEach(c => {
+            if (!committeeMap[c]) {
+                committeeMap[c] = 'c-' + c
+                    .toLowerCase()
+                    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+                    .replace(/[^a-z0-9]+/g, '-');
+            }
+        });
     });
 
     const nodes = [
         { id: 'ccbm', label: 'CCBM', type: 'root' },
-        ...Object.entries(committeeIds).map(([label, id]) => ({ id, label, type: 'committee' })),
+        ...Object.entries(committeeMap).map(([label, id]) => ({ id, label, type: 'committee' })),
         ...members.map((m, i) => ({
-            id:    'm-' + i,
+            id:   'm-' + i,
             label: m.nom,
             type:  'member',
             role:  m.carrec,
@@ -244,8 +250,10 @@ async function fetchEquip() {
     ];
 
     const links = [
-        ...Object.values(committeeIds).map(id => ({ source: 'ccbm', target: id })),
-        ...members.map((m, i) => ({ source: committeeIds[m.comissio], target: 'm-' + i })),
+        ...Object.values(committeeMap).map(id => ({ source: 'ccbm', target: id })),
+        ...members.flatMap((m, i) =>
+            m.comissions.map(c => ({ source: committeeMap[c], target: 'm-' + i }))
+        ),
     ];
 
     return { nodes, links };
@@ -257,8 +265,8 @@ async function main() {
 
     mkdirSync(join(ROOT, 'data'), { recursive: true });
 
-    const [news, gallery, widget, about, diades] = await Promise.all([
-        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades()
+    const [news, gallery, widget, about, diades, equip] = await Promise.all([
+        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades(), fetchEquip()
     ]);
 
     writeFileSync(join(ROOT, 'data', 'news.json'), JSON.stringify(news, null, 2), 'utf-8');
@@ -275,6 +283,9 @@ async function main() {
 
     writeFileSync(join(ROOT, 'data', 'diades.json'), JSON.stringify(diades, null, 2), 'utf-8');
     console.log(`✅ diades.json — ${diades.length} diades`);
+
+    writeFileSync(join(ROOT, 'data', 'equip.json'), JSON.stringify(equip, null, 2), 'utf-8');
+    console.log(`✅ equip.json — ${equip.nodes.length} nodes`);
 
     console.log('🎉 Sincronització completada!');
 }
