@@ -818,6 +818,36 @@ async function initEquip() {
     });
 }
 
+/* ── ACTIVE NAV ── */
+function initActiveNav() {
+    var navLinks    = document.querySelectorAll('.nav-link[href^="#"], .mobile-drawer__link[href^="#"]');
+    var sections    = ['diades', 'noticias', 'nosaltres', 'equip', 'galeria', 'contacte'];
+    var activeId    = null;
+
+    function setActive(id) {
+        if (id === activeId) return;
+        activeId = id;
+        navLinks.forEach(function(a) {
+            var matches = a.getAttribute('href') === '#' + id;
+            a.classList.toggle('active', matches);
+        });
+        if (id && history.replaceState) {
+            history.replaceState(null, '', '#' + id);
+        }
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) setActive(entry.target.id);
+        });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+    sections.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) observer.observe(el);
+    });
+}
+
 /* ── INIT ── */
 initDiadaGran();
 initDiades();
@@ -826,3 +856,4 @@ initWidget();
 initNewsSlider();
 initGallerySlider();
 initEquip();
+initActiveNav();

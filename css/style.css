@@ -226,6 +226,10 @@ button { cursor: pointer; font-family: inherit; }
     font-weight: 500;
     transition: background var(--transition), color var(--transition);
 }
+.mobile-drawer__link.active {
+    color: var(--md-primary);
+    background: var(--md-primary-container);
+}
 .mobile-drawer__link:hover {
     background: var(--md-primary-container);
     color: var(--md-primary-dark);
