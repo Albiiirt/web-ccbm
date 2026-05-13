@@ -567,11 +567,16 @@ button { cursor: pointer; font-family: inherit; }
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: var(--space-md);
 }
+#diades-slider {
+    max-width: 100%;
+    margin-inline: 0;
+}
 #diades-slider .diada-card {
     flex: 0 0 320px;
 }
 #diades-slider::after {
     content: '';
+    display: block;
     flex-shrink: 0;
     width: var(--container-pad);
 }
