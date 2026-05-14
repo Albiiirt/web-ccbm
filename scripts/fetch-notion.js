@@ -284,9 +284,13 @@ async function main() {
 
     mkdirSync(join(ROOT, 'data'), { recursive: true });
 
-    const [news, gallery, widget, about, diades, equip, historia] = await Promise.all([
-        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades(), fetchEquip(), fetchHistoria()
+    const [news, gallery, widget, about, diades, equip] = await Promise.all([
+        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades(), fetchEquip()
     ]);
+    const historia = await fetchHistoria().catch(err => {
+        console.warn('⚠️  fetchHistoria error:', err.message, '— s\'omet historia.json');
+        return null;
+    });
 
     writeFileSync(join(ROOT, 'data', 'news.json'), JSON.stringify(news, null, 2), 'utf-8');
     console.log(`✅ news.json — ${news.length} notícies`);
