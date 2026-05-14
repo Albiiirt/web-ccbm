@@ -1,51 +1,72 @@
 [
   {
-    "id": "hist-1",
-    "titol": "Fundació de la CCBM",
-    "data": "1985-04-23",
-    "tipus": "Fundació",
-    "descripcio": "Substitueix aquestes dades per les reals a la base de dades de Notion. Aquí pots explicar els orígens de la colla."
-  },
-  {
-    "id": "hist-2",
-    "titol": "Primer 3 de 6",
-    "data": "1989-06-24",
-    "tipus": "Castell",
-    "descripcio": "Primer castell de sis pisos carregat per la colla. Un fita clau en el creixement tècnic."
-  },
-  {
-    "id": "hist-3",
-    "titol": "Primera Festa Major com a amfitrions",
-    "data": "1992-07-28",
+    "id": "360ce292-5a0e-81c1-a6af-d06b6cc1d85d",
+    "titol": "Festa Major de Parets del Vallès",
+    "data": "2024-07-28",
     "tipus": "Diada",
-    "descripcio": "La colla actua per primera vegada com a amfitriona a la Festa Major de Sant Celoni."
+    "descripcio": "Parets del Vallès — Festa Major de Parets del Vallès. Castells: 2xPd4, 4d6a, 3d6a, 4d6, Pd4"
   },
   {
-    "id": "hist-4",
-    "titol": "Primer 4 de 7",
-    "data": "1998-09-11",
-    "tipus": "Castell",
-    "descripcio": "Assoliment del primer 4 de 7, un dels castells més importants fins al moment."
-  },
-  {
-    "id": "hist-5",
-    "titol": "Participació al Concurs de Tarragona",
-    "data": "2004-10-03",
+    "id": "360ce292-5a0e-81fd-b18a-d3571e04db40",
+    "titol": "Festa Major de Sant Celoni 2024",
+    "data": "2024-09-07",
     "tipus": "Diada",
-    "descripcio": "Primera participació al Concurs de Castells de Tarragona."
+    "descripcio": "Sant Celoni — Festa Major de Sant Celoni. Castells: 2xPd4, 3d6a, 4d6a, id4d6, 4d6, 2xPd4"
   },
   {
-    "id": "hist-6",
-    "titol": "Primer 3 de 7 carregat",
-    "data": "2010-08-15",
-    "tipus": "Castell",
-    "descripcio": "La colla carrega per primera vegada un 3 de 7, el castell més alt de la seva història fins aleshores."
+    "id": "360ce292-5a0e-8159-9208-c35899607e60",
+    "titol": "I Aniversari del Bateig",
+    "data": "2024-10-20",
+    "tipus": "Diada",
+    "descripcio": "Santa Maria de Palautordera — I Aniversari del bateig de la Colla Castellera del Baix Montseny. Castells: 2xPd4, 3d6a, 5d6, 4d6a, 2xPd4"
   },
   {
-    "id": "hist-7",
-    "titol": "40è Aniversari",
-    "data": "2025-04-23",
-    "tipus": "Celebració",
-    "descripcio": "Gran diada commemorativa dels 40 anys de la Colla Castellera del Baix Montseny."
+    "id": "360ce292-5a0e-81e9-a07e-e4717530ac12",
+    "titol": "XI Trobada colles Vallès Oriental",
+    "data": "2025-06-01",
+    "tipus": "Diada",
+    "descripcio": "Granollers — XI Trobada de colles del Vallès Oriental. Castells: 2xPd4, 4d6a, 5d6, 3d6a, 2xPd4"
+  },
+  {
+    "id": "360ce292-5a0e-81bb-9ddc-cb249fafdde2",
+    "titol": "Festa Major de Sant Jaume — Sant Pol de Mar",
+    "data": "2025-07-27",
+    "tipus": "Diada",
+    "descripcio": "Sant Pol de Mar — Festa Major de Sant Jaume. Castells: idPd4, 4d6, 2d6, 3d6a, Pd4"
+  },
+  {
+    "id": "360ce292-5a0e-8159-b2f1-fc3fccb76b3f",
+    "titol": "Festa Major de Sant Celoni 2025",
+    "data": "2025-09-06",
+    "tipus": "Diada",
+    "descripcio": "Sant Celoni — Festa Major de Sant Celoni. Castells: 2xPd4, 4d6, 2d6, 3d6, 2xPd4"
+  },
+  {
+    "id": "360ce292-5a0e-81e0-ac18-fd83eba0b97a",
+    "titol": "29a Fira de l'All — Cornellà de Terri",
+    "data": "2025-10-05",
+    "tipus": "Diada",
+    "descripcio": "Cornellà de Terri — 29a Fira de l'All de Cornellà del Terri. Castells: Pd4, 3d6a, 2d6, 3d6, 2xPd4"
+  },
+  {
+    "id": "360ce292-5a0e-81f2-8b23-f35c8f0b69d7",
+    "titol": "II Aniversari del Bateig",
+    "data": "2025-10-19",
+    "tipus": "Diada",
+    "descripcio": "Santa Maria de Palautordera — II Aniversari del bateig de la Colla Castellera del Baix Montseny. Castells: 2xPd4, 5d6, 2d6, 4d6a, 2xPd4"
+  },
+  {
+    "id": "360ce292-5a0e-811a-b0c4-d2bc6be52b3e",
+    "titol": "Diada de Tardor — Palautordera",
+    "data": "2025-11-02",
+    "tipus": "Diada",
+    "descripcio": "Santa Maria de Palautordera — Diada de Festa de Tardor de la Colla Castellera del Baix Montseny. Castells: 2xPd4, 3d6, 5d6, 4d6, 2xPd4"
+  },
+  {
+    "id": "360ce292-5a0e-81b0-8f65-f007b879fc66",
+    "titol": "Diada de Primavera 2026",
+    "data": "2026-03-22",
+    "tipus": "Diada",
+    "descripcio": "Sant Esteve de Palautordera — Diada de primavera de la Colla Castellera del Baix Montseny. Castells: 2xPd4, id3d6a, 5d6, 3d6a, 4d6, 2xPd4"
   }
 ]
