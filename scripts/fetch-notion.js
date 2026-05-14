@@ -262,7 +262,7 @@ async function fetchEquip() {
 /* ── FETCH HISTORIA ── */
 async function fetchHistoria() {
     const dbId = process.env.NOTION_HISTORIA_DB_ID;
-    if (!dbId) throw new Error('NOTION_HISTORIA_DB_ID no definida');
+    if (!dbId) { console.warn('⚠️  NOTION_HISTORIA_DB_ID no definida, s\'omet historia.json'); return null; }
 
     const response = await notion.databases.query({
         database_id: dbId,
@@ -306,8 +306,10 @@ async function main() {
     writeFileSync(join(ROOT, 'data', 'equip.json'), JSON.stringify(equip, null, 2), 'utf-8');
     console.log(`✅ equip.json — ${equip.nodes.length} nodes`);
 
-    writeFileSync(join(ROOT, 'data', 'historia.json'), JSON.stringify(historia, null, 2), 'utf-8');
-    console.log(`✅ historia.json — ${historia.length} events`);
+    if (historia !== null) {
+        writeFileSync(join(ROOT, 'data', 'historia.json'), JSON.stringify(historia, null, 2), 'utf-8');
+        console.log(`✅ historia.json — ${historia.length} events`);
+    }
 
     console.log('🎉 Sincronització completada!');
 }
