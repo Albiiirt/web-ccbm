@@ -126,42 +126,67 @@ document.querySelectorAll('select.field__input').forEach(sel => {
     });
 });
 
-/* ── CONTACT FORM ── */
+/* ── FORMS ── */
 
-const form      = document.getElementById('contact-form');
-const feedback  = document.getElementById('form-feedback');
-const submitBtn = document.getElementById('form-submit');
+function showFeedback(el, type, msg) {
+    el.className = 'form-feedback ' + type;
+    el.textContent = msg;
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    setTimeout(() => { el.className = 'form-feedback'; }, 6000);
+}
 
-if (form) {
-    form.addEventListener('submit', async e => {
+async function handleForm(formEl, feedbackEl, submitEl, successMsg, loadingLabel, idleLabel) {
+    formEl.addEventListener('submit', async e => {
         e.preventDefault();
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="material-symbols-outlined rotating">autorenew</span> Enviant…';
+        submitEl.disabled = true;
+        submitEl.innerHTML = '<span class="material-symbols-outlined rotating">autorenew</span> ' + loadingLabel;
         try {
-            const res = await fetch(form.action, {
+            const res  = await fetch(formEl.action, {
                 method: 'POST',
-                body: new FormData(form),
+                body: new FormData(formEl),
                 headers: { Accept: 'application/json' }
             });
-            if (res.ok) {
-                form.reset();
-                showFeedback('success', '✓ Missatge enviat! Et respondrem aviat.');
+            const json = await res.json().catch(() => ({}));
+            if (res.ok && json.success) {
+                formEl.reset();
+                showFeedback(feedbackEl, 'success', successMsg);
             } else {
-                showFeedback('error', 'Hi ha hagut un error. Torna-ho a intentar.');
+                const msg = json.message || 'Error desconegut';
+                showFeedback(feedbackEl, 'error', 'Error: ' + msg);
             }
         } catch {
-            showFeedback('error', 'Sense connexió. Torna-ho a intentar.');
+            showFeedback(feedbackEl, 'error', 'Sense connexió. Torna-ho a intentar.');
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar missatge';
+            submitEl.disabled = false;
+            submitEl.innerHTML = idleLabel;
         }
     });
 }
-function showFeedback(type, msg) {
-    feedback.className = 'form-feedback ' + type;
-    feedback.textContent = msg;
-    feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    setTimeout(() => { feedback.className = 'form-feedback'; }, 6000);
+
+/* Formulari de contacte */
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+    handleForm(
+        contactForm,
+        document.getElementById('form-feedback'),
+        document.getElementById('form-submit'),
+        '✓ Missatge enviat! Et respondrem aviat.',
+        'Enviant…',
+        '<span class="material-symbols-outlined">send</span> Enviar missatge'
+    );
+}
+
+/* Formulari de contractacions */
+const bookForm = document.getElementById('book-form');
+if (bookForm) {
+    handleForm(
+        bookForm,
+        document.getElementById('book-feedback'),
+        document.getElementById('book-submit'),
+        '✓ Sol·licitud enviada! Us contactarem en breu.',
+        'Enviant…',
+        '<span class="material-symbols-outlined">request_quote</span> Demanar pressupost'
+    );
 }
 
 /* ── SLIDER FACTORY ── */
