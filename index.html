@@ -231,7 +231,37 @@
             </div>
         </section>
 
-        <!-- 4. GALLERY SLIDER -->
+        <!-- 4. TRAJECTÒRIA / TIMELINE -->
+        <section id="historia" class="section section--alt">
+            <div class="container">
+                <div class="section__header">
+                    <div>
+                        <span class="section__eyebrow">Trajectòria</span>
+                        <h2 class="section__title">La nostra història</h2>
+                    </div>
+                </div>
+                <p class="historia__hint">
+                    <span class="material-symbols-outlined">mouse</span>
+                    Scroll per fer zoom · Clica i arrossega per moure't · Clica un event per veure'n els detalls
+                </p>
+                <div class="historia__wrap">
+                    <div id="historia-graph"></div>
+                    <div class="tl-card" id="tl-card" hidden>
+                        <div class="tl-card__header">
+                            <span class="tl-card__badge" id="tl-card-tipus"></span>
+                            <button class="tl-card__close" id="tl-card-close" aria-label="Tancar detall">
+                                <span class="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+                        <h3 class="tl-card__title" id="tl-card-titol"></h3>
+                        <p class="tl-card__date" id="tl-card-data"></p>
+                        <p class="tl-card__desc" id="tl-card-desc"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. GALLERY SLIDER -->
         <section id="galeria" class="section">
             <div class="container">
                 <div class="section__header">
@@ -481,6 +511,7 @@
     </footer>
 
     <script src="https://d3js.org/d3.v7.min.js" defer></script>
+    <script src="js/historia.js" defer></script>
     <script src="js/main.js" defer></script>
 
 </body>

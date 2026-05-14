@@ -1530,6 +1530,117 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
     flex-shrink: 0;
 }
 
+/* ── TIMELINE HISTÒRIA ── */
+.historia__hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .8125rem;
+    color: var(--md-on-surface-variant);
+    margin-bottom: var(--space-md);
+    justify-content: center;
+}
+.historia__hint .material-symbols-outlined { font-size: 17px; }
+
+.historia__wrap {
+    background: var(--md-surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-1);
+    border: 1px solid var(--md-outline-variant);
+}
+
+/* SVG */
+.tl-axis-line {
+    stroke: var(--md-outline);
+    stroke-width: 2;
+}
+.tl-tick line {
+    stroke: var(--md-outline);
+    stroke-width: 1.5;
+}
+.tl-tick text {
+    fill: var(--md-on-surface-variant);
+    font-size: 11px;
+    font-family: var(--font-body);
+}
+.tl-connector {
+    stroke: var(--md-primary);
+    stroke-width: 1.5;
+    opacity: .45;
+}
+.tl-dot {
+    fill: var(--md-primary);
+    stroke: #fff;
+    stroke-width: 2.5;
+    transition: r .12s ease;
+}
+.tl-label {
+    font-size: 11px;
+    font-family: var(--font-body);
+    fill: var(--md-on-surface);
+    font-weight: 600;
+    pointer-events: none;
+}
+
+/* Card detall */
+.tl-card {
+    padding: var(--space-lg);
+    border-top: 2.5px solid var(--md-primary);
+    animation: tl-card-in .2s ease;
+}
+@keyframes tl-card-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.tl-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-sm);
+}
+.tl-card__badge {
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    background: var(--md-primary-container);
+    color: var(--md-primary-dark);
+}
+.tl-card__close {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    color: var(--md-on-surface-variant);
+    cursor: pointer;
+    transition: background var(--transition);
+}
+.tl-card__close:hover { background: var(--md-outline-variant); }
+.tl-card__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin-bottom: 4px;
+}
+.tl-card__date {
+    font-size: .875rem;
+    color: var(--md-primary);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+.tl-card__desc {
+    font-size: .9375rem;
+    color: var(--md-on-surface-variant);
+    line-height: 1.65;
+    max-width: 620px;
+}
+
 @media (max-width: 768px) {
     .top-bar__nav { display: none; }
     .nav-toggle { display: flex; }

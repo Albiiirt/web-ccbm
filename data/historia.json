@@ -1,0 +1,51 @@
+[
+  {
+    "id": "hist-1",
+    "titol": "Fundació de la CCBM",
+    "data": "1985-04-23",
+    "tipus": "Fundació",
+    "descripcio": "Substitueix aquestes dades per les reals a la base de dades de Notion. Aquí pots explicar els orígens de la colla."
+  },
+  {
+    "id": "hist-2",
+    "titol": "Primer 3 de 6",
+    "data": "1989-06-24",
+    "tipus": "Castell",
+    "descripcio": "Primer castell de sis pisos carregat per la colla. Un fita clau en el creixement tècnic."
+  },
+  {
+    "id": "hist-3",
+    "titol": "Primera Festa Major com a amfitrions",
+    "data": "1992-07-28",
+    "tipus": "Diada",
+    "descripcio": "La colla actua per primera vegada com a amfitriona a la Festa Major de Sant Celoni."
+  },
+  {
+    "id": "hist-4",
+    "titol": "Primer 4 de 7",
+    "data": "1998-09-11",
+    "tipus": "Castell",
+    "descripcio": "Assoliment del primer 4 de 7, un dels castells més importants fins al moment."
+  },
+  {
+    "id": "hist-5",
+    "titol": "Participació al Concurs de Tarragona",
+    "data": "2004-10-03",
+    "tipus": "Diada",
+    "descripcio": "Primera participació al Concurs de Castells de Tarragona."
+  },
+  {
+    "id": "hist-6",
+    "titol": "Primer 3 de 7 carregat",
+    "data": "2010-08-15",
+    "tipus": "Castell",
+    "descripcio": "La colla carrega per primera vegada un 3 de 7, el castell més alt de la seva història fins aleshores."
+  },
+  {
+    "id": "hist-7",
+    "titol": "40è Aniversari",
+    "data": "2025-04-23",
+    "tipus": "Celebració",
+    "descripcio": "Gran diada commemorativa dels 40 anys de la Colla Castellera del Baix Montseny."
+  }
+]

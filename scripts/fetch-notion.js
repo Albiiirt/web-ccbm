@@ -259,14 +259,33 @@ async function fetchEquip() {
     return { nodes, links };
 }
 
+/* ── FETCH HISTORIA ── */
+async function fetchHistoria() {
+    const dbId = process.env.NOTION_HISTORIA_DB_ID;
+    if (!dbId) throw new Error('NOTION_HISTORIA_DB_ID no definida');
+
+    const response = await notion.databases.query({
+        database_id: dbId,
+        sorts: [{ property: 'Data', direction: 'ascending' }],
+    });
+
+    return response.results.map(page => ({
+        id:        page.id,
+        titol:     getTitle(page.properties['Títol']),
+        data:      getDate(page.properties['Data']),
+        tipus:     getSelect(page.properties['Tipus']),
+        descripcio: getRichText(page.properties['Descripció']),
+    })).filter(item => item.titol && item.data);
+}
+
 /* ── MAIN ── */
 async function main() {
     console.log('🔄 Sincronitzant dades de Notion...');
 
     mkdirSync(join(ROOT, 'data'), { recursive: true });
 
-    const [news, gallery, widget, about, diades, equip] = await Promise.all([
-        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades(), fetchEquip()
+    const [news, gallery, widget, about, diades, equip, historia] = await Promise.all([
+        fetchNews(), fetchGallery(), fetchWidget(), fetchAbout(), fetchDiades(), fetchEquip(), fetchHistoria()
     ]);
 
     writeFileSync(join(ROOT, 'data', 'news.json'), JSON.stringify(news, null, 2), 'utf-8');
@@ -286,6 +305,9 @@ async function main() {
 
     writeFileSync(join(ROOT, 'data', 'equip.json'), JSON.stringify(equip, null, 2), 'utf-8');
     console.log(`✅ equip.json — ${equip.nodes.length} nodes`);
+
+    writeFileSync(join(ROOT, 'data', 'historia.json'), JSON.stringify(historia, null, 2), 'utf-8');
+    console.log(`✅ historia.json — ${historia.length} events`);
 
     console.log('🎉 Sincronització completada!');
 }

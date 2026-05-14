@@ -875,7 +875,7 @@ async function initEquip() {
 /* ── ACTIVE NAV ── */
 function initActiveNav() {
     var navLinks = document.querySelectorAll('.nav-link[href^="#"], .mobile-drawer__link[href^="#"]');
-    var sectionIds = ['diades', 'noticias', 'nosaltres', 'equip', 'galeria', 'contacte'];
+    var sectionIds = ['diades', 'noticias', 'nosaltres', 'equip', 'historia', 'galeria', 'contractacions', 'contacte'];
     var activeId = null;
     var ticking = false;
 
@@ -916,4 +916,5 @@ initWidget();
 initNewsSlider();
 initGallerySlider();
 initEquip();
+initHistoria();
 initActiveNav();
