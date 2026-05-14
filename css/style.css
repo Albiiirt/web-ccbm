@@ -1564,6 +1564,11 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
     font-size: 11px;
     font-family: var(--font-body);
 }
+.tl-tick .tl-year {
+    font-size: 9.5px;
+    font-weight: 700;
+    fill: var(--md-primary);
+}
 .tl-connector {
     stroke: var(--md-primary);
     stroke-width: 1.5;

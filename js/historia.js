@@ -125,22 +125,49 @@ function renderTimeline(container, data) {
 
     /* ── Main draw ── */
     function draw(xScale) {
-        /* Year/month ticks */
+        /* Ticks: months or years depending on zoom */
         const pxPerYear = Math.abs(xScale(new Date('2001-01-01')) - xScale(new Date('2000-01-01')));
-        const step = pxPerYear > 150 ? d3.timeMonth.every(3)
-                   : pxPerYear > 80  ? d3.timeYear.every(1)
-                   : pxPerYear > 40  ? d3.timeYear.every(2)
-                   : d3.timeYear.every(5);
+        const showMonths = pxPerYear > 60;
+        const step = pxPerYear > 300 ? d3.timeMonth.every(1)
+                   : pxPerYear > 150 ? d3.timeMonth.every(2)
+                   : pxPerYear > 60  ? d3.timeMonth.every(3)
+                   : pxPerYear > 30  ? d3.timeYear.every(1)
+                   : d3.timeYear.every(2);
 
-        const tick = ticksG.selectAll('.tl-tick').data(xScale.ticks(step), d => d.valueOf());
+        const tickArr = xScale.ticks(step);
+        const tickMap  = new Map(tickArr.map((d, i) => [d.valueOf(), i]));
+
+        const tick = ticksG.selectAll('.tl-tick').data(tickArr, d => d.valueOf());
         const tEnter = tick.enter().append('g').attr('class', 'tl-tick');
-        tEnter.append('line').attr('y1', axisY - 6).attr('y2', axisY + 6);
-        tEnter.append('text').attr('text-anchor', 'middle').attr('y', axisY + 20);
-        ticksG.selectAll('.tl-tick')
-            .attr('transform', d => `translate(${xScale(d)},0)`)
-            .select('text').text(d => pxPerYear > 80
-                ? d.getFullYear()
-                : d.toLocaleDateString('ca', { month: 'short', year: '2-digit' }));
+        tEnter.append('line');
+        tEnter.append('text').attr('class', 'tl-month').attr('text-anchor', 'middle').attr('y', axisY + 20);
+        tEnter.append('text').attr('class', 'tl-year').attr('text-anchor', 'middle').attr('y', axisY + 33);
+
+        const allTicks = tEnter.merge(tick);
+        allTicks.attr('transform', d => `translate(${xScale(d)},0)`);
+
+        allTicks.select('line')
+            .attr('y1', d => showMonths && d.getMonth() === 0 ? axisY - 9 : axisY - 6)
+            .attr('y2', axisY + 6)
+            .attr('stroke-width', d => showMonths && d.getMonth() === 0 ? 2 : 1.5);
+
+        /* Month label: abbreviated month or year when zoomed out */
+        allTicks.select('.tl-month')
+            .attr('font-weight', d => showMonths && d.getMonth() === 0 ? '700' : '400')
+            .text(d => showMonths
+                ? d.toLocaleDateString('ca', { month: 'short' })
+                : d.getFullYear().toString());
+
+        /* Year label: shown below only when the year changes */
+        allTicks.select('.tl-year')
+            .text(d => {
+                if (!showMonths) return '';
+                const idx  = tickMap.get(d.valueOf());
+                const prev = idx > 0 ? tickArr[idx - 1] : null;
+                return (!prev || prev.getFullYear() !== d.getFullYear())
+                    ? d.getFullYear().toString() : '';
+            });
+
         tick.exit().remove();
 
         assignLanes(xScale);
