@@ -20,19 +20,34 @@ function initHistoria() {
 }
 
 function renderTimeline(container, data) {
-    const H        = 440;
-    const MX       = 48;
-    const MY       = 60;
-    const PILL_H   = 28;
-    const PILL_PX  = 12;
-    const ARM_BASE = 64;
-    const ARM_STEP = 40;
-    const FONT_SZ  = 11;
-    const MAX_CH   = 22;
-    const GAP      = 8;
+    const H          = 460;
+    const MX         = 48;
+    const MY         = 65;
+    const PILL_H     = 28;
+    const PILL_H_SP  = 34;   /* anniversary pill is taller */
+    const PILL_PX    = 14;
+    const ARM_BASE   = 68;
+    const ARM_STEP   = 42;
+    const FONT_SZ    = 11;
+    const GAP        = 10;
 
-    function trunc(s) { return s.length > MAX_CH ? s.slice(0, MAX_CH - 1) + '…' : s; }
-    function estW(s)  { return Math.ceil(trunc(s).length * FONT_SZ * 0.57) + PILL_PX * 2; }
+    /* Color tokens */
+    const C_PRIMARY   = '#01758C';
+    const C_CONTAINER = '#CCE9EF';
+    const C_ANNIV     = '#B45309';   /* amber-700 */
+    const C_ANNIV_BG  = '#FEF9C3';   /* yellow-100 */
+    const C_TEXT      = '#1A1A1A';
+    const C_TEXT_MUT  = '#4A5C60';
+
+    function isSpecial(d) {
+        return d.tipus === 'Aniversari' || d.titol.toLowerCase().includes('aniversari');
+    }
+
+    /* No truncation: display full title (star prefix for special events) */
+    function pillLabel(d) { return isSpecial(d) ? '★  ' + d.titol : d.titol; }
+    function pillH(d)     { return isSpecial(d) ? PILL_H_SP : PILL_H; }
+    function estW(d)      { return Math.ceil(pillLabel(d).length * FONT_SZ * 0.60) + PILL_PX * 2; }
+    function dotR(d)      { return isSpecial(d) ? 8 : 6; }
 
     let W      = container.clientWidth || 800;
     let innerW = W - MX * 2;
@@ -56,7 +71,7 @@ function renderTimeline(container, data) {
 
     const defs = svg.append('defs');
 
-    /* Clip only horizontally; let SVG boundary handle top/bottom */
+    /* Clip only horizontally; SVG boundary handles top/bottom */
     const clipRect = defs.append('clipPath').attr('id', 'tl-clip')
         .append('rect')
         .attr('x', 0).attr('y', -1000)
@@ -93,12 +108,12 @@ function renderTimeline(container, data) {
         card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    /* ── Greedy lane assignment: avoids pill overlap ── */
+    /* ── Greedy lane assignment ── */
     function assignLanes(xScale) {
         const laneR = { above: [], below: [] };
         data.forEach((d, i) => {
             const px   = xScale(d.date);
-            const hw   = estW(d.titol) / 2;
+            const hw   = estW(d) / 2;
             const side = i % 2 === 0 ? 'above' : 'below';
             let lane   = 0;
             while (laneR[side][lane] !== undefined && laneR[side][lane] > px - hw - GAP) lane++;
@@ -108,7 +123,7 @@ function renderTimeline(container, data) {
         });
     }
 
-    /* ── Main draw (called on init + every zoom/pan) ── */
+    /* ── Main draw ── */
     function draw(xScale) {
         /* Year/month ticks */
         const pxPerYear = Math.abs(xScale(new Date('2001-01-01')) - xScale(new Date('2000-01-01')));
@@ -128,56 +143,92 @@ function renderTimeline(container, data) {
                 : d.toLocaleDateString('ca', { month: 'short', year: '2-digit' }));
         tick.exit().remove();
 
-        /* Assign lanes before positioning */
         assignLanes(xScale);
 
         /* Enter new event groups */
         const ev = eventsG.selectAll('.tl-event').data(data, d => d.id);
         const eEnter = ev.enter().append('g').attr('class', 'tl-event');
 
+        /* Optional ring for special events (behind the dot) */
+        eEnter.append('circle').attr('class', 'tl-dot-ring').attr('cy', axisY)
+            .attr('fill', 'none')
+            .attr('stroke-width', 2);
+
         eEnter.append('line').attr('class', 'tl-connector');
         eEnter.append('circle').attr('class', 'tl-dot').attr('cy', axisY);
 
-        /* Pill: rect + text, created once with fixed dimensions */
+        /* Pill: created once */
         const pillG = eEnter.append('g').attr('class', 'tl-pill');
-        pillG.append('rect')
-            .attr('rx', PILL_H / 2)
-            .attr('ry', PILL_H / 2)
-            .attr('height', PILL_H)
-            .each(function(d) { d3.select(this).attr('width', estW(d.titol)); });
+        pillG.append('rect').each(function(d) {
+            d3.select(this)
+                .attr('rx', pillH(d) / 2)
+                .attr('ry', pillH(d) / 2)
+                .attr('height', pillH(d))
+                .attr('width', estW(d))
+                .attr('fill',   isSpecial(d) ? C_ANNIV_BG : C_CONTAINER)
+                .attr('stroke', isSpecial(d) ? C_ANNIV : C_PRIMARY)
+                .attr('stroke-width', isSpecial(d) ? 2 : 1.5);
+        });
         pillG.append('text')
             .attr('dominant-baseline', 'middle')
             .attr('text-anchor', 'middle')
-            .attr('y', PILL_H / 2)
+            .attr('font-size', FONT_SZ + 'px')
+            .attr('font-family', "'Poppins', sans-serif")
+            .attr('font-weight', '600')
+            .attr('pointer-events', 'none')
             .each(function(d) {
-                d3.select(this).attr('x', estW(d.titol) / 2).text(trunc(d.titol));
+                d3.select(this)
+                    .attr('x', estW(d) / 2)
+                    .attr('y', pillH(d) / 2)
+                    .attr('fill', isSpecial(d) ? C_ANNIV : C_TEXT_MUT)
+                    .text(pillLabel(d));
             });
 
         eEnter
-            .on('click',      (_, d) => showCard(d))
-            .on('mouseenter', function() { d3.select(this).select('.tl-dot').attr('r', 9); })
-            .on('mouseleave', function() { d3.select(this).select('.tl-dot').attr('r', 6); });
+            .on('click', (_, d) => showCard(d))
+            .on('mouseenter', function(_, d) {
+                const sp = isSpecial(d);
+                d3.select(this).select('.tl-dot').attr('r', dotR(d) + 3);
+                d3.select(this).select('.tl-pill rect').attr('fill', sp ? C_ANNIV : C_PRIMARY);
+                d3.select(this).select('.tl-pill text').attr('fill', '#fff');
+                d3.select(this).select('.tl-connector').attr('opacity', .7);
+            })
+            .on('mouseleave', function(_, d) {
+                const sp = isSpecial(d);
+                d3.select(this).select('.tl-dot').attr('r', dotR(d));
+                d3.select(this).select('.tl-pill rect').attr('fill', sp ? C_ANNIV_BG : C_CONTAINER);
+                d3.select(this).select('.tl-pill text').attr('fill', sp ? C_ANNIV : C_TEXT_MUT);
+                d3.select(this).select('.tl-connector').attr('opacity', .35);
+            });
 
         /* Update all event positions */
         eventsG.selectAll('.tl-event')
             .attr('transform', d => `translate(${xScale(d.date)},0)`)
             .each(function(d) {
                 const armLen  = ARM_BASE + d._lane * ARM_STEP;
-                /* tipY = the pill edge closest to the axis */
                 const tipY    = d._up ? axisY - armLen : axisY + armLen;
-                const pillW   = estW(d.titol);
-                /* pillTop: translate y so the pill sits against tipY */
-                const pillTop = d._up ? tipY - PILL_H : tipY;
+                const pH      = pillH(d);
+                const pW      = estW(d);
+                const pillTop = d._up ? tipY - pH : tipY;
+                const sp      = isSpecial(d);
+
+                d3.select(this).select('.tl-dot-ring')
+                    .attr('r',      sp ? dotR(d) + 5 : 0)
+                    .attr('stroke', sp ? C_ANNIV : 'none');
 
                 d3.select(this).select('.tl-connector')
                     .attr('x1', 0).attr('x2', 0)
-                    .attr('y1', d._up ? axisY - 9 : axisY + 9)
-                    .attr('y2', tipY);
+                    .attr('y1', d._up ? axisY - dotR(d) - 2 : axisY + dotR(d) + 2)
+                    .attr('y2', tipY)
+                    .attr('stroke', sp ? C_ANNIV : C_PRIMARY)
+                    .attr('opacity', .35);
 
-                d3.select(this).select('.tl-dot').attr('r', 6);
+                d3.select(this).select('.tl-dot')
+                    .attr('r',    dotR(d))
+                    .attr('fill', sp ? C_ANNIV : C_PRIMARY);
 
                 d3.select(this).select('.tl-pill')
-                    .attr('transform', `translate(${-pillW / 2},${pillTop})`);
+                    .attr('transform', `translate(${-pW / 2},${pillTop})`);
             });
 
         ev.exit().remove();
@@ -185,7 +236,6 @@ function renderTimeline(container, data) {
 
     draw(x0);
 
-    /* ── Zoom / pan ── */
     const zoom = d3.zoom()
         .scaleExtent([0.3, 40])
         .on('start', () => svg.style('cursor', 'grabbing'))
@@ -194,7 +244,6 @@ function renderTimeline(container, data) {
 
     svg.call(zoom);
 
-    /* ── Responsive resize ── */
     new ResizeObserver(entries => {
         const nW = entries[0].contentRect.width;
         if (!nW || Math.abs(nW - W) < 4) return;

@@ -1576,26 +1576,8 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
     transition: r .12s ease;
 }
 .tl-event { cursor: pointer; }
-
-/* Pills */
-.tl-pill rect {
-    fill: var(--md-primary-container);
-    stroke: var(--md-primary);
-    stroke-width: 1.5;
-    transition: fill .15s ease, stroke .15s ease;
-}
-.tl-pill text {
-    font-size: 11px;
-    font-family: var(--font-body);
-    fill: var(--md-on-surface-variant);
-    font-weight: 600;
-    pointer-events: none;
-    transition: fill .15s ease;
-}
-.tl-event:hover .tl-connector { opacity: .7; }
-.tl-event:hover .tl-dot       { r: 9; }
-.tl-event:hover .tl-pill rect  { fill: var(--md-primary); stroke: var(--md-primary); }
-.tl-event:hover .tl-pill text  { fill: #fff; }
+.tl-dot-ring { transition: r .15s ease; }
+.tl-pill rect, .tl-pill text { transition: fill .15s ease; }
 
 /* Card detall */
 .tl-card {
