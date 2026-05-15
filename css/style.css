@@ -468,8 +468,8 @@ button { cursor: pointer; font-family: inherit; }
 }
 .diada-gran__meta {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-md);
+    flex-direction: column;
+    gap: var(--space-sm);
 }
 .diada-gran__meta-item {
     display: flex;
@@ -572,8 +572,8 @@ button { cursor: pointer; font-family: inherit; }
     gap: var(--space-md);
 }
 #diades-slider {
-    max-width: 100%;
-    margin-inline: 0;
+    max-width: var(--container-max);
+    margin-inline: auto;
 }
 #diades-slider .diada-card {
     flex: 0 0 320px;
