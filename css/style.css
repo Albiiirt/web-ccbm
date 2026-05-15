@@ -49,7 +49,7 @@
     --transition: 200ms cubic-bezier(.2, 0, 0, 1);
 
     /* Container */
-    --container-max: 1200px;
+    --container-max: 1440px;
     --container-pad: clamp(16px, 5vw, 64px);
 }
 
