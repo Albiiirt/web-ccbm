@@ -282,13 +282,22 @@ async function fetchHistoria() {
         sorts: [{ property: 'Data', direction: 'ascending' }],
     });
 
-    return response.results.map(page => ({
+    // Preserve local entries (id starts with 'local-') from existing file
+    let localEntries = [];
+    try {
+        const existing = JSON.parse(readFileSync(join(ROOT, 'data', 'historia.json'), 'utf-8'));
+        localEntries = existing.filter(e => e.id.startsWith('local-'));
+    } catch {}
+
+    const notionEntries = response.results.map(page => ({
         id:        page.id,
         titol:     getTitle(page.properties['Títol']),
         data:      getDate(page.properties['Data']),
         tipus:     getSelect(page.properties['Tipus']),
         descripcio: getRichText(page.properties['Descripció']),
     })).filter(item => item.titol && item.data);
+
+    return [...localEntries, ...notionEntries].sort((a, b) => new Date(a.data) - new Date(b.data));
 }
 
 /* ── MAIN ── */
