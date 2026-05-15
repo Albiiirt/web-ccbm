@@ -54,7 +54,9 @@ function getFile(prop) {
     const files = prop?.files ?? [];
     if (files.length === 0) return null;
     const file = files[0];
-    return file.type === 'external' ? file.external.url : file.file.url;
+    if (file.type === 'external') return file.external.url;
+    // Internal Notion uploads produce expiring S3 URLs — skip them
+    return null;
 }
 
 /* ── FETCH NEWS ── */
