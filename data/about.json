@@ -6,15 +6,15 @@
   "stats": [
     {
       "titol": "Camises",
-      "numero": 0
+      "numero": 150
     },
     {
       "titol": "Temporades",
-      "numero": 0
+      "numero": 12
     },
     {
       "titol": "Castells descarregats",
-      "numero": 0
+      "numero": 50
     }
   ],
   "valors": [
