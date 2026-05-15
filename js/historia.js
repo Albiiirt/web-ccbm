@@ -32,22 +32,34 @@ function renderTimeline(container, data) {
     const GAP        = 10;
 
     /* Color tokens */
-    const C_PRIMARY   = '#01758C';
-    const C_CONTAINER = '#CCE9EF';
-    const C_ANNIV     = '#B45309';   /* amber-700 */
-    const C_ANNIV_BG  = '#FEF9C3';   /* yellow-100 */
-    const C_TEXT      = '#1A1A1A';
-    const C_TEXT_MUT  = '#4A5C60';
+    const C_PRIMARY    = '#01758C';
+    const C_CONTAINER  = '#CCE9EF';
+    const C_ANNIV      = '#B45309';   /* amber-700 */
+    const C_ANNIV_BG   = '#FEF9C3';   /* yellow-100 */
+    const C_FUNDACIO   = '#4338CA';   /* indigo-700 */
+    const C_FUNDACIO_BG = '#E0E7FF';  /* indigo-100 */
+    const C_TEXT       = '#1A1A1A';
+    const C_TEXT_MUT   = '#4A5C60';
 
+    function isFundacio(d) {
+        return d.tipus === 'Fundació' || d.titol.toLowerCase().includes('fundació') || d.titol.toLowerCase().includes('fundacio');
+    }
     function isSpecial(d) {
         return d.tipus === 'Aniversari' || d.titol.toLowerCase().includes('aniversari');
     }
 
-    /* No truncation: display full title (star prefix for special events) */
-    function pillLabel(d) { return isSpecial(d) ? '★  ' + d.titol : d.titol; }
-    function pillH(d)     { return isSpecial(d) ? PILL_H_SP : PILL_H; }
-    function estW(d)      { return Math.ceil(pillLabel(d).length * FONT_SZ * 0.60) + PILL_PX * 2; }
-    function dotR(d)      { return isSpecial(d) ? 8 : 6; }
+    function pillLabel(d) {
+        if (isFundacio(d)) return '⚑  ' + d.titol;
+        if (isSpecial(d))  return '★  ' + d.titol;
+        return d.titol;
+    }
+    function pillH(d)  { return (isFundacio(d) || isSpecial(d)) ? PILL_H_SP : PILL_H; }
+    function estW(d)   { return Math.ceil(pillLabel(d).length * FONT_SZ * 0.60) + PILL_PX * 2; }
+    function dotR(d)   { return isFundacio(d) ? 10 : isSpecial(d) ? 8 : 6; }
+    function dotColor(d)  { return isFundacio(d) ? C_FUNDACIO : isSpecial(d) ? C_ANNIV : C_PRIMARY; }
+    function pillColor(d) { return isFundacio(d) ? C_FUNDACIO_BG : isSpecial(d) ? C_ANNIV_BG : C_CONTAINER; }
+    function pillBorder(d){ return isFundacio(d) ? C_FUNDACIO : isSpecial(d) ? C_ANNIV : C_PRIMARY; }
+    function textColor(d) { return isFundacio(d) ? C_FUNDACIO : isSpecial(d) ? C_ANNIV : C_TEXT_MUT; }
 
     let W      = container.clientWidth || 800;
     let innerW = W - MX * 2;
@@ -192,9 +204,9 @@ function renderTimeline(container, data) {
                 .attr('ry', pillH(d) / 2)
                 .attr('height', pillH(d))
                 .attr('width', estW(d))
-                .attr('fill',   isSpecial(d) ? C_ANNIV_BG : C_CONTAINER)
-                .attr('stroke', isSpecial(d) ? C_ANNIV : C_PRIMARY)
-                .attr('stroke-width', isSpecial(d) ? 2 : 1.5);
+                .attr('fill',         pillColor(d))
+                .attr('stroke',       pillBorder(d))
+                .attr('stroke-width', isFundacio(d) ? 2.5 : isSpecial(d) ? 2 : 1.5);
         });
         pillG.append('text')
             .attr('dominant-baseline', 'middle')
@@ -207,24 +219,22 @@ function renderTimeline(container, data) {
                 d3.select(this)
                     .attr('x', estW(d) / 2)
                     .attr('y', pillH(d) / 2)
-                    .attr('fill', isSpecial(d) ? C_ANNIV : C_TEXT_MUT)
+                    .attr('fill', textColor(d))
                     .text(pillLabel(d));
             });
 
         eEnter
             .on('click', (_, d) => showCard(d))
             .on('mouseenter', function(_, d) {
-                const sp = isSpecial(d);
                 d3.select(this).select('.tl-dot').attr('r', dotR(d) + 3);
-                d3.select(this).select('.tl-pill rect').attr('fill', sp ? C_ANNIV : C_PRIMARY);
+                d3.select(this).select('.tl-pill rect').attr('fill', dotColor(d));
                 d3.select(this).select('.tl-pill text').attr('fill', '#fff');
                 d3.select(this).select('.tl-connector').attr('opacity', .7);
             })
             .on('mouseleave', function(_, d) {
-                const sp = isSpecial(d);
                 d3.select(this).select('.tl-dot').attr('r', dotR(d));
-                d3.select(this).select('.tl-pill rect').attr('fill', sp ? C_ANNIV_BG : C_CONTAINER);
-                d3.select(this).select('.tl-pill text').attr('fill', sp ? C_ANNIV : C_TEXT_MUT);
+                d3.select(this).select('.tl-pill rect').attr('fill', pillColor(d));
+                d3.select(this).select('.tl-pill text').attr('fill', textColor(d));
                 d3.select(this).select('.tl-connector').attr('opacity', .35);
             });
 
@@ -237,22 +247,23 @@ function renderTimeline(container, data) {
                 const pH      = pillH(d);
                 const pW      = estW(d);
                 const pillTop = d._up ? tipY - pH : tipY;
+                const fd      = isFundacio(d);
                 const sp      = isSpecial(d);
 
                 d3.select(this).select('.tl-dot-ring')
-                    .attr('r',      sp ? dotR(d) + 5 : 0)
-                    .attr('stroke', sp ? C_ANNIV : 'none');
+                    .attr('r',      (fd || sp) ? dotR(d) + 5 : 0)
+                    .attr('stroke', fd ? C_FUNDACIO : sp ? C_ANNIV : 'none');
 
                 d3.select(this).select('.tl-connector')
                     .attr('x1', 0).attr('x2', 0)
                     .attr('y1', d._up ? axisY - dotR(d) - 2 : axisY + dotR(d) + 2)
                     .attr('y2', tipY)
-                    .attr('stroke', sp ? C_ANNIV : C_PRIMARY)
+                    .attr('stroke', dotColor(d))
                     .attr('opacity', .35);
 
                 d3.select(this).select('.tl-dot')
                     .attr('r',    dotR(d))
-                    .attr('fill', sp ? C_ANNIV : C_PRIMARY);
+                    .attr('fill', dotColor(d));
 
                 d3.select(this).select('.tl-pill')
                     .attr('transform', `translate(${-pW / 2},${pillTop})`);
