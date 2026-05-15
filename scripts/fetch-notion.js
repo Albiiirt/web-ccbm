@@ -11,7 +11,7 @@
  */
 
 import { Client } from '@notionhq/client';
-import { writeFileSync, mkdirSync, readdirSync } from 'fs';
+import { writeFileSync, mkdirSync, readdirSync, readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -75,15 +75,26 @@ async function fetchNews() {
         ],
     });
 
-    return response.results.map(page => ({
-        id:       page.id,
-        title:    getTitle(page.properties['Títol']),
-        date:     getDate(page.properties['Data']),
-        category: getSelect(page.properties['Categoria']),
-        summary:  getRichText(page.properties['Resum']),
-        image:    getFile(page.properties['Imatge']) || getUrl(page.properties['URL Imatge']),
-        url:      getUrl(page.properties['Enllaç']),
-    })).filter(item => item.title);
+    // Load existing news to preserve local image paths
+    let existing = [];
+    try { existing = JSON.parse(readFileSync(join(ROOT, 'data', 'news.json'), 'utf-8')); } catch {}
+    const existingImages = Object.fromEntries(existing.map(n => [n.id, n.image]));
+
+    return response.results.map(page => {
+        const id    = page.id;
+        const image = getFile(page.properties['Imatge']) || getUrl(page.properties['URL Imatge']);
+        // Keep existing local path if Notion has no permanent URL
+        const finalImage = image || (existingImages[id] && !existingImages[id].startsWith('http') ? existingImages[id] : null);
+        return {
+            id,
+            title:    getTitle(page.properties['Títol']),
+            date:     getDate(page.properties['Data']),
+            category: getSelect(page.properties['Categoria']),
+            summary:  getRichText(page.properties['Resum']),
+            image:    finalImage,
+            url:      getUrl(page.properties['Enllaç']),
+        };
+    }).filter(item => item.title);
 }
 
 /* ── FETCH GALLERY ── */
