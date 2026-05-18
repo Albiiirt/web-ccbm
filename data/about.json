@@ -6,12 +6,12 @@
   "stats": [
     {
       "titol": "Camises",
-      "numero": 150,
+      "numero": 50,
       "prefix": "+"
     },
     {
       "titol": "Temporades",
-      "numero": 12
+      "numero": 6
     },
     {
       "titol": "Castells descarregats",
