@@ -538,7 +538,7 @@ async function initAbout() {
     if (statsEl && data.stats && data.stats.length) {
         statsEl.innerHTML = data.stats.map(function(s) {
             return '<div class="stat">' +
-                '<span class="stat__number" data-target="' + s.numero + '">0</span>' +
+                '<span class="stat__number" data-target="' + s.numero + '" data-prefix="' + (s.prefix || '') + '">' + (s.prefix || '') + '0</span>' +
                 '<span class="stat__label">' + escHtml(s.titol) + '</span>' +
             '</div>';
         }).join('');

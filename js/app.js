@@ -70,7 +70,7 @@ function animateCounter(el) {
     const start = performance.now();
     const tick = (now) => {
         const eased = 1 - Math.pow(1 - Math.min((now - start) / 1400, 1), 3);
-        el.textContent = Math.round(eased * target);
+        el.textContent = (el.dataset.prefix || '') + Math.round(eased * target);
         if (eased < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
