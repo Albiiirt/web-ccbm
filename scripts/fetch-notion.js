@@ -203,10 +203,15 @@ async function fetchAbout() {
 
     const stats = response.results
         .filter(p => getSelect(p.properties['Tipus']) === 'Estadística')
-        .map(p => ({
-            titol:  getTitle(p.properties['Títol']),
-            numero: p.properties['Número']?.number ?? 0,
-        }));
+        .map(p => {
+            const prefix = getRichText(p.properties['Prefix']);
+            const stat = {
+                titol:  getTitle(p.properties['Títol']),
+                numero: p.properties['Número']?.number ?? 0,
+            };
+            if (prefix) stat.prefix = prefix;
+            return stat;
+        });
 
     const valors = response.results
         .filter(p => getSelect(p.properties['Tipus']) === 'Valor')
