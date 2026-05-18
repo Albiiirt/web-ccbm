@@ -191,8 +191,10 @@ async function fetchAbout() {
     const response = await notion.databases.query({
         database_id: dbId,
         filter: { property: 'Actiu', checkbox: { equals: true } },
-        sorts: [{ property: 'Ordre', direction: 'ascending' }],
     });
+    response.results.sort((a, b) =>
+        (a.properties['Ordre']?.number ?? 999) - (b.properties['Ordre']?.number ?? 999)
+    );
 
     const principal = response.results
         .filter(p => getSelect(p.properties['Tipus']) === 'Principal')
@@ -234,8 +236,10 @@ async function fetchEquip() {
     const response = await notion.databases.query({
         database_id: dbId,
         filter: { property: 'Actiu', checkbox: { equals: true } },
-        sorts: [{ property: 'Ordre', direction: 'ascending' }],
     });
+    response.results.sort((a, b) =>
+        (a.properties['Ordre']?.number ?? 999) - (b.properties['Ordre']?.number ?? 999)
+    );
 
     const members = response.results.map(page => ({
         nom:       getTitle(page.properties['Nom']),
