@@ -128,7 +128,7 @@ function renderTimeline(container, data) {
             const hw   = estW(d) / 2;
             const side = i % 2 === 0 ? 'above' : 'below';
             let lane   = 0;
-            while (laneR[side][lane] !== undefined && laneR[side][lane] > px - hw - GAP) lane++;
+            while (lane < 2 && laneR[side][lane] !== undefined && laneR[side][lane] > px - hw - GAP) lane++;
             laneR[side][lane] = px + hw;
             d._lane = lane;
             d._up   = side === 'above';
