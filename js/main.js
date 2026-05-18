@@ -105,7 +105,7 @@ function animateCounter(el) {
     (function tick(now) {
         const t = Math.min((now - start) / 1400, 1);
         const eased = 1 - Math.pow(1 - t, 3);
-        el.textContent = Math.round(eased * target);
+        el.textContent = (el.dataset.prefix || '') + Math.round(eased * target);
         if (t < 1) requestAnimationFrame(tick);
     })(start);
 }
