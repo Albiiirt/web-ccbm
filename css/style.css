@@ -1181,7 +1181,7 @@ button { cursor: pointer; font-family: inherit; }
     left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    background: var(--md-surface-variant);
+    background: var(--md-surface);
     padding: 0 4px;
     font-size: 1rem;
     color: var(--md-on-surface-variant);
@@ -1209,7 +1209,7 @@ select.field__input:valid + .field__label {
     font-size: .75rem;
     color: var(--md-primary);
 }
-.field__label--select { background: var(--md-surface-variant); }
+.field__label--select { background: var(--md-surface); }
 .field--select .field__select-arrow {
     position: absolute;
     right: 12px;
