@@ -1242,6 +1242,34 @@ select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
     color: var(--md-primary);
 }
 
+/* ── CHECKBOX FIELD ── */
+.field--checkbox {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+.checkbox__label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: .875rem;
+    color: var(--md-on-surface-variant);
+    cursor: pointer;
+    line-height: 1.4;
+}
+.checkbox__label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    accent-color: var(--md-primary);
+    margin-top: 2px;
+    cursor: pointer;
+}
+.checkbox__label a {
+    color: var(--md-primary);
+    text-decoration: underline;
+}
+
 /* ── FORM FEEDBACK ── */
 .form-feedback {
     padding: 12px 16px;
