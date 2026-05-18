@@ -201,14 +201,16 @@ async function fetchAbout() {
             text:  getRichText(p.properties['Text']),
         }))[0] || null;
 
+    const STAT_PREFIXES = { 'camises': '+', 'castells descarregats': '+' };
     const stats = response.results
         .filter(p => getSelect(p.properties['Tipus']) === 'Estadística')
         .map(p => {
-            const prefix = getRichText(p.properties['Prefix']);
+            const titol = getTitle(p.properties['Títol']);
             const stat = {
-                titol:  getTitle(p.properties['Títol']),
+                titol,
                 numero: p.properties['Número']?.number ?? 0,
             };
+            const prefix = STAT_PREFIXES[titol.toLowerCase()];
             if (prefix) stat.prefix = prefix;
             return stat;
         });
