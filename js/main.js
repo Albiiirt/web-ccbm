@@ -335,37 +335,91 @@ async function initNewsSlider() {
     createSlider('news-slider', 'news-prev', 'news-next', 340);
 }
 
-/* ── GALLERY SLIDER ── */
+/* ── GALLERY MOSAIC ── */
 
-async function initGallerySlider() {
-    const slider = document.getElementById('gallery-slider');
-    if (!slider) return;
+async function initGalleryMosaic() {
+    const container = document.getElementById('gallery-mosaic');
+    if (!container) return;
 
     const data = await loadJSON('data/gallery.json');
 
     if (!data || data.length === 0) {
-        slider.innerHTML = '<div class="slider__empty"><span class="material-symbols-outlined">photo_library</span> Encara no hi ha imatges a la galeria.</div>';
+        container.innerHTML = '<div class="slider__empty"><span class="material-symbols-outlined">photo_library</span> Encara no hi ha imatges a la galeria.</div>';
         return;
     }
 
     const images = data.map(function(item) { return { src: item.image, caption: item.title || '' }; });
+    const CELLS = 8;
+    const pool = images.slice();
 
-    slider.innerHTML = data.map(function(item, i) {
-        return '<button class="gallery-card" data-index="' + i + '" aria-label="' + escHtml(item.title || 'Obrir imatge') + '">' +
-            (item.image
-                ? '<img src="' + escHtml(item.image) + '" alt="' + escHtml(item.title || '') + '" loading="lazy">'
-                : '<div class="about__image-placeholder" style="height:100%"><span class="material-symbols-outlined">image</span></div>'
-            ) +
-            '<div class="gallery-card__overlay"><span class="gallery-card__caption">' + escHtml(item.title || '') + '</span></div>' +
-        '</button>';
-    }).join('');
+    // Shuffle pool so initial assignment is random
+    for (var i = pool.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+    }
 
-    const lb = initLightbox(images);
-    slider.querySelectorAll('.gallery-card').forEach(function(card) {
-        card.addEventListener('click', function() { lb.show(parseInt(card.dataset.index, 10)); });
+    // Build cells
+    container.innerHTML = '';
+    var cellData = [];
+    for (var c = 0; c < CELLS; c++) {
+        var cell = document.createElement('div');
+        cell.className = 'mosaic-cell';
+
+        var imgA = document.createElement('img');
+        imgA.className = 'mosaic-img mosaic-img--a';
+        imgA.alt = '';
+        imgA.loading = 'lazy';
+
+        var imgB = document.createElement('img');
+        imgB.className = 'mosaic-img mosaic-img--b';
+        imgB.alt = '';
+        imgB.loading = 'lazy';
+
+        var hint = document.createElement('span');
+        hint.className = 'mosaic-cell__hint material-symbols-outlined';
+        hint.textContent = 'zoom_in';
+
+        cell.appendChild(imgA);
+        cell.appendChild(imgB);
+        cell.appendChild(hint);
+        container.appendChild(cell);
+
+        var initialIdx = c % pool.length;
+        imgA.src = pool[initialIdx].src;
+        cellData.push({ cell: cell, imgA: imgA, imgB: imgB, showingA: true, imgIdx: initialIdx });
+    }
+
+    var lb = initLightbox(images);
+
+    cellData.forEach(function(cd, c) {
+        // Click opens lightbox with the currently visible image
+        cd.cell.addEventListener('click', function() {
+            lb.show(cd.imgIdx % images.length);
+        });
+
+        // Staggered interval: base 3500ms + 400ms per cell + up to 1500ms random
+        var delay = 3500 + c * 400 + Math.floor(Math.random() * 1500);
+        setTimeout(function startRotation() {
+            var nextIdx = (cd.imgIdx + CELLS + Math.floor(Math.random() * 3) + 1) % images.length;
+            var nextSrc = images[nextIdx].src;
+
+            if (cd.showingA) {
+                cd.imgB.src = nextSrc;
+                cd.imgB.style.opacity = '1';
+                cd.imgA.style.opacity = '0';
+            } else {
+                cd.imgA.src = nextSrc;
+                cd.imgA.style.opacity = '1';
+                cd.imgB.style.opacity = '0';
+            }
+            cd.showingA = !cd.showingA;
+            cd.imgIdx = nextIdx;
+
+            // Next rotation: 4000–7000ms
+            var next = 4000 + Math.floor(Math.random() * 3000);
+            setTimeout(startRotation, next);
+        }, delay);
     });
-
-    createSlider('gallery-slider', 'gallery-prev', 'gallery-next', 300);
 }
 
 /* ── DIADA GRAN ── */
@@ -939,7 +993,7 @@ initDiades();
 initAbout();
 initWidget();
 initNewsSlider();
-initGallerySlider();
+initGalleryMosaic();
 initEquip();
 initHistoria();
 initActiveNav();
