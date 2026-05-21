@@ -364,6 +364,9 @@ async function initGalleryMosaic() {
     for (var c = 0; c < CELLS; c++) {
         var cell = document.createElement('div');
         cell.className = 'mosaic-cell';
+        cell.setAttribute('role', 'button');
+        cell.setAttribute('tabindex', '0');
+        cell.setAttribute('aria-label', 'Obrir imatge de la galeria');
 
         var imgA = document.createElement('img');
         imgA.className = 'mosaic-img mosaic-img--a';
@@ -392,9 +395,12 @@ async function initGalleryMosaic() {
     var lb = initLightbox(images);
 
     cellData.forEach(function(cd, c) {
-        // Click opens lightbox with the currently visible image
+        // Click / Enter opens lightbox with the currently visible image
         cd.cell.addEventListener('click', function() {
             lb.show(cd.imgIdx % images.length);
+        });
+        cd.cell.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); lb.show(cd.imgIdx % images.length); }
         });
 
         // Staggered interval: base 3500ms + 400ms per cell + up to 1500ms random
