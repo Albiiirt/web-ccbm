@@ -301,6 +301,57 @@ async function initWidget() {
     });
 }
 
+/* ── NEWS MODAL ── */
+
+function initNewsModal() {
+    const modal    = document.getElementById('news-modal');
+    const backdrop = document.getElementById('news-modal-backdrop');
+    const closeBtn = document.getElementById('news-modal-close');
+    if (!modal) return;
+
+    function closeModal() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !modal.hidden) closeModal();
+    });
+
+    window.openNewsModal = function(item) {
+        const mediaEl  = document.getElementById('news-modal-media');
+        const chipEl   = document.getElementById('news-modal-chip');
+        const dateEl   = document.getElementById('news-modal-date');
+        const titleEl  = document.getElementById('news-modal-title');
+        const textEl   = document.getElementById('news-modal-text');
+        const linkEl   = document.getElementById('news-modal-link');
+
+        mediaEl.innerHTML = item.image
+            ? '<img src="' + escHtml(item.image) + '" alt="' + escHtml(item.title) + '">'
+            : '<div class="news-modal__media-placeholder"><span class="material-symbols-outlined">newspaper</span><span>CCBM</span></div>';
+
+        chipEl.textContent  = item.category || '';
+        dateEl.innerHTML    = item.date
+            ? '<span class="material-symbols-outlined">calendar_today</span> ' + formatDate(item.date)
+            : '';
+        titleEl.textContent = item.title || '';
+        textEl.textContent  = item.summary || '';
+
+        if (item.url) {
+            linkEl.href   = item.url;
+            linkEl.hidden = false;
+        } else {
+            linkEl.hidden = true;
+        }
+
+        modal.hidden = false;
+        modal.querySelector('.news-modal__dialog').scrollTop = 0;
+        document.body.style.overflow = 'hidden';
+    };
+}
+
 /* ── NEWS SLIDER ── */
 
 async function initNewsSlider() {
@@ -314,8 +365,8 @@ async function initNewsSlider() {
         return;
     }
 
-    slider.innerHTML = data.map(function(item) {
-        return '<article class="news-card">' +
+    slider.innerHTML = data.map(function(item, i) {
+        return '<article class="news-card" role="button" tabindex="0" data-news-index="' + i + '" style="cursor:pointer">' +
             '<div class="news-card__media">' +
                 (item.image
                     ? '<img src="' + escHtml(item.image) + '" alt="' + escHtml(item.title) + '" loading="lazy">'
@@ -327,10 +378,22 @@ async function initNewsSlider() {
                 (item.date ? '<p class="news-card__date"><span class="material-symbols-outlined">calendar_today</span> ' + formatDate(item.date) + '</p>' : '') +
                 '<h3 class="news-card__title">' + escHtml(item.title) + '</h3>' +
                 (item.summary ? '<p class="news-card__summary">' + escHtml(item.summary) + '</p>' : '') +
-                (item.url ? '<a href="' + escHtml(item.url) + '" class="news-card__link" target="_blank" rel="noopener">Llegir més <span class="material-symbols-outlined">arrow_forward</span></a>' : '') +
             '</div>' +
         '</article>';
     }).join('');
+
+    slider.addEventListener('click', function(e) {
+        const card = e.target.closest('[data-news-index]');
+        if (!card) return;
+        window.openNewsModal(data[parseInt(card.dataset.newsIndex, 10)]);
+    });
+    slider.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const card = e.target.closest('[data-news-index]');
+        if (!card) return;
+        e.preventDefault();
+        window.openNewsModal(data[parseInt(card.dataset.newsIndex, 10)]);
+    });
 
     createSlider('news-slider', 'news-prev', 'news-next', 340);
 }
@@ -998,6 +1061,7 @@ initDiadaGran();
 initDiades();
 initAbout();
 initWidget();
+initNewsModal();
 initNewsSlider();
 initGalleryMosaic();
 initEquip();
