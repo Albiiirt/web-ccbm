@@ -1222,6 +1222,15 @@ select.field__input:valid + .field__label {
 .field__input.field__input--textarea { resize: vertical; min-height: 120px; }
 textarea.field__input { resize: vertical; }
 
+/* Fields inside section--alt: match teal surface-variant background */
+.section--alt .field__input {
+    background-color: var(--md-surface-variant);
+}
+.section--alt .field__label,
+.section--alt .field__label--select {
+    background: var(--md-surface-variant);
+}
+
 /* Fix for select label floating */
 select.field__input:focus + .field__label,
 select.field__input:not([value=""]):not([data-empty="true"]) + .field__label {
