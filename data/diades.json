@@ -44,6 +44,17 @@
     "colles_convidades": "Castellers de Mollet\nManyacs de Parets\nEscaldats de Caldes de Montbui\nXics de Granollers"
   },
   {
+    "id": "35ece292-5a0e-8091-a1b2-c3d4e5f60705",
+    "titol": "Pilar aquàtic Mulla't per l'ELA",
+    "date": "2026-07-05",
+    "lloc": "Fontmartina - Piscina Municipal",
+    "hora": "12:00 h",
+    "descripcio": "Entrada gratuïta a la piscina de 11 a 15 h (preu habitual: 4 €)",
+    "diada_gran": false,
+    "colla_amfitriona": "",
+    "colles_convidades": ""
+  },
+  {
     "id": "35ece292-5a0e-8080-94f9-c2e246ea936a",
     "titol": "Festa Major de Sant Jaume",
     "date": "2026-07-26",
