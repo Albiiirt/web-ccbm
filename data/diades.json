@@ -39,7 +39,7 @@
     "lloc": "Sant Celoni - Plaça de la Vila",
     "hora": "11:30 h",
     "descripcio": "Trobada de Colles Castelleres del Vallès Oriental",
-    "diada_gran": false,
+    "diada_gran": true,
     "colla_amfitriona": "Colla Castellera del Baix Montseny",
     "colles_convidades": "Castellers de Mollet\nManyacs de Parets\nEscaldats de Caldes de Montbui\nXics de Granollers"
   },
@@ -61,7 +61,7 @@
     "lloc": "Sant Celoni - Plaça de la Vila",
     "hora": "Tot el dia",
     "descripcio": "",
-    "diada_gran": true,
+    "diada_gran": false,
     "colla_amfitriona": "Colla Castellera del Baix Montseny",
     "colles_convidades": "Matossers de Molins de Rei\nColla Castellera de Figueres"
   },
