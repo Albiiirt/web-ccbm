@@ -44,6 +44,17 @@
     "colles_convidades": "Castellers de Mollet\nManyacs de Parets\nEscaldats de Caldes de Montbui\nXics de Granollers"
   },
   {
+    "id": "35ece292-5a0e-8092-b3c4-d5e6f7a80706",
+    "titol": "Taller de castells",
+    "date": "2026-07-06",
+    "lloc": "Llinars del Vallès - Parc dels Corbera",
+    "hora": "18:30 h",
+    "descripcio": "",
+    "diada_gran": false,
+    "colla_amfitriona": "",
+    "colles_convidades": ""
+  },
+  {
     "id": "35ece292-5a0e-8080-94f9-c2e246ea936a",
     "titol": "Festa Major de Sant Jaume",
     "date": "2026-07-26",
