@@ -644,6 +644,40 @@ async function initDiades() {
     }
 }
 
+/* ── TIMELINE DIADES PASSADES ── */
+
+async function initTimeline() {
+    var section = document.getElementById('timeline-diades');
+    var list    = document.getElementById('timeline-list');
+    if (!section || !list) return;
+
+    var raw = await loadJSON('data/diades.json');
+    if (!raw) return;
+
+    var avui = new Date();
+    avui.setHours(0, 0, 0, 0);
+
+    var passades = raw
+        .filter(function(d) { return d.date && new Date(d.date + 'T00:00:00') < avui; })
+        .sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+
+    if (passades.length === 0) return;
+
+    list.innerHTML = passades.map(function(item) {
+        var dateStr = new Date(item.date + 'T12:00:00').toLocaleDateString('ca-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+        return '<div class="timeline-item">' +
+            '<p class="timeline-item__date">' + dateStr + '</p>' +
+            '<h3 class="timeline-item__title">' + escHtml(item.titol) + '</h3>' +
+            '<div class="timeline-item__meta">' +
+                (item.lloc ? '<span class="timeline-item__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(item.lloc) + '</span>' : '') +
+                (item.hora ? '<span class="timeline-item__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(item.hora) + '</span>' : '') +
+            '</div>' +
+        '</div>';
+    }).join('');
+
+    section.hidden = false;
+}
+
 /* ── ABOUT ── */
 
 async function initAbout() {
@@ -1059,6 +1093,7 @@ function initActiveNav() {
 /* ── INIT ── */
 initDiadaGran();
 initDiades();
+initTimeline();
 initAbout();
 initWidget();
 initNewsModal();
