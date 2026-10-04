@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "fetch-notion": "node scripts/fetch-notion.js",
+    "migrate-to-strapi": "node migration/migrate-to-strapi.mjs",
     "dev": "npx serve . --cors"
   },
   "dependencies": {
