@@ -1023,7 +1023,7 @@ async function initEquip() {
 /* ── ACTIVE NAV ── */
 function initActiveNav() {
     var navLinks = document.querySelectorAll('.nav-link[href^="#"], .mobile-drawer__link[href^="#"]');
-    var sectionIds = ['diades', 'noticias', 'nosaltres', 'equip', 'historia', 'galeria', 'contractacions', 'contacte'];
+    var sectionIds = ['diades', 'noticias', 'nosaltres', 'equip', 'historia', /* 'galeria', (secció oculta temporalment, 2026-10-04) */ 'contractacions', 'contacte'];
     var activeId = null;
     var ticking = false;
 
@@ -1063,7 +1063,7 @@ initAbout();
 initWidget();
 initNewsModal();
 initNewsSlider();
-initGalleryMosaic();
+// initGalleryMosaic(); // secció Galeria oculta temporalment (2026-10-04)
 initEquip();
 initHistoria();
 initActiveNav();
