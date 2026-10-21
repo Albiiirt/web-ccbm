@@ -1,0 +1,35 @@
+name: Sincronitzar Google Calendar → Strapi
+
+on:
+  schedule:
+    # S'executa cada 30 minuts
+    - cron: '*/30 * * * *'
+  # Permet llançar-ho manualment des de GitHub
+  workflow_dispatch:
+  # També s'executa en cada push a main
+  push:
+    branches: [main]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instal·lar dependències
+        run: npm ci
+
+      - name: Sincronitzar calendari amb Strapi
+        env:
+          CALENDAR_ICAL_URL: ${{ secrets.CALENDAR_ICAL_URL }}
+          STRAPI_URL: ${{ secrets.STRAPI_URL }}
+          STRAPI_TOKEN: ${{ secrets.STRAPI_TOKEN }}
+        run: node scripts/fetch-calendar.js

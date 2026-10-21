@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "fetch-notion": "node scripts/fetch-notion.js",
+    "fetch-calendar": "node scripts/fetch-calendar.js",
     "migrate-to-strapi": "node migration/migrate-to-strapi.mjs",
     "dev": "npx serve . --cors"
   },
   "dependencies": {
-    "@notionhq/client": "^2.2.15"
+    "@notionhq/client": "^2.2.15",
+    "node-ical": "^0.27.3"
   }
 }
