@@ -1,18 +1,32 @@
 #!/usr/bin/env node
 /**
  * Sincronitza el Google Calendar privat de la colla (via la seva URL iCal
- * secreta) cap al content type "diada" de Strapi.
- * S'executa via GitHub Actions (vegeu .github/workflows/sync-calendar.yml).
+ * secreta, o un fitxer .ics local exportat a mà) cap al content type
+ * "diada" de Strapi.
+ * S'executa via GitHub Actions (vegeu .github/workflows/sync-calendar.yml),
+ * o manualment contra un fitxer mentre no hi hagi la URL secreta configurada.
  *
  * Substitueix la via antiga Notion → data/diades.json (morta des del
  * 17/06/2026). Ara la font de veritat del calendari és Google Calendar i el
  * destí és Strapi (no es torna a escriure cap JSON local — la web llegeix
  * directament de l'API de Strapi, vegeu js/main.js).
  *
+ * El calendari de la colla NO conté només diades: també hi ha assajos,
+ * reunions de junta, tallers, peticions privades, etc. Aquest script filtra
+ * (vegeu EXCLUDE_RE i CLASS:PRIVATE) per sincronitzar només esdeveniments que
+ * semblen diades/actuacions públiques — és una heurística de text, no
+ * perfecta: qualsevol fals positiu es pot despublicar a mà des del panell
+ * de Strapi, igual que amb qualsevol altra diada.
+ *
+ * Ús:
+ *   node scripts/fetch-calendar.js             → llegeix CALENDAR_ICAL_URL
+ *   node scripts/fetch-calendar.js /ruta.ics   → llegeix el fitxer indicat
+ *
  * Variables d'entorn necessàries:
  *   CALENDAR_ICAL_URL  — URL secreta "iCal" del Google Calendar de la colla
  *                        (https://calendar.google.com/calendar/ical/...).
- *                        MAI es mostra ni es commiteja enlloc.
+ *                        MAI es mostra ni es commiteja enlloc. No cal si es
+ *                        passa un fitxer local com a argument.
  *   STRAPI_URL         — URL base de Strapi (sense /api)
  *   STRAPI_TOKEN       — API Token "full access" de Strapi (mateix patró que
  *                        migration/migrate-to-strapi.mjs)
@@ -35,18 +49,32 @@
 
 import ical from 'node-ical';
 
+const CALENDAR_ICS_FILE = process.argv[2] || null;
 const CALENDAR_ICAL_URL = process.env.CALENDAR_ICAL_URL;
 const STRAPI_URL = process.env.STRAPI_URL?.replace(/\/+$/, '');
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
-if (!CALENDAR_ICAL_URL) {
-    console.error('❌ Falta CALENDAR_ICAL_URL com a variable d\'entorn.');
+if (!CALENDAR_ICS_FILE && !CALENDAR_ICAL_URL) {
+    console.error('❌ Falta CALENDAR_ICAL_URL com a variable d\'entorn (o un fitxer .ics com a argument).');
     process.exit(1);
 }
 if (!STRAPI_URL || !STRAPI_TOKEN) {
     console.error('❌ Falten STRAPI_URL i/o STRAPI_TOKEN com a variables d\'entorn.');
     process.exit(1);
 }
+
+// Esdeveniments del calendari que NO són diades: assajos, reunions, tallers,
+// vida interna de la colla... Es filtren pel títol abans de tocar Strapi.
+const EXCLUDE_RE = new RegExp([
+    'assaig', 'assajos',
+    'reuni[oó]', 'assemblea',
+    'taller',
+    'col[oò]nies', 'vacances',
+    'calçotada', 'sopar de gala', 'revisió de càrrecs',
+    'solicitud',
+    '^anul', // "ANUL·LAT ..." (cancel·lats a mà, prefixats al títol)
+    'contactar amb', // nota/recordatori intern de la junta
+].join('|'), 'i');
 
 const URL_LINE_RE = /https?:\/\/\S+|www\.\S+/i;
 const MAX_DESC_LENGTH = 300;
@@ -112,6 +140,22 @@ function resolveOccurrenceStart(event) {
     return next || null; // null si la sèrie ja s'ha acabat
 }
 
+/** Diades de colles amigues solen portar a la descripció un bloc
+ *  "Amfitrions:"/"Organitza:" i un altre "Colles convidades:" (sovint en
+ *  HTML amb <ul><li>). Els extraiem per omplir aquests camps en crear una
+ *  diada nova — la junta els pot corregir a mà si cal. */
+function extractAmfitrioConvidades(rawDescription) {
+    if (!rawDescription) return { amfitriona: '', convidades: '' };
+    const text = rawDescription.toString();
+    const amfMatch = text.match(/(?:Amfitrion(?:s|ia)?|Organitza)[:\s]*<br>?\s*(?:<ul>)?(.*?)(?:<\/ul>|Colles?\s*[Cc]onvidades|$)/is);
+    const convMatch = text.match(/Colles?\s*[Cc]onvidades[:\s]*<br>?\s*(?:<ul>)?(.*?)(?:<\/ul>|$)/is);
+    const clean = (s) => (s || '')
+        .replace(/<li>/gi, '').replace(/<\/li>/gi, '\n')
+        .replace(/<[^>]+>/g, '')
+        .split('\n').map(x => x.trim()).filter(Boolean).join('\n');
+    return { amfitriona: clean(amfMatch?.[1]), convidades: clean(convMatch?.[1]) };
+}
+
 function mapEventToPayload(event, startDate) {
     const isAllDay = !!event.start?.dateOnly;
     return {
@@ -139,7 +183,7 @@ async function findExistingByExternalId(uid) {
     return null;
 }
 
-async function upsertDiada(uid, payload) {
+async function upsertDiada(uid, payload, { amfitriona, convidades }) {
     const existing = await findExistingByExternalId(uid);
 
     if (existing) {
@@ -153,16 +197,16 @@ async function upsertDiada(uid, payload) {
         return 'updated';
     }
 
-    // Diada nova: deixem els camps editables a mà amb el seu valor per
-    // defecte perquè la junta els ompli si vol.
+    // Diada nova: provem d'omplir amfitriona/convidades a partir de la
+    // descripció del calendari; la junta els pot corregir a mà si cal.
     await api('/diades?status=published', {
         method: 'POST',
         body: JSON.stringify({
             data: {
                 ...payload,
                 diada_gran: false,
-                colla_amfitriona: '',
-                colles_convidades: '',
+                colla_amfitriona: amfitriona,
+                colles_convidades: convidades,
                 externalId: uid,
             },
         }),
@@ -190,12 +234,16 @@ async function warnAboutMissingEvents(seenUids) {
 /* ── MAIN ── */
 
 async function main() {
-    console.log('🔄 Sincronitzant Google Calendar → Strapi...');
+    console.log(CALENDAR_ICS_FILE
+        ? `🔄 Sincronitzant fitxer local "${CALENDAR_ICS_FILE}" → Strapi...`
+        : '🔄 Sincronitzant Google Calendar → Strapi...');
 
-    const calendarData = await ical.async.fromURL(CALENDAR_ICAL_URL);
+    const calendarData = CALENDAR_ICS_FILE
+        ? await ical.async.parseFile(CALENDAR_ICS_FILE)
+        : await ical.async.fromURL(CALENDAR_ICAL_URL);
     const events = Object.values(calendarData).filter(e => e.type === 'VEVENT');
 
-    let created = 0, updated = 0, skipped = 0;
+    let created = 0, updated = 0, skipped = 0, filtered = 0;
     const seenUids = new Set();
 
     for (const event of events) {
@@ -203,6 +251,13 @@ async function main() {
         if (event.status && String(event.status).toUpperCase() === 'CANCELLED') {
             console.log(`⏭️  Omesa (cancel·lada): "${event.summary}"`);
             continue;
+        }
+
+        const summary = event.summary.toString().trim();
+        const isPrivate = event.class && String(event.class).toUpperCase() === 'PRIVATE';
+        if (isPrivate || EXCLUDE_RE.test(summary)) {
+            filtered++;
+            continue; // no és una diada (assaig/reunió/taller/privat...)
         }
 
         const startDate = resolveOccurrenceStart(event);
@@ -213,7 +268,8 @@ async function main() {
         if (!payload.titol) { skipped++; continue; }
 
         try {
-            const result = await upsertDiada(event.uid, payload);
+            const extra = extractAmfitrioConvidades(event.description);
+            const result = await upsertDiada(event.uid, payload, extra);
             if (result === 'created') created++; else updated++;
             console.log(`✅ ${result === 'created' ? 'Creada' : 'Actualitzada'}: "${payload.titol}" (${payload.date})`);
         } catch (err) {
@@ -223,7 +279,7 @@ async function main() {
 
     await warnAboutMissingEvents(seenUids);
 
-    console.log(`🎉 Sincronització completada! ${created} creades, ${updated} actualitzades, ${skipped} omeses.`);
+    console.log(`🎉 Sincronització completada! ${created} creades, ${updated} actualitzades, ${filtered} descartades (no diades), ${skipped} omeses.`);
 }
 
 main().catch(err => {
