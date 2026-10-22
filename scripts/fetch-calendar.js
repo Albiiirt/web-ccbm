@@ -119,10 +119,19 @@ function formatHoraMadrid(date) {
     return hhmm.replace(/\s*h\.?$/i, '') + ' h'; // normalitza a "HH:MM h"
 }
 
-/** Treu les línies amb URLs i retalla a MAX_DESC_LENGTH caràcters. */
+const AMFITRIO_BLOCK_RE = /(?:Amfitrion(?:s|ia)?|Organitza)[:\s]*<br>?\s*(?:<ul>)?.*?<\/ul>\s*(?:<br>)?\s*(?:Colles?\s*[Cc]onvidades[:\s]*<br>?\s*(?:<ul>)?.*?<\/ul>)?/is;
+
+/** Treu les línies amb URLs, el bloc "Amfitrions/Colles convidades" (ja es
+ *  guarda a part, vegeu extractAmfitrioConvidades) i les etiquetes HTML, i
+ *  retalla a MAX_DESC_LENGTH caràcters. */
 function sanitizeDescription(raw) {
     if (!raw) return '';
-    const text = raw
+    const withoutAmfitrioBlock = raw.replace(AMFITRIO_BLOCK_RE, '');
+    const plain = withoutAmfitrioBlock
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<li>/gi, '- ').replace(/<\/li>/gi, '\n')
+        .replace(/<[^>]+>/g, '');
+    const text = plain
         .split('\n')
         .map(line => line.trim())
         .filter(line => line && !URL_LINE_RE.test(line))
