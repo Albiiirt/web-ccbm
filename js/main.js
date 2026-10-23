@@ -15,6 +15,35 @@ async function loadJSON(path) {
     }
 }
 
+/* Diades: ja no vénen de data/diades.json (sincronització Notion morta des
+   del 17/06/2026), sinó directament de l'API pública de Strapi, alimentada
+   pel calendari de Google via scripts/fetch-calendar.js. */
+const STRAPI_URL = 'https://web-ccbm-strapi.onrender.com';
+
+async function loadDiades() {
+    try {
+        const res = await fetch(STRAPI_URL + '/api/diades?sort=date:asc&pagination[pageSize]=100');
+        if (!res.ok) throw new Error(res.statusText);
+        const json = await res.json();
+        return (json.data || []).map(function(d) {
+            return {
+                id: d.documentId,
+                titol: d.titol,
+                date: d.date,
+                lloc: d.lloc,
+                hora: d.hora,
+                descripcio: d.descripcio,
+                diada_gran: d.diada_gran,
+                colla_amfitriona: d.colla_amfitriona,
+                colles_convidades: d.colles_convidades,
+            };
+        });
+    } catch (err) {
+        console.warn('CCBM: no s\'han pogut carregar les diades des de Strapi', err.message);
+        return null;
+    }
+}
+
 function escHtml(str) {
     return String(str ?? '')
         .replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -58,11 +87,13 @@ function closeDrawer() {
     navToggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
 }
-navToggle.addEventListener('click', openDrawer);
-drawerClose.addEventListener('click', closeDrawer);
-drawerBackdrop.addEventListener('click', closeDrawer);
-document.querySelectorAll('.mobile-drawer__link').forEach(l => l.addEventListener('click', closeDrawer));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+if (navToggle && mobileDrawer && drawerBackdrop && drawerClose) {
+    navToggle.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    drawerBackdrop.addEventListener('click', closeDrawer);
+    document.querySelectorAll('.mobile-drawer__link').forEach(l => l.addEventListener('click', closeDrawer));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+}
 
 /* ── ACTIVE NAV ON SCROLL ── */
 
@@ -494,7 +525,7 @@ async function initGalleryMosaic() {
 /* ── DIADA GRAN ── */
 
 async function initDiadaGran() {
-    const data = await loadJSON('data/diades.json');
+    const data = await loadDiades();
     if (!data) return;
 
     const gran = data.find(function(d) { return d.diada_gran; });
@@ -578,55 +609,69 @@ function buildGCalUrl(item) {
     return 'https://calendar.google.com/calendar/render?' + params.toString();
 }
 
+function buildDiadaCardHtml(item) {
+    var date = item.date ? new Date(item.date + 'T12:00:00') : null;
+    var day   = date ? date.getDate() : '';
+    var month = date ? date.toLocaleDateString('ca-ES', { month: 'long' }).toUpperCase() : '';
+    var year  = date ? date.getFullYear() : '';
+
+    return '<div class="diada-card">' +
+        (date
+            ? '<div class="diada-card__date-block">' +
+                '<span class="diada-card__day">' + day + '</span>' +
+                '<div class="diada-card__month-year">' +
+                    '<span class="diada-card__month">' + month + '</span>' +
+                    '<span class="diada-card__year">' + year + '</span>' +
+                '</div>' +
+              '</div>'
+            : '') +
+        (item.diada_gran ? '<span class="diada-gran__badge"><span class="material-symbols-outlined filled">star</span>Diada</span>' : '') +
+        '<h3 class="diada-card__title">' + escHtml(item.titol) + '</h3>' +
+        '<div class="diada-card__meta">' +
+            (item.lloc              ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(item.lloc) + '</p>' : '') +
+            (item.hora              ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(item.hora) + '</p>' : '') +
+            (item.colla_amfitriona  ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">home</span>Amfitriona: ' + escHtml(item.colla_amfitriona) + '</p>' : '') +
+            (item.colles_convidades ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">groups</span><span>' + item.colles_convidades.split('\n').filter(function(s){ return s.trim(); }).map(escHtml).join('<br>') + '</span></p>' : '') +
+        '</div>' +
+        (item.descripcio ? '<p class="diada-card__desc">' + escHtml(item.descripcio) + '</p>' : '') +
+        (buildGCalUrl(item) ? '<a href="' + buildGCalUrl(item) + '" target="_blank" rel="noopener" class="diada-card__gcal"><span class="material-symbols-outlined">calendar_add_on</span>Afegir al calendari</a>' : '') +
+    '</div>';
+}
+
+/** Filtra les diades amb data >= avui (o sense data) i les ordena ascendent. */
+function upcomingDiades(raw) {
+    var avui = new Date();
+    avui.setHours(0, 0, 0, 0);
+    return raw
+        .filter(function(item) {
+            if (!item.date) return true;
+            return new Date(item.date + 'T00:00:00') >= avui;
+        })
+        .sort(function(a, b) {
+            if (!a.date) return 1;
+            if (!b.date) return -1;
+            return new Date(a.date) - new Date(b.date);
+        });
+}
+
 async function initDiades() {
     const grid = document.getElementById('diades-grid');
     if (!grid) return;
 
-    const raw = await loadJSON('data/diades.json');
+    const raw = await loadDiades();
     if (!raw || raw.length === 0) {
         grid.innerHTML = '<p class="diades__empty">Properament us informarem de les properes diades.</p>';
         return;
     }
 
-    var avui = new Date();
-    avui.setHours(0, 0, 0, 0);
-    var data = raw.filter(function(item) {
-        if (!item.date) return true;
-        return new Date(item.date + 'T00:00:00') >= avui;
-    });
+    var data = upcomingDiades(raw);
 
     if (data.length === 0) {
         grid.innerHTML = '<p class="diades__empty">Properament us informarem de les properes diades.</p>';
         return;
     }
 
-    var cardsHtml = data.map(function(item) {
-        var date = item.date ? new Date(item.date + 'T12:00:00') : null;
-        var day   = date ? date.getDate() : '';
-        var month = date ? date.toLocaleDateString('ca-ES', { month: 'long' }).toUpperCase() : '';
-        var year  = date ? date.getFullYear() : '';
-
-        return '<div class="diada-card">' +
-            (date
-                ? '<div class="diada-card__date-block">' +
-                    '<span class="diada-card__day">' + day + '</span>' +
-                    '<div class="diada-card__month-year">' +
-                        '<span class="diada-card__month">' + month + '</span>' +
-                        '<span class="diada-card__year">' + year + '</span>' +
-                    '</div>' +
-                  '</div>'
-                : '') +
-            '<h3 class="diada-card__title">' + escHtml(item.titol) + '</h3>' +
-            '<div class="diada-card__meta">' +
-                (item.lloc              ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">location_on</span>' + escHtml(item.lloc) + '</p>' : '') +
-                (item.hora              ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">schedule</span>' + escHtml(item.hora) + '</p>' : '') +
-                (item.colla_amfitriona  ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">home</span>Amfitriona: ' + escHtml(item.colla_amfitriona) + '</p>' : '') +
-                (item.colles_convidades ? '<p class="diada-card__meta-item"><span class="material-symbols-outlined">groups</span><span>' + item.colles_convidades.split('\n').filter(function(s){ return s.trim(); }).map(escHtml).join('<br>') + '</span></p>' : '') +
-            '</div>' +
-            (item.descripcio ? '<p class="diada-card__desc">' + escHtml(item.descripcio) + '</p>' : '') +
-            (buildGCalUrl(item) ? '<a href="' + buildGCalUrl(item) + '" target="_blank" rel="noopener" class="diada-card__gcal"><span class="material-symbols-outlined">calendar_add_on</span>Afegir al calendari</a>' : '') +
-        '</div>';
-    }).join('');
+    var cardsHtml = data.map(buildDiadaCardHtml).join('');
 
     if (data.length > 3) {
         document.getElementById('diades-slider-controls').hidden = false;
@@ -642,6 +687,28 @@ async function initDiades() {
     } else {
         grid.innerHTML = cardsHtml;
     }
+}
+
+/* ── AGENDA: LLISTAT COMPLET (agenda.html) ── */
+
+async function initAgendaDiades() {
+    const grid = document.getElementById('agenda-diades-grid');
+    if (!grid) return;
+
+    const raw = await loadDiades();
+    if (!raw || raw.length === 0) {
+        grid.innerHTML = '<p class="diades__empty">Properament us informarem de les properes diades.</p>';
+        return;
+    }
+
+    var data = upcomingDiades(raw);
+
+    if (data.length === 0) {
+        grid.innerHTML = '<p class="diades__empty">Properament us informarem de les properes diades.</p>';
+        return;
+    }
+
+    grid.innerHTML = data.map(buildDiadaCardHtml).join('');
 }
 
 /* ── ABOUT ── */
@@ -1059,6 +1126,7 @@ function initActiveNav() {
 /* ── INIT ── */
 initDiadaGran();
 initDiades();
+initAgendaDiades();
 initAbout();
 initWidget();
 initNewsModal();
